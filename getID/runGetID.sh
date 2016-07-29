@@ -1,3 +1,4 @@
-aws lambda invoke --function-name getID --payload '{"1": "1"}' outfile
+aws lambda invoke --function-name getID --payload '{}' outfile
 cat outfile
 echo ""
+rm outfile
