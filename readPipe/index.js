@@ -1,32 +1,18 @@
 'use strict';
 
 var mysql = require('mysql');
-
-function handleDBError(err, callback) {
-    if (err) {
-        console.error('db error: ' + err.code);
-        callback(err);
-    }
-}
-
-function connectionEndCallback(err,callback,data) {
-    handleDBError(err, callback);
-    callback(err, data);
-}
+var dbf = require('./db_fxns');
 
 exports.handler = (event, context, callback) => {
-    var connection = mysql.createConnection({
-      host     : 'smokedb.cbdgympjbxbz.us-west-2.rds.amazonaws.com',
-      user     : 'smokedbmaster',
-      password : 'smokedbttforme3',
-      database : 'smoketest',
-    });
+
+    var connection = dbf.getDBConnection();
     connection.connect(function(err) {
-        var id = null;
-        handleDBError(err, callback);
-        connection.query('SELECT * FROM p WHERE id='+connection.escape(event.pipeid), function(err, rows) {
-            handleDBError(err,callback);
-            connection.end(connectionEndCallback(err,callback,rows));
+
+        dbf.handleDBError(err, callback);
+        connection.query('SELECT * FROM p WHERE id='+connection.escape(event.pipeid)+';', function(err, rows) {
+
+            dbf.handleDBError(err,callback);
+            connection.end(dbf.handleDBErrorAndCallback(err,callback,rows));
         });
     });
 }

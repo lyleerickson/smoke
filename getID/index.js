@@ -6,6 +6,7 @@ exports.handler = (event, context, callback) => {
         "id": new Date().toISOString()
     };
 
+    var id2 = new Date().toISOString();
 
-    callback(null,id);
+    callback(null,id2);
 }
