@@ -8,5 +8,5 @@ exports.handler = (event, context, callback) => {
 
     var id2 = new Date().toISOString();
 
-    callback(null,id2);
+    callback(null,id);
 }

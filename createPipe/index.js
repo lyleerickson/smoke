@@ -13,12 +13,14 @@ exports.handler = (event, context, callback) => {
         dbf.handleDBError(err, callback);
         var httpsOptions = hf.getHTTPSOptions();
         https.get(httpsOptions, function(res) {
-            var nextID = '';
+            var nextIDString = '';
             res.on('data', function (chunk) {
-                nextID += chunk;
+                nextIDString += chunk;
             });
             res.on('end', function() {
-                nextID = nextID.replace(/['"]+/g, '');
+                var nextIDObj = JSON.parse(nextIDString);
+                var nextID = nextIDObj.id;
+                nextID.replace(/['"]+/g, '');
                 var queryString = 'INSERT INTO p (id, name, acquire_date, maker, country, acquire_cost, '+
                     'dedication, active, sale_date, sale_price, last_update) VALUES ('+
                     connection.escape(nextID)+', '+
