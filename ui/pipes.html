@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Catbitten Smoking</title>
+    <style type="text/css">
+        @import url(_3columnlayout.css);
+        @import url(_global.css);
+        @import url(_pipes.css);
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        "use strict";
+        function putPipe() {
+            var XHR = new XMLHttpRequest();
+
+            var jd = {};
+
+            var fd = $("#newPipeForm").serializeArray();
+            $.each(fd, function() {
+                if ((this.name == "sale_price") || (this.name == "acquire_cost")) {
+                    jd[this.name] = this.value || '0';
+                } else {
+                    jd[this.name] = this.value || '';
+                }
+            });
+
+            XHR.addEventListener('load', function(event) {
+                $("#pipesTable tbody tr").remove();
+                fillInPipesTable();
+            });
+
+            XHR.addEventListener('error', function(event) {
+                alert('error');
+            });
+
+            XHR.open('PUT', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes');
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send(JSON.stringify(jd));
+        }
+    </script>
+    <script  type="text/javascript">
+        "use strict"
+
+        function fillInPipesTable() {
+            var XHR = new XMLHttpRequest();
+
+            XHR.addEventListener('load', function(event) {
+                var pipesJSON = JSON.parse(XHR.responseText);
+
+                for(var i = 0; i < pipesJSON.length; i++) {
+                    var pipeJSON = pipesJSON[i];
+                    var table = document.getElementById('pipesTable').getElementsByTagName('tbody')[0];
+                    var row   = table.insertRow();
+                    var cell;
+                    var text;
+
+                    cell  = row.insertCell(0);
+                    if (pipeJSON.name) {
+                        text  = document.createTextNode(pipeJSON.name);
+                    } else {
+                        text = document.createTextNode("")
+                    }
+                    cell.appendChild(text);
+                    cell  = row.insertCell(1);
+                    if (pipeJSON.maker) {
+                        text  = document.createTextNode(pipeJSON.maker);
+                    } else {
+                        text  = document.createTextNode("");
+                    }
+                    cell.appendChild(text);
+                    cell  = row.insertCell(2);
+                    text  = document.createTextNode("tbd");
+                    cell.appendChild(text);
+                    cell  = row.insertCell(3);
+                    text  = document.createTextNode("tbd");
+                    cell.appendChild(text);
+                    cell  = row.insertCell(4);
+                    text  = document.createTextNode("tbd");
+                    cell.appendChild(text);
+                    cell  = row.insertCell(5);
+                    if (pipeJSON.country) {
+                        text  = document.createTextNode(pipeJSON.country);
+                    } else {
+                        text  = document.createTextNode("");
+                    }
+                    cell.appendChild(text);
+                    cell  = row.insertCell(6);
+                    if (pipeJSON.acquire_date) {
+                        text  = document.createTextNode(pipeJSON.acquire_date.substring(0, 10));
+                    } else {
+                        text  = document.createTextNode("");
+                    }
+                    cell.appendChild(text);
+                    cell  = row.insertCell(7);
+                    if (pipeJSON.acquire_cost) {
+                        text  = document.createTextNode(pipeJSON.acquire_cost);
+                    } else {
+                        text  = document.createTextNode("");
+                    }
+                    cell.appendChild(text);
+                    cell  = row.insertCell(8);
+                    text  = document.createTextNode("tbd");
+                    cell.appendChild(text);
+                    cell  = row.insertCell(9);
+                    if (pipeJSON.dedication) {
+                        text  = document.createTextNode(pipeJSON.dedication);
+                    } else {
+                        text  = document.createTextNode("");
+                    }
+                    cell.appendChild(text);
+                    cell  = row.insertCell(10);
+                    if (pipeJSON.active) {
+                        text  = document.createTextNode("Y");
+                    } else {
+                        text  = document.createTextNode("N");
+                    }
+                    cell.appendChild(text);
+                }
+            });
+
+            XHR.addEventListener('error', function(event) {
+                var table = document.getElementById('pipesTable');
+                var row   = table.insertRow();
+                var cell  = row.insertCell(0);
+                var text  = document.createTextNode('error loading table');
+                cell.appendChild(text);
+            });
+
+            XHR.open('GET', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes', true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send();
+        }
+    </script>
+</head>
+<body onload="fillInPipesTable()">
+    <div id="content">
+        <div id="banner"></div>
+        <div id="leftcontent"></div>
+        <div id="centercontent">
+        <h2>Pipes</h2>
+            <table id="pipesTable">
+                <thead>
+                    <tr>
+                    <th class="name"><a href="pipes.php?pipeSort=pipe.name">Name</a></th>
+                    <th class="maker"><a href="pipes.php?pipeSort=pipe.maker">Maker</a></th>
+                    <th class="tb">Total Bowls</th>
+                    <th class="bsc">Bowls Since Cleaned</th>
+                    <th class="rest"><a href="pipes.php?pipeSort=smoked%20DESC">Days Rest</a></th>
+                    <th class="country"><a href="pipes.php?pipeSort=pipe.country">Country</a></th>
+                    <th class="purchased"><a href="pipes.php?pipeSort=pipe.purchased">Acquired</a></th>
+                    <th class="cost"><a href="pipes.php?pipeSort=price%20DESC">Cost</a></th>
+                    <th class="persmoke"><a href="pipes.php?pipeSort=persmoke%20DESC">Per Smoke</a></th>
+                    <th class="target"><a href="pipes.php?pipeSort=pipe.target_tobacco">Target Tobacco</a></th>
+                    <th class="active"><a href="pipes.php?pipeSort=pipe.active_rotation%20DESC,%20smoked">In Rotation</a></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+           </table>
+            <p></p>
+            Total number of pipes in collection: ?.  <br/>
+            Total investment: $?.
+            <p></p>
+            <h2>Sold Pipes</h2>
+            <table id="soldPipesTable">
+                <thead>
+                    <tr>
+                    <th class="name">Name</th>
+                    <th class="maker">Maker</th>
+                    <th class="tb">Total Bowls</th>
+                    <th class="purchased">Acquired</th>
+                    <th class="cost">Cost</th>
+                    <th class="purchased">Sold</th>
+                    <th class="cost">Price</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <p></p>
+            Total number of pipes sold: ?.    <br/>
+            Total sales: $?.   <br/>
+            Total profit on sales: $?.
+            <p></p>
+            <h2>New Pipe</h2>
+            <form id="newPipeForm">
+                <table>
+                <tr><td class="pipeFormLeft">Name:</td><td class="pipeFormRight"><input type="text" name="name" size="20" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Maker:</td><td class="pipeFormRight"><input type="text" name="maker" size="20" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Country Code:</td><td class="pipeFormRight"><input type="text" name="country" size="2" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Acquired:</td><td class="pipeFormRight"><input type="text" name="acquire_date" size="10" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Price:</td><td class="pipeFormRight"><input type="text" name="acquire_cost" size="6" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Sold:</td><td class="pipeFormRight"><input type="text" name="sale_date" size="10" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Sold Price:</td><td class="pipeFormRight"><input type="text" name="sale_price" size="6" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Target Tobacco:</td><td class="pipeFormRight"><input type="text" name="dedication" size="40" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Image:</td><td class="pipeFormRight"><input type="text" name="image" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Note:</td><td class="pipeFormRight"><textarea name="note" cols=48 rows=4></textarea></td></tr>
+                <tr><td class="pipeFormLeft">Active:</td><td class="pipeFormRight"><input type="radio" name="active" value="true" checked="checked">Y<input type="radio" name="active" value="false" >N</td></tr>
+                <tr><td class="pipeFormLeft"></td><td class="pipeFormRight"><button type="button" onclick="putPipe()">Add Pipe</button></td></tr>
+                </table>
+            </form>
+        </div>
+        <div id="rightcontent">
+            <a href="index.php"><img class="menu" src="images/summary.jpg" alt="Summary"/></a>
+            <p class="rightcontent"></p>
+            <a href="smokes.php"><img class="menu" src="images/smoke.jpg" alt="Smoke Notes"/></a>
+            <p class="rightcontent"></p>
+            <a href="tins.php"><img class="menu" src="images/tobacco.jpg" alt="Tins"/></a>
+            <p class="rightcontent"></p>
+            <a href="pipes.php"><img class="menu" src="images/pipes.jpg" alt="Pipes"/></a>
+            <p class="rightcontent"></p>
+            <a href="cleanings.php"><img class="menu" src="images/cleanings.jpg" alt="Cleanings"/></a>
+            <p class="rightcontent"></p>
+        </div>
+    </div>
+</body>
+</html>

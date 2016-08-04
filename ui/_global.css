@@ -1,0 +1,158 @@
+body {
+	background-color: rgb(17,13,12);
+	color: rgb(255,255,255);
+	font-family: "Arial";
+}
+div#content {
+	background-color: rgb(68,30,7);
+	padding-bottom: 100%;
+}
+div#banner {
+	background-color: transparent;
+	text-align: left;
+}
+div#leftcontent {
+	background-color: transparent;
+	text-align: left;
+}
+div#centercontent {
+	background-color: transparent;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: rgb(80,80,80);
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: rgb(80,80,80);
+}
+div#rightcontent {
+	background-color: transparent;
+	text-align: right;
+}
+p,a {
+	color: rgb(255,255,255);
+	font-family: "Arial";
+	font-size: 90%;
+}
+p.welcome {
+	font-size: 90%;
+}
+p.footer {
+	padding-top: 40px;
+	text-align: center;
+	font-size: 70%;
+}
+p.leftContentText {
+	font-family: "Arial";
+}
+p.leftContentTitle {
+	font-family: "Arial";
+	font-size: 240%;
+	display: inline;
+}
+p.leftContentMenu {
+	font-family: "Arial";
+	font-size: 90%;
+	display: inline;
+	color: rgb(255,255,255);
+}
+a.leftContentMenu {
+	font-family: "Arial";
+	font-size: 90%;
+	display: inline;
+}
+h1 {
+	color: rgb(255,255,255);
+	font-family: "Arial Narrow", "Arial";
+	font-size: 215%;
+	display: inline;
+}
+h2 {
+	color: rgb(255,255,255);
+	font-family: "Arial Narrow", "Arial";
+	font-size: 120%;
+	display: inline;
+}
+h3 {
+	color: rgb(255,255,255);
+	font-family: "Arial Narrow", "Arial";
+	font-size: 90%;
+	display: inline;
+}
+img {
+	border: 0;
+}
+img.noShow {
+	border: 0;
+	width: 0px;
+	height: 0px;
+}
+ul {
+	list-style-type: none;
+	text-align: left;
+	font-family: "Arial";
+	font-size: 80%;
+	color: rgb(255,255,255);
+}
+ol {
+	list-style-type: decimal;
+	text-align: left;
+	font-family: "Arial";
+	font-size: 80%;
+	color: rgb(255,255,255);
+}
+li.unHighlight {
+	color: rgb(200,200,200);
+}
+table {
+	padding:0px;
+	border: 0px;
+	width: 100%;
+}
+th {
+	color: rgb(189,207,207);
+	text-align: left;
+	vertical-align: bottom;
+	border-left-width: 0px;
+	font-size: 80%;
+}
+td {
+	color: rgb(255,255,255);
+	font-family: "Arial Narrow", "Arial";
+	text-align: left;
+	border-left-width: 0px;
+	vertical-align: top;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: rgb(80,80,80);
+	font-size: 90%;
+}
+td.formLeft {
+	text-align: right;
+	width: 15%;
+	border-bottom-width: 0px;
+}
+td.formRight {
+	width: 85%;
+	border-bottom-width: 0px;
+}
+input {
+	background-color: rgb(48,10,0);
+	border-width:0;
+	color: rgb(255,255,255);
+	font-family: "Arial";
+	font-size: 80%;
+}
+textarea {
+	background-color: rgb(48,10,0);
+	border-width:0;
+	color: rgb(255,255,255);
+	font-family: "Arial";
+	font-size: 80%;
+}
+select {
+	background-color: rgb(48,10,0);
+	border-width:0;
+	color: rgb(255,255,255);
+	font-family: "Arial";
+	font-size: 80%;
+}

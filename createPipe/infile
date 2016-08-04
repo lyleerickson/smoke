@@ -1,6 +1,13 @@
 {
-	"name": "Test P", 
-	"acquire_date": "2012-09-03", 
-	"active": true, 
-	"acquire_cost": "123.43"
+"id" : "",
+  "name" : "Test P",
+  "acquire_date" : "2012-09-03",
+  "maker" : "",
+  "country" : "",
+  "acquire_cost" : 123.43,
+  "dedication" : "",
+  "active" : true,
+  "sale_date" : "",
+  "sale_price" : 0,
+  "last_update" : ""
 }
