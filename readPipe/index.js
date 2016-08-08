@@ -9,7 +9,7 @@ exports.handler = (event, context, callback) => {
     connection.connect(function(err) {
 
         dbf.handleDBError(err, callback);
-        connection.query('SELECT * FROM p WHERE id='+connection.escape(event.pipeid)+';', function(err, rows) {
+        connection.query('SELECT * FROM pipe WHERE id='+connection.escape(event.pipeid)+';', function(err, rows) {
 
             dbf.handleDBError(err,callback);
             connection.end(dbf.handleDBErrorAndCallback(err,callback,rows));

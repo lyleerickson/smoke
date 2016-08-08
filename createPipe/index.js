@@ -21,8 +21,8 @@ exports.handler = (event, context, callback) => {
                 var nextIDObj = JSON.parse(nextIDString);
                 var nextID = nextIDObj.id;
                 nextID.replace(/['"]+/g, '');
-                var queryString = 'INSERT INTO p (id, name, acquire_date, maker, country, acquire_cost, '+
-                    'dedication, active, sale_date, sale_price, last_update) VALUES ('+
+                var queryString = 'INSERT INTO pipe (id, name, acquire_date, maker, country, acquire_cost, '+
+                    'dedication, active, sale_date, sale_price, image_file, note, last_update) VALUES ('+
                     connection.escape(nextID)+', '+
                     connection.escape(event.name)+', '+
                     connection.escape(event.acquire_date)+', '+
@@ -33,6 +33,8 @@ exports.handler = (event, context, callback) => {
                     connection.escape(event.active)+', '+
                     connection.escape(event.sale_date)+', '+
                     connection.escape(event.sale_price)+', '+
+                    connection.escape(event.image_file)+', '+
+                    connection.escape(event.note)+', '+
                     "'"+(new Date()).toISOString().substring(0, 10)+"'"+');';
 
                 console.log(queryString);

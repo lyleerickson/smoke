@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Catbitten Smoking</title>
+    <title>Pipes</title>
     <style type="text/css">
         @import url(_3columnlayout.css);
         @import url(_global.css);
         @import url(_pipes.css);
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="sorttable.js"></script>
     <script type="text/javascript">
         "use strict";
         function putPipe() {
@@ -26,8 +27,7 @@
             });
 
             XHR.addEventListener('load', function(event) {
-                $("#pipesTable tbody tr").remove();
-                fillInPipesTable();
+                fillInPipesTables();
             });
 
             XHR.addEventListener('error', function(event) {
@@ -42,26 +42,56 @@
     <script  type="text/javascript">
         "use strict"
 
-        function fillInPipesTable() {
+        function fillInPipesTables() {
             var XHR = new XMLHttpRequest();
 
             XHR.addEventListener('load', function(event) {
+                $("#pipesTable tbody tr").remove();
+                $("#soldPipesTable tbody tr").remove();
+                $("#totalPipesSpan").html("");
+                $("#totalPipeInvestmentSpan").html("");
+                $("#totalPipesSoldSpan").html("");
+                $("#totalPipesSalesSpan").html("");
+                $("#totalPipeProfitSpan").html("");
+
                 var pipesJSON = JSON.parse(XHR.responseText);
+                var totalPipeCount = 0;
+                var totalPipeInvestment = 0;
+                var totalPipesSold = 0;
+                var totalPipeSales = 0;
+                var totalPipeProfit = 0;
 
                 for(var i = 0; i < pipesJSON.length; i++) {
                     var pipeJSON = pipesJSON[i];
-                    var table = document.getElementById('pipesTable').getElementsByTagName('tbody')[0];
-                    var row   = table.insertRow();
+                    var table;
+                    var row;
                     var cell;
                     var text;
+                    var isSoldPipe = false;
 
+                    if (pipeJSON.sale_date && pipeJSON.sale_date!='' && pipeJSON.sale_date.substring(0, 4)!='0000') {
+                        isSoldPipe = true;
+                        totalPipesSold++;
+                        table = document.getElementById('soldPipesTable').getElementsByTagName('tbody')[0];
+                    } else {
+                        table = document.getElementById('pipesTable').getElementsByTagName('tbody')[0];
+                        totalPipeCount++;
+                    }
+                    row   = table.insertRow();
                     cell  = row.insertCell(0);
+                    var link = document.createElement('a');
                     if (pipeJSON.name) {
                         text  = document.createTextNode(pipeJSON.name);
+                        link.appendChild(text);
+                        link.title = pipeJSON.name;
+                        link.href = "pipe.html?id="+pipeJSON.id;
                     } else {
-                        text = document.createTextNode("")
+                        text  = document.createTextNode(pipeJSON.id);
+                        link.appendChild(text);
+                        link.title = pipeJSON.id;
+                        link.href = "pipe.html?id="+pipeJSON.id;
                     }
-                    cell.appendChild(text);
+                    cell.appendChild(link);
                     cell  = row.insertCell(1);
                     if (pipeJSON.maker) {
                         text  = document.createTextNode(pipeJSON.maker);
@@ -73,50 +103,107 @@
                     text  = document.createTextNode("tbd");
                     cell.appendChild(text);
                     cell  = row.insertCell(3);
-                    text  = document.createTextNode("tbd");
+                    if (isSoldPipe) {
+                        if (pipeJSON.acquire_date) {
+                            text  = document.createTextNode(pipeJSON.acquire_date.substring(0, 10));
+                        } else {
+                            text  = document.createTextNode("");
+                        }
+                    } else {
+                        text  = document.createTextNode("tbd");
+                    }
                     cell.appendChild(text);
                     cell  = row.insertCell(4);
-                    text  = document.createTextNode("tbd");
+                    if (isSoldPipe) {
+                        if (pipeJSON.acquire_cost) {
+                            text  = document.createTextNode("$"+pipeJSON.acquire_cost.toFixed(2));
+                            totalPipeProfit-=pipeJSON.acquire_cost;
+                        } else {
+                            text  = document.createTextNode("$0.00");
+                        }
+                    } else {
+                        text  = document.createTextNode("tbd");
+                    }
                     cell.appendChild(text);
                     cell  = row.insertCell(5);
-                    if (pipeJSON.country) {
-                        text  = document.createTextNode(pipeJSON.country);
+                    if (isSoldPipe) {
+                        if (pipeJSON.sale_date) {
+                            text  = document.createTextNode(pipeJSON.sale_date.substring(0, 10));
+                        } else {
+                            text  = document.createTextNode("");
+                        }
                     } else {
-                        text  = document.createTextNode("");
+                        if (pipeJSON.country) {
+                            text  = document.createTextNode(pipeJSON.country);
+                        } else {
+                            text  = document.createTextNode("");
+                        }
                     }
                     cell.appendChild(text);
                     cell  = row.insertCell(6);
-                    if (pipeJSON.acquire_date) {
-                        text  = document.createTextNode(pipeJSON.acquire_date.substring(0, 10));
+                    if (isSoldPipe) {
+                        if (pipeJSON.sale_price) {
+                            text  = document.createTextNode("$"+pipeJSON.sale_price.toFixed(2));
+                            totalPipeSales+=pipeJSON.sale_price;
+                            totalPipeProfit+=pipeJSON.sale_price;
+                        } else {
+                            text  = document.createTextNode("$0.00");
+                        }
                     } else {
-                        text  = document.createTextNode("");
+                        if (pipeJSON.acquire_date) {
+                            text  = document.createTextNode(pipeJSON.acquire_date.substring(0, 10));
+                        } else {
+                            text  = document.createTextNode("");
+                        }
                     }
                     cell.appendChild(text);
-                    cell  = row.insertCell(7);
-                    if (pipeJSON.acquire_cost) {
-                        text  = document.createTextNode(pipeJSON.acquire_cost);
-                    } else {
-                        text  = document.createTextNode("");
+                    if (!isSoldPipe) {
+                        cell  = row.insertCell(7);
+                        if (pipeJSON.acquire_cost) {
+                            text  = document.createTextNode("$"+pipeJSON.acquire_cost.toFixed(2));
+                            totalPipeInvestment+=pipeJSON.acquire_cost;
+                        } else {
+                            text  = document.createTextNode("$0.00");
+                        }
+                        cell.appendChild(text);
+                        cell  = row.insertCell(8);
+                        text  = document.createTextNode("tbd");
+                        cell.appendChild(text);
+                        cell  = row.insertCell(9);
+                        if (pipeJSON.dedication) {
+                            text  = document.createTextNode(pipeJSON.dedication);
+                        } else {
+                            text  = document.createTextNode("");
+                        }
+                        cell.appendChild(text);
+                        cell  = row.insertCell(10);
+                        if (pipeJSON.active) {
+                            text  = document.createTextNode("Y");
+                        } else {
+                            text  = document.createTextNode("N");
+                        }
+                        cell.appendChild(text);
                     }
-                    cell.appendChild(text);
-                    cell  = row.insertCell(8);
-                    text  = document.createTextNode("tbd");
-                    cell.appendChild(text);
-                    cell  = row.insertCell(9);
-                    if (pipeJSON.dedication) {
-                        text  = document.createTextNode(pipeJSON.dedication);
-                    } else {
-                        text  = document.createTextNode("");
-                    }
-                    cell.appendChild(text);
-                    cell  = row.insertCell(10);
-                    if (pipeJSON.active) {
-                        text  = document.createTextNode("Y");
-                    } else {
-                        text  = document.createTextNode("N");
-                    }
-                    cell.appendChild(text);
                 }
+                var tpSpan = document.getElementById('totalPipesSpan');
+                var text = document.createTextNode(totalPipeCount);
+                tpSpan.appendChild(text);
+
+                tpSpan = document.getElementById('totalPipeInvestmentSpan');
+                text = document.createTextNode(totalPipeInvestment.toFixed(2));
+                tpSpan.appendChild(text);
+
+                tpSpan = document.getElementById('totalPipesSoldSpan');
+                text = document.createTextNode(totalPipesSold);
+                tpSpan.appendChild(text);
+
+                tpSpan = document.getElementById('totalPipesSalesSpan');
+                text = document.createTextNode(totalPipeSales.toFixed(2));
+                tpSpan.appendChild(text);
+
+                tpSpan = document.getElementById('totalPipeProfitSpan');
+                text = document.createTextNode(totalPipeProfit.toFixed(2));
+                tpSpan.appendChild(text);
             });
 
             XHR.addEventListener('error', function(event) {
@@ -133,36 +220,38 @@
         }
     </script>
 </head>
-<body onload="fillInPipesTable()">
+<body onload="fillInPipesTables()">
     <div id="content">
         <div id="banner"></div>
         <div id="leftcontent"></div>
         <div id="centercontent">
         <h2>Pipes</h2>
-            <table id="pipesTable">
+            <table id="pipesTable" class="sortable">
                 <thead>
                     <tr>
-                    <th class="name"><a href="pipes.php?pipeSort=pipe.name">Name</a></th>
-                    <th class="maker"><a href="pipes.php?pipeSort=pipe.maker">Maker</a></th>
+                    <th class="name">Name</th>
+                    <th class="maker">Maker</th>
                     <th class="tb">Total Bowls</th>
                     <th class="bsc">Bowls Since Cleaned</th>
-                    <th class="rest"><a href="pipes.php?pipeSort=smoked%20DESC">Days Rest</a></th>
-                    <th class="country"><a href="pipes.php?pipeSort=pipe.country">Country</a></th>
-                    <th class="purchased"><a href="pipes.php?pipeSort=pipe.purchased">Acquired</a></th>
-                    <th class="cost"><a href="pipes.php?pipeSort=price%20DESC">Cost</a></th>
-                    <th class="persmoke"><a href="pipes.php?pipeSort=persmoke%20DESC">Per Smoke</a></th>
-                    <th class="target"><a href="pipes.php?pipeSort=pipe.target_tobacco">Target Tobacco</a></th>
-                    <th class="active"><a href="pipes.php?pipeSort=pipe.active_rotation%20DESC,%20smoked">In Rotation</a></th>
+                    <th class="rest">Days Rest</th>
+                    <th class="country">Country</th>
+                    <th class="purchased">Acquired</th>
+                    <th class="cost">Cost</th>
+                    <th class="persmoke">Per Smoke</th>
+                    <th class="target">Target Tobacco</th>
+                    <th class="active">In Rotation</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                <tr><td>loading...</td></tr>
+                </tbody>
            </table>
             <p></p>
-            Total number of pipes in collection: ?.  <br/>
-            Total investment: $?.
+            Total number of pipes in collection: <span id="totalPipesSpan">...</span><br/>
+            Total investment: $<span id="totalPipeInvestmentSpan">...</span>
             <p></p>
             <h2>Sold Pipes</h2>
-            <table id="soldPipesTable">
+            <table id="soldPipesTable" class="sortable">
                 <thead>
                     <tr>
                     <th class="name">Name</th>
@@ -174,12 +263,14 @@
                     <th class="cost">Price</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                <tr><td>loading...</td></tr>
+                </tbody>
             </table>
             <p></p>
-            Total number of pipes sold: ?.    <br/>
-            Total sales: $?.   <br/>
-            Total profit on sales: $?.
+            Total number of pipes sold: <span id="totalPipesSoldSpan">...</span><br/>
+            Total sales: $<span id="totalPipesSalesSpan">...</span><br/>
+            Total profit on sales: $<span id="totalPipeProfitSpan">...</span>
             <p></p>
             <h2>New Pipe</h2>
             <form id="newPipeForm">
@@ -192,7 +283,7 @@
                 <tr><td class="pipeFormLeft">Sold:</td><td class="pipeFormRight"><input type="text" name="sale_date" size="10" value=""></td></tr>
                 <tr><td class="pipeFormLeft">Sold Price:</td><td class="pipeFormRight"><input type="text" name="sale_price" size="6" value=""></td></tr>
                 <tr><td class="pipeFormLeft">Target Tobacco:</td><td class="pipeFormRight"><input type="text" name="dedication" size="40" value=""></td></tr>
-                <tr><td class="pipeFormLeft">Image:</td><td class="pipeFormRight"><input type="text" name="image" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Image:</td><td class="pipeFormRight"><input type="text" name="image_file" value=""></td></tr>
                 <tr><td class="pipeFormLeft">Note:</td><td class="pipeFormRight"><textarea name="note" cols=48 rows=4></textarea></td></tr>
                 <tr><td class="pipeFormLeft">Active:</td><td class="pipeFormRight"><input type="radio" name="active" value="true" checked="checked">Y<input type="radio" name="active" value="false" >N</td></tr>
                 <tr><td class="pipeFormLeft"></td><td class="pipeFormRight"><button type="button" onclick="putPipe()">Add Pipe</button></td></tr>
@@ -206,7 +297,7 @@
             <p class="rightcontent"></p>
             <a href="tins.php"><img class="menu" src="images/tobacco.jpg" alt="Tins"/></a>
             <p class="rightcontent"></p>
-            <a href="pipes.php"><img class="menu" src="images/pipes.jpg" alt="Pipes"/></a>
+            <a href="pipes.html"><img class="menu" src="images/pipes.jpg" alt="Pipes"/></a>
             <p class="rightcontent"></p>
             <a href="cleanings.php"><img class="menu" src="images/cleanings.jpg" alt="Cleanings"/></a>
             <p class="rightcontent"></p>

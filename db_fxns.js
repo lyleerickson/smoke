@@ -20,7 +20,7 @@ function getDBConnection() {
         host     : 'smokedb.cbdgympjbxbz.us-west-2.rds.amazonaws.com',
         user     : 'smokedbmaster',
         password : 'smokedbttforme3',
-        database : 'smoketest',
+        database : 'smoke',
     });
 
     return connection;

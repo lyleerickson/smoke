@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pipes</title>
+    <style type="text/css">
+        @import url(_3columnlayout.css);
+        @import url(_global.css);
+        @import url(_pipes.css);
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        "use strict";
+        function putPipe() {
+            var XHR = new XMLHttpRequest();
+
+            var jd = {};
+
+            var fd = $("#updatePipeForm").serializeArray();
+            $.each(fd, function() {
+                if ((this.name == "sale_price") || (this.name == "acquire_cost")) {
+                    jd[this.name] = this.value || '0';
+                } else {
+                    jd[this.name] = this.value || '';
+                }
+            });
+
+            XHR.addEventListener('load', function(event) {
+                fillInPipeForm();
+            });
+
+            XHR.addEventListener('error', function(event) {
+                var form = document.forms['updatePipeForm'];
+                form.elements['name'].value = "error loading pipe";
+            });
+
+            XHR.open('PUT', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes/'+getURLParameter("id"), true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send(JSON.stringify(jd));
+        }
+    </script>
+    <script type="text/javascript">
+        "use strict";
+        function deletePipe() {
+            var XHR = new XMLHttpRequest();
+
+            XHR.addEventListener('load', function(event) {
+                var form = document.forms['updatePipeForm'];
+                form.elements['name'].value = "pipe deleted";
+                window.location.href = "pipes.html";
+            });
+
+            XHR.addEventListener('error', function(event) {
+                var form = document.forms['updatePipeForm'];
+                form.elements['name'].value = "error loading pipe";
+            });
+
+            XHR.open('DELETE', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes/'+getURLParameter("id"), true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send();
+        }
+    </script>
+
+    <script  type="text/javascript">
+        "use strict"
+
+        function getURLParameter(name) {
+            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+        }
+
+        function fillInPipeForm() {
+            var XHR = new XMLHttpRequest();
+
+            XHR.addEventListener('load', function(event) {
+                var pipesJSON = JSON.parse(XHR.responseText);
+                var pipeJSON = pipesJSON[0];
+
+                if (pipeJSON) {
+                    var form = document.forms['updatePipeForm'];
+
+                    form.elements['id'].value = pipeJSON.id;
+                    form.elements['name'].value = pipeJSON.name;
+                    form.elements['maker'].value = pipeJSON.maker;
+                    form.elements['country'].value = pipeJSON.country;
+                    form.elements['acquire_date'].value = pipeJSON.acquire_date.substring(0,10);
+                    form.elements['acquire_cost'].value = pipeJSON.acquire_cost;
+                    form.elements['sale_date'].value = pipeJSON.sale_date;
+                    form.elements['sale_price'].value = pipeJSON.sale_price;
+                    form.elements['dedication'].value = pipeJSON.dedication;
+                    form.elements['image_file'].value = pipeJSON.image_file;
+                    form.elements['note'].value = pipeJSON.note;
+                } else {
+                    var form = document.forms['updatePipeForm'];
+                    form.elements['name'].value = "pipe not found";
+                }
+            });
+
+            XHR.addEventListener('error', function(event) {
+                var form = document.forms['updatePipeForm'];
+                form.elements['name'].value = "error loading pipe";
+            });
+
+            XHR.open('GET', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes/'+getURLParameter("id"), true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send();
+        }
+    </script>
+</head>
+<body onload="fillInPipeForm()">
+<div id="content">
+    <div id="banner"></div>
+    <div id="leftcontent"></div>
+    <div id="centercontent">
+        <h2>Update Pipe</h2>
+        <form id="updatePipeForm">
+            <input type="hidden" name="id" value="">
+            <table>
+                <tr><td class="pipeFormLeft">Name:</td><td class="pipeFormRight"><input type="text" name="name" size="20" value="loading..."></td></tr>
+                <tr><td class="pipeFormLeft">Maker:</td><td class="pipeFormRight"><input type="text" name="maker" size="20" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Country Code:</td><td class="pipeFormRight"><input type="text" name="country" size="2" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Acquired:</td><td class="pipeFormRight"><input type="text" name="acquire_date" size="10" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Price:</td><td class="pipeFormRight"><input type="text" name="acquire_cost" size="6" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Sold:</td><td class="pipeFormRight"><input type="text" name="sale_date" size="10" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Sold Price:</td><td class="pipeFormRight"><input type="text" name="sale_price" size="6" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Target Tobacco:</td><td class="pipeFormRight"><input type="text" name="dedication" size="40" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Image:</td><td class="pipeFormRight"><input type="text" name="image_file" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Note:</td><td class="pipeFormRight"><textarea name="note" cols=48 rows=4></textarea></td></tr>
+                <tr><td class="pipeFormLeft">Active:</td><td class="pipeFormRight"><input type="radio" name="active" value="true" checked="checked">Y<input type="radio" name="active" value="false" >N</td></tr>
+                <tr><td class="pipeFormLeft"></td><td class="pipeFormRight"><button type="button" onclick="putPipe()">Update Pipe</button></td></tr>
+                <tr><td class="pipeFormLeft"></td><td class="pipeFormRight"><button type="button" onclick="deletePipe()">Delete Pipe</button></td></tr>
+            </table>
+        </form>
+    </div>
+    <div id="rightcontent">
+        <a href="index.php"><img class="menu" src="images/summary.jpg" alt="Summary"/></a>
+        <p class="rightcontent"></p>
+        <a href="smokes.php"><img class="menu" src="images/smoke.jpg" alt="Smoke Notes"/></a>
+        <p class="rightcontent"></p>
+        <a href="tins.php"><img class="menu" src="images/tobacco.jpg" alt="Tins"/></a>
+        <p class="rightcontent"></p>
+        <a href="pipes.html"><img class="menu" src="images/pipes.jpg" alt="Pipes"/></a>
+        <p class="rightcontent"></p>
+        <a href="cleanings.php"><img class="menu" src="images/cleanings.jpg" alt="Cleanings"/></a>
+        <p class="rightcontent"></p>
+    </div>
+</div>
+</body>
+</html>

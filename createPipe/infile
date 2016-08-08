@@ -9,5 +9,6 @@
   "active" : true,
   "sale_date" : "",
   "sale_price" : 0,
-  "last_update" : ""
+  "image_file" : "someimg.jpg",
+  "note" : "A good pipe."
 }

@@ -9,7 +9,7 @@ exports.handler = (event, context, callback) => {
     connection.connect(function(err) {
 
         dbf.handleDBError(err, callback);
-        connection.query('SELECT * FROM p;', function(err, rows) {
+        connection.query('SELECT * FROM pipe ORDER by active DESC, dedication, acquire_date;', function(err, rows) {
 
             dbf.handleDBError(err,callback);
             connection.end(dbf.handleDBErrorAndCallback(err,callback,rows));
