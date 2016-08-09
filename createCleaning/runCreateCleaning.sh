@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 aws lambda invoke --function-name createCleaning --payload file://infile outfile
 cat outfile
 echo ""

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blend Details</title>
+    <style type="text/css">
+        @import url(_3columnlayout.css);
+        @import url(_global.css);
+        @import url(_tins.css);
+        @import url(_smokes.css);
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="sorttable.js"></script>
+    <script type="text/javascript">
+        "use strict";
+        function putBlend() {
+            var XHR = new XMLHttpRequest();
+
+            var jd = {};
+
+            var fd = $("#updateBlendForm").serializeArray();
+            $.each(fd, function() {
+                jd[this.name] = this.value || '';
+            });
+
+            XHR.addEventListener('load', function(event) {
+                fillInBlendForm();
+            });
+
+            XHR.addEventListener('error', function(event) {
+                var form = document.forms['updateBlendForm'];
+                form.elements['name'].value = "error loading blend";
+            });
+
+            XHR.open('PUT', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/blends/'+getURLParameter("id"), true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send(JSON.stringify(jd));
+        }
+    </script>
+    <script type="text/javascript">
+        "use strict";
+        function deleteBlend() {
+            var XHR = new XMLHttpRequest();
+
+            XHR.addEventListener('load', function(event) {
+                var form = document.forms['updateBlendForm'];
+                form.elements['name'].value = "blend deleted";
+                window.location.href = "pipes.html";
+            });
+
+            XHR.addEventListener('error', function(event) {
+                var form = document.forms['updateBlendForm'];
+                form.elements['name'].value = "error deleting blend";
+            });
+
+            XHR.open('DELETE', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/blends/'+getURLParameter("id"), true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send();
+        }
+    </script>
+    <script  type="text/javascript">
+        "use strict"
+
+        function getURLParameter(name) {
+            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+        }
+    </script>
+    <script  type="text/javascript">
+        "use strict"
+
+        function fillInBlendForm() {
+            var XHR = new XMLHttpRequest();
+
+            XHR.addEventListener('load', function(event) {
+                var blendsJSON = JSON.parse(XHR.responseText);
+                var blendJSON = blendsJSON[0];
+
+                if (blendJSON) {
+                    var form = document.forms['updateBlendForm'];
+
+                    form.elements['name'].value = blendJSON.name;
+                    form.elements['maker'].value = blendJSON.maker;
+                    form.elements['country'].value = blendJSON.country;
+                    form.elements['cut'].value = blendJSON.cut;
+                    form.elements['style'].value = blendJSON.style;
+                    form.elements['image_file'].value = blendJSON.image_file;
+                    form.elements['note'].value = blendJSON.note;
+                } else {
+                    var form = document.forms['updateBlendForm'];
+                    form.elements['name'].value = "pipe not found";
+                }
+            });
+
+            XHR.addEventListener('error', function(event) {
+                var form = document.forms['updatePipeForm'];
+                form.elements['name'].value = "error loading pipe";
+            });
+
+            XHR.open('GET', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/blends/'+getURLParameter("id"), true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send();
+        }
+    </script>
+</head>
+<body>
+    <div id="content">
+        <div id="banner"></div>
+        <div id="leftcontent"></div>
+        <div id="centercontent">
+            <h2>Blend Details</h2>
+            <table>
+                <tr><td class="tinFormLeft"></td><td class="tinFormRight"><img class="tin" src="" alt="loading..."/></td></tr>
+            </table>
+            <form id="updateBlendForm">
+            <table>
+                <tr><td class="tinFormLeft">Blend:</td><td class="tinFormRight"><input type="text" name="blend" size="40" value="loading..."></td></tr>
+                <tr><td class="tinFormLeft">Maker:</td><td class="tinFormRight"><input type="text" name="maker" size="30" value=""></td></tr>
+                <tr><td class="tinFormLeft">Country:</td><td class="tinFormRight"><input type="text" name="country" size="2" value=""></td></tr>
+                <tr><td class="tinFormLeft">Cut:</td><td class="tinFormRight"><input type="text" name="cut" size="20" value=""></td></tr>
+                <tr><td class="tinFormLeft">Style:</td><td class="tinFormRight"><input type="text" name="style" size="50" value=""></td></tr>
+                <tr><td class="tinFormLeft">Image:</td><td class="tinFormRight"><input type="text" name="image" size="20" value=""></td></tr>
+                <tr><td class="tinFormLeft">Note:</td><td class="tinFormRight"><input type="text" name="note" size="50" value=""></td></tr>
+                <tr><td class="tinFormLeft"></td><td class="tinFormRight"><button type="button" onclick="">Update Blend</button></td></tr>
+                <tr><td class="tinFormLeft"></td><td class="tinFormRight"><button type="button" onclick="">Delete Blend</button></td>
+            </table>
+            </form>
+            <h2>Smoking History</h2>
+            <table class="sortable">
+                <thead>
+                    <tr>
+                        <th class="sdate">Date</th>
+                        <th class="location">Location</th>
+                        <th class="pipe">Pipe</th>
+                        <th class="blend">Blend</th>
+                        <th class="tin">Tin Aroma</th>
+                        <th class="packing">Packing</th>
+                        <th class="smoking">Smoking</th>
+                        <th class="finish">Finish</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="smoke.php?id=314">2008-02-02</a></td>
+                        <td></td>
+                        <td>Boswell Twist</td>
+                        <td>Dark Twist</td>
+                        <td>Barbecue</td>
+                        <td>Two coins plus tin remnants</td>
+                        <td>Long smoke, sweet sugary flavor</td>
+                        <td>All ash</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p></p>
+            <div id="rightcontent">
+                <a href="index.php"><img class="menu" src="images/summary.jpg" alt="Summary"/></a>
+                <p class="rightcontent"></p>
+                <a href="smokes.php"><img class="menu" src="images/smoke.jpg" alt="Smoke Notes"/></a>
+                <p class="rightcontent"></p>
+                <a href="tins.php"><img class="menu" src="images/tobacco.jpg" alt="Tins"/></a>
+                <p class="rightcontent"></p>
+                <a href="pipes.html"><img class="menu" src="images/pipes.jpg" alt="Pipes"/></a>
+                <p class="rightcontent"></p>
+                <a href="cleanings.html"><img class="menu" src="images/cleanings.jpg" alt="Cleanings"/></a>
+                <p class="rightcontent"></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

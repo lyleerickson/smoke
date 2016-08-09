@@ -1,0 +1,59 @@
+img.tin {
+	height: 65px;
+	width: 75px;
+}
+th.tinNumber {
+	width: 3%;
+}
+th.blend {
+	width: 22%;
+}
+th.brand {
+	width: 15%;
+}
+th.style {
+	width: 30%;
+}
+th.timeOpen {
+	width: 10%;
+}
+th.lastSmoked {
+	width: 10%;
+}
+th.bowlsLeft {
+	width: 5%;
+}
+th.cut {
+	width: 10%;
+}
+th.grams {
+	width: 5%;
+}
+th.age {
+	width: 15%;
+}
+th.timesSmoked {
+	width: 5%;
+}
+th.acquired {
+	width: 10%;
+}
+th.finished {
+	width: 10%;
+}
+th.blank110 {
+	width: 10%;
+}
+th.blank15 {
+	width: 15%;
+}
+
+td.tinFormLeft {
+	text-align: right;
+	width: 15%;
+	border-bottom-width: 0px;
+}
+td.tinFormRight {
+	width: 85%;
+	border-bottom-width: 0px;
+}

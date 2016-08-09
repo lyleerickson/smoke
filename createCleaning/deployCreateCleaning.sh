@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 cp -r ../node_modules .
 cp ../db_fxns.js .
 cp ../https_fxns.js .

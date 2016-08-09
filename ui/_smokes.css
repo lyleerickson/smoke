@@ -1,0 +1,33 @@
+th.sdate {
+	width: 10%;
+}
+th.location {
+	width: 10%;
+}
+th.pipe {
+	width: 10%;
+}
+th.blend {
+	width: 10%;
+}
+th.tin {
+	width: 10%;
+}
+td.packing {
+	width: 15%;
+}
+td.smoking {
+	width: 20%;
+}
+td.finish {
+	width: 15%;
+}
+td.smokeFormLeft {
+	text-align: right;
+	width: 15%;
+	border-bottom-width: 0px;
+}
+td.smokeFormRight {
+	width: 85%;
+	border-bottom-width: 0px;
+}
