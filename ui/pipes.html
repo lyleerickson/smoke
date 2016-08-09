@@ -34,7 +34,7 @@
                 alert('error');
             });
 
-            XHR.open('PUT', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes');
+            XHR.open('POST', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes');
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             XHR.send(JSON.stringify(jd));
         }
@@ -299,7 +299,7 @@
             <p class="rightcontent"></p>
             <a href="pipes.html"><img class="menu" src="images/pipes.jpg" alt="Pipes"/></a>
             <p class="rightcontent"></p>
-            <a href="cleanings.php"><img class="menu" src="images/cleanings.jpg" alt="Cleanings"/></a>
+            <a href="cleanings.html"><img class="menu" src="images/cleanings.jpg" alt="Cleanings"/></a>
             <p class="rightcontent"></p>
         </div>
     </div>

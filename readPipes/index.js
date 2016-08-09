@@ -9,10 +9,20 @@ exports.handler = (event, context, callback) => {
     connection.connect(function(err) {
 
         dbf.handleDBError(err, callback);
-        connection.query('SELECT * FROM pipe ORDER by active DESC, dedication, acquire_date;', function(err, rows) {
 
-            dbf.handleDBError(err,callback);
-            connection.end(dbf.handleDBErrorAndCallback(err,callback,rows));
-        });
+        if (event.bsc) {
+            // Need to replace with actual smokes query
+            connection.query('SELECT pipe.* FROM pipe LEFT JOIN cleaning ON ( pipe.id = cleaning.pipe ) WHERE  cleaning.pipe IS NULL;', function(err, rows) {
+
+                dbf.handleDBError(err,callback);
+                connection.end(dbf.handleDBErrorAndCallback(err,callback,rows));
+            });
+        } else {
+            connection.query('SELECT * FROM pipe ORDER by active DESC, dedication, acquire_date;', function(err, rows) {
+
+                dbf.handleDBError(err,callback);
+                connection.end(dbf.handleDBErrorAndCallback(err,callback,rows));
+            });
+        }
     });
 }

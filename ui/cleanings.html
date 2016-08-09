@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cleanings</title>
+    <style type="text/css">
+        @import url(_3columnlayout.css);
+        @import url(_global.css);
+        @import url(_cleanings.css);
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="sorttable.js"></script>
+    <script type="text/javascript">
+        "use strict";
+        function putCleaning() {
+            var XHR = new XMLHttpRequest();
+
+            var jd = {};
+
+            var fd = $("#newCleaningForm").serializeArray();
+            $.each(fd, function() {
+                jd[this.name] = this.value || '';
+            });
+
+            XHR.addEventListener('load', function(event) {
+                fillInPipeTable();
+                fillInCleaningForm();
+                fillInCleaningTable();
+            });
+
+            XHR.addEventListener('error', function(event) {
+                alert('error');
+            });
+
+            XHR.open('POST', 'https://w7jf39egq0.execute-api.us-west-2.amazonaws.com/beta/cleanings');
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send(JSON.stringify(jd));
+        }
+    </script>
+    <script  type="text/javascript">
+        "use strict"
+
+        function fillInPipesTable() {
+            var XHR = new XMLHttpRequest();
+
+            XHR.addEventListener('load', function(event) {
+                $("#pipesTable tbody tr").remove();
+
+                var pipesJSON = JSON.parse(XHR.responseText);
+
+                for(var i = 0; i < pipesJSON.length; i++) {
+                    var pipeJSON = pipesJSON[i];
+                    var table = document.getElementById('pipesTable').getElementsByTagName('tbody')[0];
+                    var row = table.insertRow();
+                    var cell = row.insertCell(0);
+                    var text;
+                    var link = document.createElement('a');
+                    if (pipeJSON.name) {
+                        text  = document.createTextNode(pipeJSON.name);
+                        link.appendChild(text);
+                        link.title = pipeJSON.name;
+                        link.href = "pipe.html?id="+pipeJSON.id;
+                    } else {
+                        text  = document.createTextNode(pipeJSON.id);
+                        link.appendChild(text);
+                        link.title = pipeJSON.id;
+                        link.href = "pipe.html?id="+pipeJSON.id;
+                    }
+                    cell.appendChild(link);
+                    cell  = row.insertCell(1);
+                    text  = document.createTextNode("tbd");
+                    cell.appendChild(text);
+                    cell  = row.insertCell(2);
+                    text  = document.createTextNode("tbd");
+                    cell.appendChild(text);
+                    cell  = row.insertCell(3);
+                    text  = document.createTextNode("tbd");
+                    cell.appendChild(text);
+                    cell  = row.insertCell(4);
+                    text  = document.createTextNode("tbd");
+                    cell.appendChild(text);
+                    cell  = row.insertCell(5);
+                    if (pipeJSON.dedication) {
+                        text  = document.createTextNode(pipeJSON.dedication);
+                    } else {
+                        text  = document.createTextNode("");
+                    }
+                    cell.appendChild(text);
+                    cell  = row.insertCell(6);
+                    text  = document.createTextNode("tbd");
+                    cell.appendChild(text);
+                    cell  = row.insertCell(7);
+                    text  = document.createTextNode("tbd");
+                    cell.appendChild(text);
+                }
+            });
+
+            XHR.addEventListener('error', function(event) {
+                var table = document.getElementById('pipesTable');
+                var row   = table.insertRow();
+                var cell  = row.insertCell(0);
+                var text  = document.createTextNode('error loading table');
+                cell.appendChild(text);
+            });
+
+            XHR.open('GET', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes?bowlsSinceCleaned=5', true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send();
+        }
+    </script>
+    <script  type="text/javascript">
+        "use strict"
+
+        function fillInCleaningForm() {
+            $("#dateTextBox").val(new Date().toISOString().substring(0, 10));
+            $("#noteTextBox").val("");
+
+            var XHR = new XMLHttpRequest();
+
+            XHR.addEventListener('load', function(event) {
+                $("#pipeSelector option[value='loading']").remove();
+
+                var pipesJSON = JSON.parse(XHR.responseText);
+
+                $("#pipeSelector").append('<option value="blank"> </option>');
+
+                for(var i = 0; i < pipesJSON.length; i++) {
+                    var pipeJSON = pipesJSON[i];
+                    $("#pipeSelector").append('<option value="'+pipeJSON.id+'">'+pipeJSON.name+'</option>');
+                }
+
+                var optionsArray = $("#pipeSelector option");
+
+                optionsArray.sort(function(a,b) {
+                    if (a.text > b.text) return 1;
+                    if (a.text < b.text) return -1;
+                    return 0
+                })
+
+                $("#pipeSelector").empty().append( optionsArray );
+                $("#pipeSelector").val($("#pipeSelector option[value='blank']"));
+            });
+
+            XHR.addEventListener('error', function(event) {
+                $("#pipe option[value='loading']").remove();
+                $("#pipe").append('<option value="">error loading pipes...</option>');
+            });
+
+            XHR.open('GET', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes', true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send();
+        }
+    </script>
+    <script  type="text/javascript">
+        "use strict"
+
+        function fillInCleaningTable() {
+            var XHR = new XMLHttpRequest();
+
+            XHR.addEventListener('load', function(event) {
+                $("#cleaningsTable tbody tr").remove();
+
+                var cleaningsJSON = JSON.parse(XHR.responseText);
+
+                for(var i = 0; i < cleaningsJSON.length; i++) {
+                    var cleaningJSON = cleaningsJSON[i];
+                    var table = document.getElementById('cleaningsTable').getElementsByTagName('tbody')[0];
+                    var row = table.insertRow();
+                    var cell = row.insertCell(0);
+                    var text;
+                    var link = document.createElement('a');
+                    if (cleaningJSON.clean_date) {
+                        text  = document.createTextNode(cleaningJSON.clean_date.substring(0, 10));
+                        link.appendChild(text);
+                        link.title = cleaningJSON.clean_date.substring(0, 10);
+                        link.href = "cleaning.html?id="+cleaningJSON.id;
+                    } else {
+                        text  = document.createTextNode(cleaningJSON.id);
+                        link.appendChild(text);
+                        link.title = cleaningJSON.id;
+                        link.href = "cleaning.html?id="+cleaningJSON.id;
+                    }
+                    cell.appendChild(link);
+                    cell  = row.insertCell(1);
+                    if (cleaningJSON.name) {
+                        text  = document.createTextNode(cleaningJSON.name);
+                    } else {
+                        text  = document.createTextNode("");
+                    }
+                    cell.appendChild(text);
+                    cell  = row.insertCell(2);
+                    if (cleaningJSON.note) {
+                        text  = document.createTextNode(cleaningJSON.note);
+                    } else {
+                        text  = document.createTextNode("");
+                    }
+                    cell.appendChild(text);
+                }
+            });
+
+            XHR.addEventListener('error', function(event) {
+                var table = document.getElementById('cleaningsTable');
+                var row   = table.insertRow();
+                var cell  = row.insertCell(0);
+                var text  = document.createTextNode('error loading table');
+                cell.appendChild(text);
+            });
+
+            XHR.open('GET', 'https://w7jf39egq0.execute-api.us-west-2.amazonaws.com/beta/cleanings', true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send();
+        }
+    </script>
+</head>
+<body onload="fillInPipesTable();fillInCleaningForm();fillInCleaningTable();">
+    <div id="content">
+        <div id="banner"></div>
+        <div id="leftcontent"></div>
+        <div id="centercontent">
+            <h2>Cleanings</h2>
+            <table id="pipesTable">
+                <thead>
+                    <tr>
+                        <th class="name">Name</th>
+                        <th class="rest">DR</th>
+                        <th class="tbowls">TB</th>
+                        <th class="lasts">Smoked</th>
+                        <th class="bsc">BSC</th>
+                        <th class="target">Target Tobacco</th>
+                        <th class="lastt">Last Smoked</th>
+                        <th class="mostt">Most Smoked Style / Blend</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>loading...</td></tr>
+                </tbody>
+            </table>
+            <p></p>
+            <h2>New Cleaning</h2>
+            <form id="newCleaningForm">
+                <table>
+                    <tr><td class="formLeft">Date:</td><td class="formRight"><input id="dateTextBox" type="text" name="clean_date" size="10" value="" tabindex=1></td>
+                    <tr><td class="formLeft">Pipe:</td>
+                        <td class="formRight">
+                        <select id="pipeSelector" name="pipe" tabindex=2><option value="loading">loading...</option></select></td>
+                    </tr>
+                    <tr><td class="formLeft">Notes:</td><td class="formRight"><textarea id="noteTextBox" name="note" cols=58 rows=1 tabindex=8></textarea></td></tr>
+                    <tr>
+                        <td class="formLeft"></td><td class="formRight"><button type="button" onclick="putCleaning()">Add Cleaning</button></td>
+                    </tr>
+                </table>
+            </form>
+            <table id="cleaningsTable">
+                <thead>
+                    <tr>
+                        <th class="cdate">Date</th>
+                        <th class="pipe">Pipe</th>
+                        <th class="note">Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr><td>loading...</td></tr>
+                </tbody>
+        </table>
+        <p></p>
+        </div>
+        <div id="rightcontent">
+            <a href="index.php"><img class="menu" src="images/summary.jpg" alt="Summary"/></a>
+            <p class="rightcontent"></p>
+            <a href="smokes.php"><img class="menu" src="images/smoke.jpg" alt="Smoke Notes"/></a>
+            <p class="rightcontent"></p>
+            <a href="tins.php"><img class="menu" src="images/tobacco.jpg" alt="Tins"/></a>
+            <p class="rightcontent"></p>
+            <a href="pipes.html"><img class="menu" src="images/pipes.jpg" alt="Pipes"/></a>
+            <p class="rightcontent"></p>
+            <a href="cleanings.html"><img class="menu" src="images/cleanings.jpg" alt="Cleanings"/></a>
+            <p class="rightcontent"></p>
+        </div>
+    </div>
+</body>
+</html>

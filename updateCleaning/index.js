@@ -6,7 +6,7 @@ var dbf = require('./db_fxns');
 exports.handler = (event, context, callback) => {
     if (event.id) {
         var connection = dbf.getDBConnection();
-        var updateQuery = 'UPDATE pipe SET ';
+        var updateQuery = 'UPDATE cleaning SET ';
         var notTheFirst = false;
         for (var k in event) {
             if (event.hasOwnProperty(k)) {

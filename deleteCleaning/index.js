@@ -11,7 +11,7 @@ exports.handler = (event, context, callback) => {
         connection.connect(function(err) {
             var id = null;
             dbf.handleDBError(err, callback);
-            connection.query('DELETE FROM pipe WHERE id='+connection.escape(event.id), function(err, result) {
+            connection.query('DELETE FROM cleaning WHERE id='+connection.escape(event.id), function(err, result) {
                 dbf.handleDBError(err,callback);
                 var r = event.id + " not found";
                 if (result.affectedRows > 0) {
