@@ -2,9 +2,212 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <title>Tins</title>
+    <style type="text/css">
+        @import url(_3columnlayout.css);
+        @import url(_global.css);
+        @import url(_tins.css);
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="sorttable.js"></script>
+    <script src="fillintinselector.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#rightcontent").load("_rightcontent.html");
+        });
+    </script>
+    <script type="text/javascript">
+        "use strict";
+        function postCleaning() {
+            var XHR = new XMLHttpRequest();
 
+            var jd = {};
+
+            var fd = $("#newCleaningForm").serializeArray();
+            $.each(fd, function() {
+                jd[this.name] = this.value || '';
+            });
+
+            XHR.addEventListener('load', function(event) {
+                fillInPipesTable();
+                fillInCleaningForm();
+                fillInCleaningTable();
+            });
+
+            XHR.addEventListener('error', function(event) {
+                alert('error adding cleaning');
+            });
+
+            XHR.open('POST', 'https://w7jf39egq0.execute-api.us-west-2.amazonaws.com/beta/cleanings');
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send(JSON.stringify(jd));
+        }
+    </script>
+    <script  type="text/javascript">
+        "use strict"
+
+        function fillInTinTables() {
+            var XHR = new XMLHttpRequest();
+
+            XHR.addEventListener('load', function(event) {
+                $("#openTinsTable tbody tr").remove();
+                $("#cellaredTinsTable tbody tr").remove();
+                $("#blendingComponentsTable tbody tr").remove();
+                $("#finishedTinsTable tbody tr").remove();
+
+                var tinsJSON = JSON.parse(XHR.responseText);
+
+                for(var i = 0; i < tinsJSON.length; i++) {
+                    var tinJSON = tinsJSON[i];
+                    var table;
+                    var row;
+                    var cell;
+                    var text;
+                    var isOpenTin = false;
+                    var isFinishedTin = false;
+                    var isBlendingComponent = false;
+
+                    if (tinJSON.finish_date && tinJSON.finish_date!='' && tinJSON.finish_date.substring(0, 4)!='0000') {
+                        isFinishedTin = true;
+                        table = document.getElementById('finishedTinsTable').getElementsByTagName('tbody')[0];
+                    } else if (tinJSON.open_date && tinJSON.open_date!='' && tinJSON.open_date.substring(0, 4)!='0000') {
+                        isOpenTin = true;
+                        table = document.getElementById('openTinsTable').getElementsByTagName('tbody')[0];
+                    } else if (tinJSON.isBlendingComponent) {
+                        isBlendingComponent = true;
+                        table = document.getElementById('blendingComponentsTable').getElementsByTagName('tbody')[0];
+                    } else {
+                        table = document.getElementById('cellaredTinsTable').getElementsByTagName('tbody')[0];
+                    }
+
+                    row = table.insertRow();
+                    cell = row.insertCell(0);
+                    var link = document.createElement('a');
+                    text  = document.createTextNode(tinJSON.name);
+                    link.appendChild(text);
+                    link.title = tinJSON.name;
+                    link.href = "blend.html?id="+tinJSON.blend;
+                    cell.appendChild(link);
+                }
+            });
+
+            XHR.addEventListener('error', function(event) {
+                var table = document.getElementById('openTinsTable');
+                var row   = table.insertRow();
+                var cell  = row.insertCell(0);
+                var text  = document.createTextNode('error loading table');
+                cell.appendChild(text);
+            });
+
+            XHR.open('GET', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/tins', true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send();
+        }
+    </script>
+    <script  type="text/javascript">
+        "use strict"
+
+        function fillInCleaningForm() {
+            $("#dateTextBox").val(new Date().toISOString().substring(0, 10));
+            $("#noteTextBox").val("");
+            fillInPipeSelector("blank");
+        }
+    </script>
+</head>
+<body onload="fillInTinTables();">
+<div id="content">
+    <div id="banner"></div>
+    <div id="leftcontent"></div>
+    <div id="centercontent">
+        <h2>TIns Open</h2>
+        <table id="openTinsTable" class="sortable">
+            <thead>
+            <tr>
+                <th class="tinNumber">#</th>
+                <th class="blend">Blend</th>
+                <th class="brand">Brand</th>
+                <th class="style">Style</th>
+                <th class="timeOpen">Weeks Open</th>
+                <th class="timesSmoked">S</th>
+                <th class="lastSmoked">Last Smoked</th>
+                <th class="bowlsLeft">Bowls Left</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>loading...</td></tr>
+            </tbody>
+        </table>
+        <p></p>
+        <h2>New Tin</h2>
+        <form id="newCleaningForm">
+            <table>
+                <tr><td class="formLeft">Date:</td><td class="formRight"><input id="dateTextBox" type="text" name="clean_date" size="10" value="" tabindex=1></td>
+                <tr><td class="formLeft">Pipe:</td>
+                    <td class="formRight">
+                        <select id="pipeSelector" name="pipe" tabindex=2><option value="loading">loading...</option></select></td>
+                </tr>
+                <tr><td class="formLeft">Notes:</td><td class="formRight"><textarea id="noteTextBox" name="note" cols=58 rows=1 tabindex=8></textarea></td></tr>
+                <tr>
+                    <td class="formLeft"></td><td class="formRight"><button type="button" onclick="postCleaning()">Add Cleaning</button></td>
+                </tr>
+            </table>
+        </form>
+        <h2>Cellared Tins</h2>
+        <table id="cellaredTinsTable" class="sortable">
+            <thead>
+            <tr>
+                <th class="tinNumber">#</th>
+                <th class="blend">Blend</th>
+                <th class="brand">Brand</th>
+                <th class="style">Style</th>
+                <th class="cut">Cut</th>
+                <th class="grams">G</th>
+                <th class="acquired">Acquired</th>
+                <th class="age">Age (Years)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>loading...</td></tr>
+            </tbody>
+        </table>
+        <h2>Blending Components</h2>
+        <table id="blendingComponentsTable" class="sortable">
+            <thead>
+            <tr>
+                <th class="tinNumber">#</th>
+                <th class="blend">Blend</th>
+                <th class="brand">Brand</th>
+                <th class="style">Style</th>
+                <th class="cut">Cut</th>
+                <th class="grams">G</th>
+                <th class="acquired">Acquired</th>
+                <th class="age">Age (Years)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>loading...</td></tr>
+            </tbody>
+        </table>
+        <h2>FInished Tins</h2>
+        <table id="finishedTinsTable" class="sortable">
+            <thead>
+            <tr>
+                <th class="tinNumber">#</th>
+                <th class="blend">Blend</th>
+                <th class="brand">Brand</th>
+                <th class="style">Style</th>
+                <th class="cut">Cut</th>
+                <th class="timeSmoked">S</th>
+                <th class="grams">G</th>
+                <th class="finished">Finished</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>loading...</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="rightcontent"></div>
+</div>
 </body>
 </html>

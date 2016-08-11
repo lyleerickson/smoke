@@ -9,8 +9,14 @@ exports.handler = (event, context, callback) => {
     connection.connect(function(err) {
 
         dbf.handleDBError(err, callback);
-        connection.query('SELECT tin.*, blend.name, blend.maker, blend.country, blend.cut, blend.style, blend.image_file, blend.note FROM tin, blend WHERE tin.blend=blend.id ORDER by acquire_date;', function(err, rows) {
-
+        var queryString = 'SELECT tin.*, blend.name, blend.maker, blend.country, blend.cut, blend.style, '+
+            'blend.image_file FROM tin, blend WHERE tin.blend=blend.id ORDER by acquire_date;';
+        if (event.blendID) {
+            queryString = 'SELECT tin.*, blend.name, blend.maker, blend.country, blend.cut, blend.style, '+
+                        'blend.image_file FROM tin, blend WHERE tin.blend=blend.id and '+
+                        'blend.id='+connection.escape(event.blendID)+' ORDER by acquire_date;';
+        }
+        connection.query(queryString, function(err, rows) {
             dbf.handleDBError(err,callback);
             connection.end(dbf.handleDBErrorAndCallback(err,callback,rows));
         });

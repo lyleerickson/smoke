@@ -1,12 +1,12 @@
 {
-  "id" : "2016-08-11T00:13:55.227Z",
-  "blend" : "2016-08-09T21:31:22.595Z",
+  "id" : "2016-08-11T01:31:37.061Z",
+  "blend" : "2016-08-09T22:38:52.701Z",
   "tin_number" : 1,
   "grams" : 50,
   "package_date" : "2012-04-05",
   "acquire_date" : "2012-09-05",
-  "open_date" : " ",
-  "finish_date" : " ",
+  "open_date" : "2012-09-06",
+  "finish_date" : "2012-10-06",
   "acquire_cost" : 10.50,
   "note" : "Updated note"
 }
