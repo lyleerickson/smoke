@@ -9,7 +9,7 @@ exports.handler = (event, context, callback) => {
     connection.connect(function(err) {
 
         dbf.handleDBError(err, callback);
-        connection.query('SELECT * FROM blend WHERE blend.id='+connection.escape(event.blendID)+';', function(err, rows) {
+        connection.query('SELECT * FROM blend WHERE blend.id='+connection.escape(event.id)+';', function(err, rows) {
 
             dbf.handleDBError(err,callback);
             connection.end(dbf.handleDBErrorAndCallback(err,callback,rows));

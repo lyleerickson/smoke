@@ -11,8 +11,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="sorttable.js"></script>
     <script type="text/javascript">
+        $(function(){
+            $("#rightcontent").load("_rightcontent.html");
+        });
+    </script>
+    <script type="text/javascript">
         "use strict";
-        function putPipe() {
+        function postPipe() {
             var XHR = new XMLHttpRequest();
 
             var jd = {};
@@ -31,7 +36,7 @@
             });
 
             XHR.addEventListener('error', function(event) {
-                alert('error');
+                alert('error adding pipe');
             });
 
             XHR.open('POST', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes');
@@ -286,22 +291,11 @@
                 <tr><td class="pipeFormLeft">Image:</td><td class="pipeFormRight"><input type="text" name="image_file" value=""></td></tr>
                 <tr><td class="pipeFormLeft">Note:</td><td class="pipeFormRight"><textarea name="note" cols=48 rows=4></textarea></td></tr>
                 <tr><td class="pipeFormLeft">Active:</td><td class="pipeFormRight"><input type="radio" name="active" value="true" checked="checked">Y<input type="radio" name="active" value="false" >N</td></tr>
-                <tr><td class="pipeFormLeft"></td><td class="pipeFormRight"><button type="button" onclick="putPipe()">Add Pipe</button></td></tr>
+                <tr><td class="pipeFormLeft"></td><td class="pipeFormRight"><button type="button" onclick="postPipe()">Add Pipe</button></td></tr>
                 </table>
             </form>
         </div>
-        <div id="rightcontent">
-            <a href="index.php"><img class="menu" src="images/summary.jpg" alt="Summary"/></a>
-            <p class="rightcontent"></p>
-            <a href="smokes.php"><img class="menu" src="images/smoke.jpg" alt="Smoke Notes"/></a>
-            <p class="rightcontent"></p>
-            <a href="tins.php"><img class="menu" src="images/tobacco.jpg" alt="Tins"/></a>
-            <p class="rightcontent"></p>
-            <a href="pipes.html"><img class="menu" src="images/pipes.jpg" alt="Pipes"/></a>
-            <p class="rightcontent"></p>
-            <a href="cleanings.html"><img class="menu" src="images/cleanings.jpg" alt="Cleanings"/></a>
-            <p class="rightcontent"></p>
-        </div>
+        <div id="rightcontent"></div>
     </div>
 </body>
 </html>

@@ -10,9 +10,15 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="sorttable.js"></script>
+    <script src="fillinpipeselector.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#rightcontent").load("_rightcontent.html");
+        });
+    </script>
     <script type="text/javascript">
         "use strict";
-        function putCleaning() {
+        function postCleaning() {
             var XHR = new XMLHttpRequest();
 
             var jd = {};
@@ -23,13 +29,13 @@
             });
 
             XHR.addEventListener('load', function(event) {
-                fillInPipeTable();
+                fillInPipesTable();
                 fillInCleaningForm();
                 fillInCleaningTable();
             });
 
             XHR.addEventListener('error', function(event) {
-                alert('error');
+                alert('error adding cleaning');
             });
 
             XHR.open('POST', 'https://w7jf39egq0.execute-api.us-west-2.amazonaws.com/beta/cleanings');
@@ -114,41 +120,7 @@
         function fillInCleaningForm() {
             $("#dateTextBox").val(new Date().toISOString().substring(0, 10));
             $("#noteTextBox").val("");
-
-            var XHR = new XMLHttpRequest();
-
-            XHR.addEventListener('load', function(event) {
-                $("#pipeSelector option[value='loading']").remove();
-
-                var pipesJSON = JSON.parse(XHR.responseText);
-
-                $("#pipeSelector").append('<option value="blank"> </option>');
-
-                for(var i = 0; i < pipesJSON.length; i++) {
-                    var pipeJSON = pipesJSON[i];
-                    $("#pipeSelector").append('<option value="'+pipeJSON.id+'">'+pipeJSON.name+'</option>');
-                }
-
-                var optionsArray = $("#pipeSelector option");
-
-                optionsArray.sort(function(a,b) {
-                    if (a.text > b.text) return 1;
-                    if (a.text < b.text) return -1;
-                    return 0
-                })
-
-                $("#pipeSelector").empty().append( optionsArray );
-                $("#pipeSelector").val($("#pipeSelector option[value='blank']"));
-            });
-
-            XHR.addEventListener('error', function(event) {
-                $("#pipe option[value='loading']").remove();
-                $("#pipe").append('<option value="">error loading pipes...</option>');
-            });
-
-            XHR.open('GET', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes', true);
-            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            XHR.send();
+            fillInPipeSelector("blank");
         }
     </script>
     <script  type="text/javascript">
@@ -246,7 +218,7 @@
                     </tr>
                     <tr><td class="formLeft">Notes:</td><td class="formRight"><textarea id="noteTextBox" name="note" cols=58 rows=1 tabindex=8></textarea></td></tr>
                     <tr>
-                        <td class="formLeft"></td><td class="formRight"><button type="button" onclick="putCleaning()">Add Cleaning</button></td>
+                        <td class="formLeft"></td><td class="formRight"><button type="button" onclick="postCleaning()">Add Cleaning</button></td>
                     </tr>
                 </table>
             </form>
@@ -264,18 +236,7 @@
         </table>
         <p></p>
         </div>
-        <div id="rightcontent">
-            <a href="index.php"><img class="menu" src="images/summary.jpg" alt="Summary"/></a>
-            <p class="rightcontent"></p>
-            <a href="smokes.php"><img class="menu" src="images/smoke.jpg" alt="Smoke Notes"/></a>
-            <p class="rightcontent"></p>
-            <a href="tins.php"><img class="menu" src="images/tobacco.jpg" alt="Tins"/></a>
-            <p class="rightcontent"></p>
-            <a href="pipes.html"><img class="menu" src="images/pipes.jpg" alt="Pipes"/></a>
-            <p class="rightcontent"></p>
-            <a href="cleanings.html"><img class="menu" src="images/cleanings.jpg" alt="Cleanings"/></a>
-            <p class="rightcontent"></p>
-        </div>
+        <div id="rightcontent"></div>
     </div>
 </body>
 </html>

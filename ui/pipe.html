@@ -9,6 +9,12 @@
         @import url(_pipes.css);
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="geturlparameter.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#rightcontent").load("_rightcontent.html");
+        });
+    </script>
     <script type="text/javascript">
         "use strict";
         function putPipe() {
@@ -26,12 +32,11 @@
             });
 
             XHR.addEventListener('load', function(event) {
-                fillInPipeForm();
+                window.location.href = "pipes.html";
             });
 
             XHR.addEventListener('error', function(event) {
-                var form = document.forms['updatePipeForm'];
-                form.elements['name'].value = "error loading pipe";
+                alert("error updating pipe");
             });
 
             XHR.open('PUT', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes/'+getURLParameter("id"), true);
@@ -45,14 +50,11 @@
             var XHR = new XMLHttpRequest();
 
             XHR.addEventListener('load', function(event) {
-                var form = document.forms['updatePipeForm'];
-                form.elements['name'].value = "pipe deleted";
                 window.location.href = "pipes.html";
             });
 
             XHR.addEventListener('error', function(event) {
-                var form = document.forms['updatePipeForm'];
-                form.elements['name'].value = "error loading pipe";
+                alert("error deleting pipe");
             });
 
             XHR.open('DELETE', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes/'+getURLParameter("id"), true);
@@ -61,12 +63,6 @@
         }
     </script>
     <script  type="text/javascript">
-        "use strict"
-
-        function getURLParameter(name) {
-            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
-        }
-
         function fillInPipeForm() {
             var XHR = new XMLHttpRequest();
 
@@ -83,7 +79,7 @@
                     form.elements['country'].value = pipeJSON.country;
                     form.elements['acquire_date'].value = pipeJSON.acquire_date.substring(0,10);
                     form.elements['acquire_cost'].value = pipeJSON.acquire_cost;
-                    form.elements['sale_date'].value = pipeJSON.sale_date;
+                    form.elements['sale_date'].value = pipeJSON.sale_date.substring(0,10);
                     form.elements['sale_price'].value = pipeJSON.sale_price;
                     form.elements['dedication'].value = pipeJSON.dedication;
                     form.elements['image_file'].value = pipeJSON.image_file;
@@ -95,8 +91,7 @@
             });
 
             XHR.addEventListener('error', function(event) {
-                var form = document.forms['updatePipeForm'];
-                form.elements['name'].value = "error loading pipe";
+                alert("error loading pipe");
             });
 
             XHR.open('GET', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes/'+getURLParameter("id"), true);
@@ -130,18 +125,7 @@
             </table>
         </form>
     </div>
-    <div id="rightcontent">
-        <a href="index.php"><img class="menu" src="images/summary.jpg" alt="Summary"/></a>
-        <p class="rightcontent"></p>
-        <a href="smokes.php"><img class="menu" src="images/smoke.jpg" alt="Smoke Notes"/></a>
-        <p class="rightcontent"></p>
-        <a href="tins.php"><img class="menu" src="images/tobacco.jpg" alt="Tins"/></a>
-        <p class="rightcontent"></p>
-        <a href="pipes.html"><img class="menu" src="images/pipes.jpg" alt="Pipes"/></a>
-        <p class="rightcontent"></p>
-        <a href="cleanings.php"><img class="menu" src="images/cleanings.jpg" alt="Cleanings"/></a>
-        <p class="rightcontent"></p>
-    </div>
+    <div id="rightcontent"></div>
 </div>
 </body>
 </html>

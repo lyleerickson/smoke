@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cleaning Details</title>
+    <style type="text/css">
+        @import url(_3columnlayout.css);
+        @import url(_global.css);
+        @import url(_cleaning.css);
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="geturlparameter.js"></script>
+    <script src="fillinpipeselector.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#rightcontent").load("_rightcontent.html");
+        });
+    </script>
+    <script type="text/javascript">
+        function fillInCleaningForm() {
+            var XHR = new XMLHttpRequest();
+
+            XHR.addEventListener('load', function(event) {
+                var cleaningsJSON = JSON.parse(XHR.responseText);
+                var cleaningJSON = cleaningsJSON[0];
+                if (cleaningJSON) {
+                    var form = document.forms['updateCleaningForm'];
+
+                    form.elements['clean_date'].value = cleaningJSON.clean_date.substring(0,10);
+                    fillInPipeSelector(cleaningJSON.pipe);
+                    form.elements['note'].value = cleaningJSON.note;
+               } else {
+                    var form = document.forms['updateCleaningForm'];
+                    form.elements['clean_date'].value = "cleaning not found";
+                }
+            });
+
+            XHR.addEventListener('error', function(event) {
+                alert("error loading cleaning");
+            });
+
+            XHR.open('GET', 'https://w7jf39egq0.execute-api.us-west-2.amazonaws.com/beta/cleanings/'+getURLParameter("id"), true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send();
+        }
+    </script>
+    <script type="text/javascript">
+        "use strict";
+        function putCleaning() {
+            var XHR = new XMLHttpRequest();
+
+            var jd = {};
+
+            var fd = $("#updateCleaningForm").serializeArray();
+            $.each(fd, function() {
+                jd[this.name] = this.value || '';
+            });
+
+            XHR.addEventListener('load', function(event) {
+                window.location.href = "cleanings.html";
+            });
+
+            XHR.addEventListener('error', function(event) {
+                alert("error updating cleaning");
+            });
+
+            XHR.open('PUT', 'https://w7jf39egq0.execute-api.us-west-2.amazonaws.com/beta/cleanings/'+getURLParameter("id"), true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send(JSON.stringify(jd));
+        }
+    </script>
+    <script type="text/javascript">
+        "use strict";
+        function deleteCleaning() {
+            var XHR = new XMLHttpRequest();
+
+            XHR.addEventListener('load', function(event) {
+                window.location.href = "cleanings.html";
+            });
+
+            XHR.addEventListener('error', function(event) {
+                alert("error deleting cleaning");
+            });
+
+            XHR.open('DELETE', 'https://w7jf39egq0.execute-api.us-west-2.amazonaws.com/beta/cleanings/'+getURLParameter("id"), true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send();
+        }
+    </script>
+</head>
+<body onload="fillInCleaningForm()">
+<div id="content">
+    <div id="banner"></div>
+    <div id="leftcontent"></div>
+    <div id="centercontent">
+        <h2>Cleaning Details</h2>
+        <form id="updateCleaningForm">
+            <table>
+                <tr><td class="formLeft">Date:</td><td class="formRight"><input id="dateTextBox" type="text" name="clean_date" size="10" value="" tabindex=1></td>
+                <tr><td class="formLeft">Pipe:</td><td class="formRight"><select id="pipeSelector" name="pipe" tabindex=2><option value="loading">loading...</option></select></td></tr>
+                <tr><td class="formLeft">Notes:</td><td class="formRight"><textarea id="noteTextBox" name="note" cols=58 rows=1 tabindex=8></textarea></td></tr>
+                <tr><td class="formLeft"></td><td class="formRight"><button type="button" onclick="putCleaning()">Update Cleaning</button></td></tr>
+                <tr><td class="formLeft"></td><td class="formRight"><button type="button" onclick="deleteCleaning()">Delete Cleaning</button></td></tr>
+            </table>
+        </form>
+    </div>
+    <div id="rightcontent"></div>
+</div>
+</body>
+</html>
