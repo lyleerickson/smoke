@@ -6,5 +6,6 @@
   "cut" : "Shag",
   "style" : "Burley",
   "image_file" : "pease.jpg",
-  "note" : "Updated note..."
+  "note" : "Updated note...",
+  "blending_component": false
 }

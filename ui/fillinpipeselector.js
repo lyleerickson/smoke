@@ -1,5 +1,5 @@
 "use strict"
-function fillInPipeSelector(pipeToSelect) {
+function fillInPipeSelector(pipeToSelect, includeOnlyInRotation) {
     var XHR = new XMLHttpRequest();
 
     XHR.addEventListener('load', function(event) {
@@ -13,7 +13,11 @@ function fillInPipeSelector(pipeToSelect) {
 
         for(var i = 0; i < pipesJSON.length; i++) {
             var pipeJSON = pipesJSON[i];
-            $("#pipeSelector").append('<option value="'+pipeJSON.id+'">'+pipeJSON.name+'</option>');
+            if (includeOnlyInRotation && pipeJSON.active) {
+                $("#pipeSelector").append('<option value="'+pipeJSON.id+'">'+pipeJSON.name+'</option>');
+            } else if (!includeOnlyInRotation) {
+                $("#pipeSelector").append('<option value="'+pipeJSON.id+'">'+pipeJSON.name+'</option>');
+            }
         }
 
         var optionsArray = $("#pipeSelector option");

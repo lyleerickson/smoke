@@ -18,7 +18,7 @@ exports.handler = (event, context, callback) => {
                 connection.end(dbf.handleDBErrorAndCallback(err,callback,rows));
             });
         } else {
-            connection.query('SELECT * FROM pipe ORDER by active DESC, dedication, acquire_date;', function(err, rows) {
+            connection.query('SELECT * FROM pipe ORDER by active DESC, sale_date, dedication, acquire_date;', function(err, rows) {
 
                 dbf.handleDBError(err,callback);
                 connection.end(dbf.handleDBErrorAndCallback(err,callback,rows));

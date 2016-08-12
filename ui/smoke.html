@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smoke Details</title>
+    <style type="text/css">
+        @import url(_3columnlayout.css);
+        @import url(_global.css);
+        @import url(_smokes.css);
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="geturlparameter.js"></script>
+    <script src="fillinpipeselector.js"></script>
+    <script src="fillintinselector.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#rightcontent").load("_rightcontent.html");
+        });
+    </script>
+    <script type="text/javascript">
+        function fillInSmokeForm() {
+            var XHR = new XMLHttpRequest();
+
+            XHR.addEventListener('load', function(event) {
+                var smokesJSON = JSON.parse(XHR.responseText);
+                var smokeJSON = smokesJSON[0];
+                if (smokeJSON) {
+                    var form = document.forms['updateSmokeForm'];
+
+                    form.elements['smoke_date'].value = smokeJSON.smoke_date.substring(0,10);
+                    fillInPipeSelector(smokeJSON.pipe);
+                    fillInTinSelector(smokeJSON.tin);
+                    form.elements['tin'].value = smokeJSON.tin;
+                    form.elements['location'].value = smokeJSON.location;
+                    form.elements['tin_note'].value = smokeJSON.tin_note;
+                    form.elements['packing_note'].value = smokeJSON.packing_note;
+                    form.elements['smoking_note'].value = smokeJSON.smoking_note;
+                    form.elements['finish_note'].value = smokeJSON.finish_note;
+               } else {
+                    var form = document.forms['updateSmokeForm'];
+                    form.elements['smoke_date'].value = "smoke not found";
+                }
+            });
+
+            XHR.addEventListener('error', function(event) {
+                alert("error loading cleaning");
+            });
+
+            XHR.open('GET', 'https://4yxq7qw9u0.execute-api.us-west-2.amazonaws.com/beta/smokes/'+getURLParameter("id"), true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send();
+        }
+    </script>
+    <script type="text/javascript">
+        "use strict";
+        function putSmoke() {
+            var XHR = new XMLHttpRequest();
+
+            var jd = {};
+
+            var fd = $("#updateSmokeForm").serializeArray();
+            $.each(fd, function() {
+                jd[this.name] = this.value || '';
+            });
+
+            XHR.addEventListener('load', function(event) {
+                window.location.href = "smokes.html";
+            });
+
+            XHR.addEventListener('error', function(event) {
+                alert("error updating smoke");
+            });
+
+            XHR.open('PUT', 'https://4yxq7qw9u0.execute-api.us-west-2.amazonaws.com/beta/smokes/'+getURLParameter("id"), true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send(JSON.stringify(jd));
+        }
+    </script>
+    <script type="text/javascript">
+        "use strict";
+        function deleteSmoke() {
+        // left off here
+            <!--var XHR = new XMLHttpRequest();-->
+
+            <!--XHR.addEventListener('load', function(event) {-->
+                <!--window.location.href = "cleanings.html";-->
+            <!--});-->
+
+            <!--XHR.addEventListener('error', function(event) {-->
+                <!--alert("error deleting cleaning");-->
+            <!--});-->
+
+            <!--XHR.open('DELETE', 'https://w7jf39egq0.execute-api.us-west-2.amazonaws.com/beta/cleanings/'+getURLParameter("id"), true);-->
+            <!--XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");-->
+            <!--XHR.send();-->
+        }
+    </script>
+    <script>
+        function handleKeyPress(e){
+            if(e.keyCode === 13){
+                putSmoke();
+            }
+            return false;
+        }
+</script>
+</head>
+<body onload="fillInSmokeForm();">
+<div id="content">
+    <div id="banner"></div>
+    <div id="leftcontent"></div>
+    <div id="centercontent">
+        <h2>Cleaning Details</h2>
+        <form id="updateSmokeForm" onsubmit="return false;">
+            <table>
+                <tr><td class="smokeFormLeft">Date:</td><td class="smokeFormRight"><input id="dateTextBox" type="text" name="smoke_date" size="10" value="" tabindex=1></td>
+                <tr><td class="smokeFormLeft">Pipe:</td><td class="smokeFormRight"><select id="pipeSelector" name="pipe" tabindex=2><option value="loading">loading...</option></select></td></tr>
+                <tr><td class="smokeFormLeft">Tin:</td><td class="smokeFormRight"><select id="tinSelector" name="tin" tabindex=2><option value="loading">loading...</option></select></td></tr>
+                <tr><td class="smokeFormLeft">Location:</td><td class="smokeFormRight"><textarea id="locationTextBox" name="location" cols=68 rows=1 tabindex=4></textarea></td></tr>
+                <tr><td class="smokeFormLeft">Tin Note:</td><td class="smokeFormRight"><textarea id="tinNoteTextBox" name="tin_note" cols=68 rows=1 tabindex=5></textarea></td></tr>
+                <tr><td class="smokeFormLeft">Packing Note:</td><td class="smokeFormRight"><textarea id="packingNoteTextBox" name="packing_note" cols=68 rows=1 tabindex=6></textarea></td></tr>
+                <tr><td class="smokeFormLeft">Smoking Notes:</td><td class="smokeFormRight"><textarea id="smokingNoteTextBox" name="smoking_note" cols=68 rows=4 tabindex=7></textarea></td></tr>
+                <tr><td class="smokeFormLeft">Finish:</td><td class="smokeFormRight"><textarea id="finishNoteTextBox" name="finish_note" cols=68 rows=1 tabindex=8></textarea></td></tr>
+                <tr><td class="smokeFormLeft"></td><td class="smokeFormRight"><button type="button" onclick="putSmoke()">Update Smoke</button></td></tr>
+            </table>
+        </form>
+    </div>
+    <div id="rightcontent"></div>
+</div>
+</body>
+</html>

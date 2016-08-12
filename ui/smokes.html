@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smokes</title>
+    <style type="text/css">
+        @import url(_3columnlayout.css);
+        @import url(_global.css);
+        @import url(_smokes.css);
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="sorttable.js"></script>
+    <script src="fillinpipeselector.js"></script>
+    <script src="fillintinselector.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#rightcontent").load("_rightcontent.html");
+        });
+    </script>
+    <script type="text/javascript">
+        "use strict";
+        function postSmoke() {
+            var XHR = new XMLHttpRequest();
+
+            var jd = {};
+
+            var fd = $("#newSmokeForm").serializeArray();
+            $.each(fd, function() {
+                jd[this.name] = this.value || '';
+            });
+
+            XHR.addEventListener('load', function(event) {
+                fillInSmokesTable();
+                fillInSmokeForm();
+            });
+
+            XHR.addEventListener('error', function(event) {
+                alert('error adding cleaning');
+            });
+
+            XHR.open('POST', 'https://4yxq7qw9u0.execute-api.us-west-2.amazonaws.com/beta/smokes');
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send(JSON.stringify(jd));
+        }
+    </script>
+    <script type="text/javascript">
+        "use strict"
+
+        function fillInSmokeForm() {
+            $("#dateTextBox").val(new Date().toISOString().substring(0, 10));
+            fillInPipeSelector("blank", true);
+            fillInTinSelector("blank", true);
+            $("#locationTextBox").val("");
+            $("#tinNoteTextBox").val("");
+            $("#packingNoteTextBox").val("");
+            $("#smokingNoteTextBox").val("");
+            $("#finishNoteTextBox").val("");
+        }
+    </script>
+    <script src="fillinsmokestable.js"></script>
+</head>
+<body onload="fillInSmokeForm();fillInSmokesTable();">
+<div id="content">
+    <div id="banner"></div>
+    <div id="leftcontent"></div>
+    <div id="centercontent">
+        <h2>Smokes</h2>
+        <p>graphs go here...</p>
+        <p></p>
+        <h2>New Smoke</h2>
+        <form id="newSmokeForm">
+            <table>
+                <tr><td class="smokeFormLeft">Date:</td><td class="smokeFormRight"><input id="dateTextBox" type="text" name="smoke_date" size="10" value="" tabindex=1></td>
+                <tr><td class="smokeFormLeft">Pipe:</td><td class="smokeFormRight"><select id="pipeSelector" name="pipe" tabindex=2><option value="loading">loading...</option></select></td></tr>
+                <tr><td class="smokeFormLeft">Tin:</td><td class="smokeFormRight"><select id="tinSelector" name="tin" tabindex=2><option value="loading">loading...</option></select></td></tr>
+                <tr><td class="smokeFormLeft">Location:</td><td class="smokeFormRight"><textarea id="locationTextBox" name="location" cols=68 rows=1 tabindex=4></textarea></td></tr>
+                <tr><td class="smokeFormLeft">Tin Note:</td><td class="smokeFormRight"><textarea id="tinNoteTextBox" name="tin_note" cols=68 rows=1 tabindex=5></textarea></td></tr>
+                <tr><td class="smokeFormLeft">Packing Note:</td><td class="smokeFormRight"><textarea id="packingNoteTextBox" name="packing_note" cols=68 rows=1 tabindex=6></textarea></td></tr>
+                <tr><td class="smokeFormLeft">Smoking Notes:</td><td class="smokeFormRight"><textarea id="smokingNoteTextBox" name="smoking_note" cols=68 rows=4 tabindex=7></textarea></td></tr>
+                <tr><td class="smokeFormLeft">Finish:</td><td class="smokeFormRight"><textarea id="finishNoteTextBox" name="finish_note" cols=68 rows=1 tabindex=8></textarea></td></tr>
+                <tr><td class="smokeFormLeft"></td><td class="smokeFormRight"><button type="button" onclick="postSmoke()">Add Smoke</button></td></tr>
+            </table>
+        </form>
+        <table id="smokesTable" class="sortable">
+            <thead>
+            <tr>
+                <th class="sdate">Date</th>
+                <th class="location">Location</th>
+                <th class="pipe">Pipe</th>
+                <th class="blend">Blend</th>
+                <th class="tin">Tin Aroma</th>
+                <th class="packing">Packing</th>
+                <th class="smoking">Smoking</th>
+                <th class="finish">Finish</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>loading...</td></tr>
+            </tbody>
+        </table>
+        <p></p>
+    </div>
+    <div id="rightcontent"></div>
+</div>
+</body>
+</html>

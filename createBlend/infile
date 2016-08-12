@@ -1,9 +1,10 @@
 {
-  "name" : "Test Blend",
-  "maker" : "GL Pease",
+  "name" : "KY Burley",
+  "maker" : "C&D",
   "country" : "US",
-  "cut" : "Shag",
+  "cut" : "Ribbon",
   "style" : "Burley",
-  "image_file" : "pease.jpg",
-  "note" : "Test"
+  "image_file" : "",
+  "note" : "",
+  "blending_component": true
 }

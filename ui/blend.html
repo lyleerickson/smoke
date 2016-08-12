@@ -12,6 +12,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="sorttable.js"></script>
     <script src="geturlparameter.js"></script>
+    <script src="fillinsmokestable.js"></script>
     <script type="text/javascript">
         $(function(){
             $("#rightcontent").load("_rightcontent.html");
@@ -30,7 +31,7 @@
             });
 
             XHR.addEventListener('load', function(event) {
-                fillInBlendForm();
+                window.location.href = "tobacco.html";
             });
 
             XHR.addEventListener('error', function(event) {
@@ -48,8 +49,7 @@
             var XHR = new XMLHttpRequest();
 
             XHR.addEventListener('load', function(event) {
-                alert("blend deleted--remove me when tobacco.html is in place");
-//                window.location.href = "tobacco.html";
+                window.location.href = "tobacco.html";
             });
 
             XHR.addEventListener('error', function(event) {
@@ -81,9 +81,10 @@
                     form.elements['style'].value = blendJSON.style;
                     form.elements['image_file'].value = blendJSON.image_file;
                     form.elements['note'].value = blendJSON.note;
+                    fillInSmokesTable(null,blendJSON.id);
                 } else {
                     var form = document.forms['updateBlendForm'];
-                    form.elements['name'].value = "pipe not found";
+                    form.elements['name'].value = "blend not found";
                 }
             });
 
@@ -115,28 +116,27 @@
                 <tr><td class="tinFormLeft">Style:</td><td class="tinFormRight"><input type="text" name="style" size="50" value=""></td></tr>
                 <tr><td class="tinFormLeft">Image:</td><td class="tinFormRight"><input type="text" name="image_file" size="20" value=""></td></tr>
                 <tr><td class="tinFormLeft">Note:</td><td class="tinFormRight"><input type="text" name="note" size="50" value=""></td></tr>
+                <tr><td class="tinFormLeft">Blending Component:</td><td class="tinFormRight"><input type="radio" name="blending_component" value="true">Y<input type="radio" name="blending_component" value="false" checked="checked">N</td></tr>
                 <tr><td class="tinFormLeft"></td><td class="tinFormRight"><button type="button" onclick="putBlend()">Update Blend</button></td></tr>
                 <tr><td class="tinFormLeft"></td><td class="tinFormRight"><button type="button" onclick="deleteBlend()">Delete Blend</button></td>
             </table>
             </form>
             <h2>Smoking History</h2>
-            <table class="sortable">
+            <table id="smokesTable" class="sortable">
                 <thead>
-                    <tr>
-                        <th class="sdate">Date</th>
-                        <th class="location">Location</th>
-                        <th class="pipe">Pipe</th>
-                        <th class="blend">Blend</th>
-                        <th class="tin">Tin Aroma</th>
-                        <th class="packing">Packing</th>
-                        <th class="smoking">Smoking</th>
-                        <th class="finish">Finish</th>
-                    </tr>
+                <tr>
+                    <th class="sdate">Date</th>
+                    <th class="location">Location</th>
+                    <th class="pipe">Pipe</th>
+                    <th class="blend">Blend</th>
+                    <th class="tin">Tin Aroma</th>
+                    <th class="packing">Packing</th>
+                    <th class="smoking">Smoking</th>
+                    <th class="finish">Finish</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>tbd</td>
-                    </tr>
+                <tr><td>loading...</td></tr>
                 </tbody>
             </table>
             <p></p>

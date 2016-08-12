@@ -21,17 +21,17 @@ exports.handler = (event, context, callback) => {
                 var nextIDObj = JSON.parse(nextIDString);
                 var nextID = nextIDObj.id;
                 nextID.replace(/['"]+/g, '');
-                var queryString = 'INSERT INTO blend (id, name, maker, country, cut, style, image_file, note, '+
-                    'blending_component, last_update) VALUES ('+
+                var queryString = 'INSERT INTO smoke (id, smoke_date, pipe, tin, location, tin_note, packing_note, smoking_note, '+
+                    'finish_note, last_update) VALUES ('+
                     connection.escape(nextID)+', '+
-                    connection.escape(event.name)+', '+
-                    connection.escape(event.maker)+', '+
-                    connection.escape(event.country)+', '+
-                    connection.escape(event.cut)+', '+
-                    connection.escape(event.style)+', '+
-                    connection.escape(event.image_file)+', '+
-                    connection.escape(event.note)+', '+
-                    connection.escape(event.blending_component)+', '+
+                    connection.escape(event.smoke_date)+', '+
+                    connection.escape(event.pipe)+', '+
+                    connection.escape(event.tin)+', '+
+                    connection.escape(event.location)+', '+
+                    connection.escape(event.tin_note)+', '+
+                    connection.escape(event.packing_note)+', '+
+                    connection.escape(event.smoking_note)+', '+
+                    connection.escape(event.finish_note)+', '+
                     "'"+(new Date()).toISOString().substring(0, 10)+"'"+');';
 
                 connection.query(queryString, function(err,rows,fields) {

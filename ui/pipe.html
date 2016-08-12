@@ -10,6 +10,7 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="geturlparameter.js"></script>
+    <script src="fillinsmokestable.js"></script>
     <script type="text/javascript">
         $(function(){
             $("#rightcontent").load("_rightcontent.html");
@@ -62,7 +63,7 @@
             XHR.send();
         }
     </script>
-    <script  type="text/javascript">
+    <script type="text/javascript">
         function fillInPipeForm() {
             var XHR = new XMLHttpRequest();
 
@@ -77,13 +78,26 @@
                     form.elements['name'].value = pipeJSON.name;
                     form.elements['maker'].value = pipeJSON.maker;
                     form.elements['country'].value = pipeJSON.country;
-                    form.elements['acquire_date'].value = pipeJSON.acquire_date.substring(0,10);
+                    if (pipeJSON.acquire_date && pipeJSON.acquire_date.substring(0,1)!="0") {
+                        form.elements['acquire_date'].value = pipeJSON.acquire_date.substring(0,10);
+                    } else {
+                        form.elements['acquire_date'].value = "";
+                    }
                     form.elements['acquire_cost'].value = pipeJSON.acquire_cost;
-                    form.elements['sale_date'].value = pipeJSON.sale_date.substring(0,10);
-                    form.elements['sale_price'].value = pipeJSON.sale_price;
+                    if (pipeJSON.sale_date && pipeJSON.sale_date.substring(0,1)!="0") {
+                        form.elements['sale_date'].value = pipeJSON.sale_date.substring(0,10);
+                    } else {
+                        form.elements['sale_date'].value = "";
+                    }
+                    if (pipeJSON.sale_price && pipeJSON.sale_price!=0) {
+                        form.elements['sale_price'].value = pipeJSON.sale_price;
+                    } else {
+                        form.elements['sale_price'].value = "";
+                    }
                     form.elements['dedication'].value = pipeJSON.dedication;
                     form.elements['image_file'].value = pipeJSON.image_file;
                     form.elements['note'].value = pipeJSON.note;
+                    fillInSmokesTable(pipeJSON.id,null,null);
                 } else {
                     var form = document.forms['updatePipeForm'];
                     form.elements['name'].value = "pipe not found";
@@ -124,6 +138,23 @@
                 <tr><td class="pipeFormLeft"></td><td class="pipeFormRight"><button type="button" onclick="deletePipe()">Delete Pipe</button></td></tr>
             </table>
         </form>
+        <table id="smokesTable" class="sortable">
+            <thead>
+            <tr>
+                <th class="sdate">Date</th>
+                <th class="location">Location</th>
+                <th class="pipe">Pipe</th>
+                <th class="blend">Blend</th>
+                <th class="tin">Tin Aroma</th>
+                <th class="packing">Packing</th>
+                <th class="smoking">Smoking</th>
+                <th class="finish">Finish</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>loading...</td></tr>
+            </tbody>
+        </table>
     </div>
     <div id="rightcontent"></div>
 </div>

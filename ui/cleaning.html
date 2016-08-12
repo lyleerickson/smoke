@@ -87,18 +87,26 @@
             XHR.send();
         }
     </script>
+    <script>
+        function handleKeyPress(e){
+            if(e.keyCode === 13){
+                putCleaning();
+            }
+            return false;
+        }
+</script>
 </head>
-<body onload="fillInCleaningForm()">
+<body onload="fillInCleaningForm();">
 <div id="content">
     <div id="banner"></div>
     <div id="leftcontent"></div>
     <div id="centercontent">
         <h2>Cleaning Details</h2>
-        <form id="updateCleaningForm">
+        <form id="updateCleaningForm" onsubmit="return false;">
             <table>
-                <tr><td class="formLeft">Date:</td><td class="formRight"><input id="dateTextBox" type="text" name="clean_date" size="10" value="" tabindex=1></td>
-                <tr><td class="formLeft">Pipe:</td><td class="formRight"><select id="pipeSelector" name="pipe" tabindex=2><option value="loading">loading...</option></select></td></tr>
-                <tr><td class="formLeft">Notes:</td><td class="formRight"><textarea id="noteTextBox" name="note" cols=58 rows=1 tabindex=8></textarea></td></tr>
+                <tr><td class="formLeft">Date:</td><td class="formRight"><input id="dateTextBox" type="text" name="clean_date" size="10" value="" tabindex=1 onkeypress="handleKeyPress(event)"></td>
+                <tr><td class="formLeft">Pipe:</td><td class="formRight"><select id="pipeSelector" name="pipe" tabindex=2 onkeypress="handleKeyPress(event)"><option value="loading">loading...</option></select></td></tr>
+                <tr><td class="formLeft">Notes:</td><td class="formRight"><textarea id="noteTextBox" name="note" cols=58 rows=1 tabindex=3 onkeypress="handleKeyPress(event)"></textarea></td></tr>
                 <tr><td class="formLeft"></td><td class="formRight"><button type="button" onclick="putCleaning()">Update Cleaning</button></td></tr>
                 <tr><td class="formLeft"></td><td class="formRight"><button type="button" onclick="deleteCleaning()">Delete Cleaning</button></td></tr>
             </table>

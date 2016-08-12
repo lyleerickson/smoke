@@ -9,10 +9,8 @@ exports.handler = (event, context, callback) => {
     connection.connect(function(err) {
 
         dbf.handleDBError(err, callback);
-        var queryString = 'SELECT * FROM blend ORDER by maker, name;';
-        if (event.includeOnlyUnowned) {
-            queryString = 'SELECT blend.* FROM blend LEFT JOIN tin ON (blend.id=tin.blend) WHERE tin.blend IS NULL;';
-        }
+        var queryString = 'SELECT smoke.*, pipe.name as pipe_name, blend.name as blend_name FROM smoke, pipe, tin, blend '+
+                          'WHERE smoke.id='+connection.escape(event.id)+' AND smoke.pipe=pipe.id AND smoke.tin=tin.id AND tin.blend=blend.id;';
 
         connection.query(queryString, function(err, rows) {
 

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tin Details</title>
+    <style type="text/css">
+        @import url(_3columnlayout.css);
+        @import url(_global.css);
+        @import url(_tins.css);
+        @import url(_smokes.css);
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="sorttable.js"></script>
+    <script src="geturlparameter.js"></script>
+    <script src="fillinblendselector.js"></script>
+    <script src="fillinsmokestable.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#rightcontent").load("_rightcontent.html");
+        });
+    </script>
+    <script type="text/javascript">
+        "use strict";
+        function putTin() {
+            var XHR = new XMLHttpRequest();
+
+            var jd = {};
+            var blendID;
+
+            var fd = $("#updateTinForm").serializeArray();
+            $.each(fd, function() {
+                if ((this.name == "tin_number") || (this.name == "grams") || (this.name == "acquire_cost")) {
+                    jd[this.name] = this.value || '0';
+                } else {
+                    jd[this.name] = this.value || '';
+                }
+                if (this.name=="blend") {
+                    blendID=this.value;
+                }
+
+            });
+
+            XHR.addEventListener('load', function(event) {
+                window.location.href = "tobacco.html";
+            });
+
+            XHR.addEventListener('error', function(event) {
+                alert("error updating blend");
+            });
+
+            XHR.open('PUT', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/blends/'+blendID+'/tins/'+getURLParameter("id"), true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send(JSON.stringify(jd));
+        }
+    </script>
+    <script type="text/javascript">
+        "use strict";
+        function deleteTin() {
+            var XHR = new XMLHttpRequest();
+
+            XHR.addEventListener('load', function(event) {
+                window.location.href = "tobacco.html";
+            });
+
+            XHR.addEventListener('error', function(event) {
+                alert("error deleting blend");
+            });
+
+            XHR.open('DELETE', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/blends/'+this.name+'/tins/'+getURLParameter("id"), true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send();
+        }
+    </script>
+    <script  type="text/javascript">
+        "use strict"
+
+        function fillInTinForm() {
+            var XHR = new XMLHttpRequest();
+
+            XHR.addEventListener('load', function(event) {
+                var tinsJSON = JSON.parse(XHR.responseText);
+                var tinJSON = tinsJSON[0];
+                var form = document.forms['updateTinForm'];
+                if (tinJSON) {
+                    fillInBlendSelector(tinJSON.blend);
+                    form.elements['tin_number'].value = tinJSON.tin_number;
+                    form.elements['grams'].value = tinJSON.grams;
+                    if (tinJSON.package_date && tinJSON.package_date.substring(0,1)!="0") {
+                        form.elements['package_date'].value = tinJSON.package_date.substring(0,10);
+                    } else {
+                        form.elements['package_date'].value = "";
+                    }
+                    if (tinJSON.acquire_date && tinJSON.acquire_date.substring(0,1)!="0") {
+                        form.elements['acquire_date'].value = tinJSON.acquire_date.substring(0,10);
+                    } else {
+                        form.elements['acquire_date'].value = "";
+                    }
+                    if (tinJSON.open_date && tinJSON.open_date.substring(0,1)!="0") {
+                        form.elements['open_date'].value = tinJSON.open_date.substring(0,10);
+                    } else {
+                        form.elements['open_date'].value = "";
+                    }
+                    if (tinJSON.finish_date && tinJSON.finish_date.substring(0,1)!="0") {
+                        form.elements['finish_date'].value = tinJSON.finish_date.substring(0,10);
+                    } else {
+                        form.elements['finish_date'].value = "";
+                    }
+                    form.elements['acquire_cost'].value = tinJSON.acquire_cost;
+                    form.elements['note'].value = tinJSON.note;
+                    fillInSmokesTable(null,null,tinJSON.id);
+                } else {
+                    form.elements['tin_number'].value = "not found";
+                }
+            });
+
+            XHR.addEventListener('error', function(event) {
+                alert("error loading tin");
+            });
+
+            XHR.open('GET', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/tins/'+getURLParameter("id"), true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send();
+        }
+    </script>
+</head>
+<body onload="fillInTinForm()">
+<div id="content">
+    <div id="banner"></div>
+    <div id="leftcontent"></div>
+    <div id="centercontent">
+        <h2>Tin Details</h2>
+        <!--<table>-->
+        <!--<tr><td class="tinFormLeft"></td><td class="tinFormRight"><img class="tin" src="" alt="loading..."/></td></tr>-->
+        <!--</table>-->
+        <form id="updateTinForm">
+            <table>
+                <tr><td class="tinFormLeft">Blend:</td><td class="tinFormRight"><select id="blendSelector" name="blend" tabindex=2><option value="loading">loading...</option></select></td></tr>
+                <tr><td class="tinFormLeft">Tin Number:</td><td class="tinFormRight"><input type="text" name="tin_number" size="3"></td></tr>
+                <tr><td class="tinFormLeft">Grams:</td><td class="tinFormRight"><input type="text" name="grams" size="3"></td></tr>
+                <tr><td class="tinFormLeft">Tinned Date:</td><td class="tinFormRight"><input type="text" name="package_date" size="10"></td></tr>
+                <tr><td class="tinFormLeft">Acquired Date:</td><td class="tinFormRight"><input type="text" name="acquire_date" size="10"></td></tr>
+                <tr><td class="tinFormLeft">Opened Date:</td><td class="tinFormRight"><input type="text" name="open_date" size="10"></td></tr>
+                <tr><td class="tinFormLeft">Finished Date:</td><td class="tinFormRight"><input type="text" name="finish_date" size="10"></td></tr>
+                <tr><td class="tinFormLeft">Cost:</td><td class="tinFormRight"><input type="text" name="acquire_cost" size="6"></td></tr>
+                <tr><td class="tinFormLeft">Note:</td><td class="tinFormRight"><input type="text" name="note" size="50"></td></tr>
+                <tr><td class="tinFormLeft"></td><td class="tinFormRight"><button type="button" onclick="putTin()">Update Blend</button></td></tr>
+                <tr><td class="tinFormLeft"></td><td class="tinFormRight"><button type="button" onclick="deleteTin()">Delete Blend</button></td>
+            </table>
+        </form>
+        <h2>Smoking History</h2>
+        <table id="smokesTable" class="sortable">
+            <thead>
+            <tr>
+                <th class="sdate">Date</th>
+                <th class="location">Location</th>
+                <th class="pipe">Pipe</th>
+                <th class="blend">Blend</th>
+                <th class="tin">Tin Aroma</th>
+                <th class="packing">Packing</th>
+                <th class="smoking">Smoking</th>
+                <th class="finish">Finish</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>loading...</td></tr>
+            </tbody>
+        </table>
+        <p></p>
+        <div id="rightcontent"></div>
+    </div>
+</div>
+</body>
+</html>
