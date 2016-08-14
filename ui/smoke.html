@@ -79,20 +79,19 @@
     <script type="text/javascript">
         "use strict";
         function deleteSmoke() {
-        // left off here
-            <!--var XHR = new XMLHttpRequest();-->
+            var XHR = new XMLHttpRequest();
 
-            <!--XHR.addEventListener('load', function(event) {-->
-                <!--window.location.href = "cleanings.html";-->
-            <!--});-->
+            XHR.addEventListener('load', function(event) {
+                window.location.href = "smokes.html";
+            });
 
-            <!--XHR.addEventListener('error', function(event) {-->
-                <!--alert("error deleting cleaning");-->
-            <!--});-->
+            XHR.addEventListener('error', function(event) {
+                alert("error deleting cleaning");
+            });
 
-            <!--XHR.open('DELETE', 'https://w7jf39egq0.execute-api.us-west-2.amazonaws.com/beta/cleanings/'+getURLParameter("id"), true);-->
-            <!--XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");-->
-            <!--XHR.send();-->
+            XHR.open('DELETE', 'https://4yxq7qw9u0.execute-api.us-west-2.amazonaws.com/beta/smokes/'+getURLParameter("id"), true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send();
         }
     </script>
     <script>
@@ -121,6 +120,7 @@
                 <tr><td class="smokeFormLeft">Smoking Notes:</td><td class="smokeFormRight"><textarea id="smokingNoteTextBox" name="smoking_note" cols=68 rows=4 tabindex=7></textarea></td></tr>
                 <tr><td class="smokeFormLeft">Finish:</td><td class="smokeFormRight"><textarea id="finishNoteTextBox" name="finish_note" cols=68 rows=1 tabindex=8></textarea></td></tr>
                 <tr><td class="smokeFormLeft"></td><td class="smokeFormRight"><button type="button" onclick="putSmoke()">Update Smoke</button></td></tr>
+                <tr><td class="smokeFormLeft"></td><td class="smokeFormRight"><button type="button" onclick="deleteSmoke()">Delete Smoke</button></td></tr>
             </table>
         </form>
     </div>
