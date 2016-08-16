@@ -33,6 +33,7 @@
 
             XHR.addEventListener('load', function(event) {
                 fillInPipesTables();
+                fillInNewPipeForm();
             });
 
             XHR.addEventListener('error', function(event) {
@@ -42,6 +43,22 @@
             XHR.open('POST', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes');
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             XHR.send(JSON.stringify(jd));
+        }
+    </script>
+    <script type="text/javascript">
+        "use strict"
+
+        function fillInNewPipeForm() {
+            $("#nameTextBox").val("");
+            $("#makerTextBox").val("");
+            $("#countryTextBox").val("");
+            $("#acquireDateTextBox").val("");
+            $("#acquireCostTextBox").val("");
+            $("#saleDateTextBox").val("");
+            $("#salePriceTextBox").val("");
+            $("#dedicationTextBox").val("");
+            $("#imgTextBox").val("");
+            $("#noteTextArea").val("");
         }
     </script>
     <script  type="text/javascript">
@@ -83,6 +100,7 @@
                         totalPipeCount++;
                     }
                     row   = table.insertRow();
+
                     cell  = row.insertCell(0);
                     var link = document.createElement('a');
                     if (pipeJSON.name) {
@@ -97,6 +115,7 @@
                         link.href = "pipe.html?id="+pipeJSON.id;
                     }
                     cell.appendChild(link);
+
                     cell  = row.insertCell(1);
                     if (pipeJSON.maker) {
                         text  = document.createTextNode(pipeJSON.maker);
@@ -104,9 +123,11 @@
                         text  = document.createTextNode("");
                     }
                     cell.appendChild(text);
+
                     cell  = row.insertCell(2);
-                    text  = document.createTextNode("tbd");
+                    text  = document.createTextNode(pipeJSON.total_bowls);
                     cell.appendChild(text);
+
                     cell  = row.insertCell(3);
                     if (isSoldPipe) {
                         if (pipeJSON.acquire_date) {
@@ -115,9 +136,14 @@
                             text  = document.createTextNode("");
                         }
                     } else {
-                        text  = document.createTextNode("tbd");
+                        if (pipeJSON.total_bowls_since_cleaned) {
+                            text  = document.createTextNode(pipeJSON.total_bowls_since_cleaned);
+                        } else {
+                            text  = document.createTextNode("");
+                        }
                     }
                     cell.appendChild(text);
+
                     cell  = row.insertCell(4);
                     if (isSoldPipe) {
                         if (pipeJSON.acquire_cost) {
@@ -127,9 +153,14 @@
                             text  = document.createTextNode("$0.00");
                         }
                     } else {
-                        text  = document.createTextNode("tbd");
+                        if (pipeJSON.days_rest) {
+                            text  = document.createTextNode(pipeJSON.days_rest);
+                        } else {
+                            text  = document.createTextNode("");
+                        }
                     }
                     cell.appendChild(text);
+
                     cell  = row.insertCell(5);
                     if (isSoldPipe) {
                         if (pipeJSON.sale_date) {
@@ -172,8 +203,14 @@
                         }
                         cell.appendChild(text);
                         cell  = row.insertCell(8);
-                        text  = document.createTextNode("tbd");
+
+                        if (pipeJSON.acquire_cost_per_smoke > 0) {
+                            text  = document.createTextNode("$"+pipeJSON.acquire_cost_per_smoke);
+                        } else {
+                            text  = document.createTextNode("");
+                        }
                         cell.appendChild(text);
+
                         cell  = row.insertCell(9);
                         if (pipeJSON.dedication) {
                             text  = document.createTextNode(pipeJSON.dedication);
@@ -225,7 +262,7 @@
         }
     </script>
 </head>
-<body onload="fillInPipesTables()">
+<body onload="fillInPipesTables(); fillInNewPipeForm();">
     <div id="content">
         <div id="banner"></div>
         <div id="leftcontent"></div>
@@ -280,16 +317,16 @@
             <h2>New Pipe</h2>
             <form id="newPipeForm">
                 <table>
-                <tr><td class="pipeFormLeft">Name:</td><td class="pipeFormRight"><input type="text" name="name" size="20" value=""></td></tr>
-                <tr><td class="pipeFormLeft">Maker:</td><td class="pipeFormRight"><input type="text" name="maker" size="20" value=""></td></tr>
-                <tr><td class="pipeFormLeft">Country Code:</td><td class="pipeFormRight"><input type="text" name="country" size="2" value=""></td></tr>
-                <tr><td class="pipeFormLeft">Acquired:</td><td class="pipeFormRight"><input type="text" name="acquire_date" size="10" value=""></td></tr>
-                <tr><td class="pipeFormLeft">Price:</td><td class="pipeFormRight"><input type="text" name="acquire_cost" size="6" value=""></td></tr>
-                <tr><td class="pipeFormLeft">Sold:</td><td class="pipeFormRight"><input type="text" name="sale_date" size="10" value=""></td></tr>
-                <tr><td class="pipeFormLeft">Sold Price:</td><td class="pipeFormRight"><input type="text" name="sale_price" size="6" value=""></td></tr>
-                <tr><td class="pipeFormLeft">Target Tobacco:</td><td class="pipeFormRight"><input type="text" name="dedication" size="40" value=""></td></tr>
-                <tr><td class="pipeFormLeft">Image:</td><td class="pipeFormRight"><input type="text" name="image_file" value=""></td></tr>
-                <tr><td class="pipeFormLeft">Note:</td><td class="pipeFormRight"><textarea name="note" cols=48 rows=4></textarea></td></tr>
+                <tr><td class="pipeFormLeft">Name:</td><td class="pipeFormRight"><input type="text" id="nameTextBox" name="name" size="20" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Maker:</td><td class="pipeFormRight"><input type="text" id="makerTextBox" name="maker" size="20" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Country Code:</td><td class="pipeFormRight"><input type="text" id="countryTextBox" name="country" size="2" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Acquired:</td><td class="pipeFormRight"><input type="text" id="acquireDateTextBox" name="acquire_date" size="10" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Price:</td><td class="pipeFormRight"><input type="text" id="acquireCostTextBox" name="acquire_cost" size="6" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Sold:</td><td class="pipeFormRight"><input type="text" id="saleDateTextBox" name="sale_date" size="10" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Sold Price:</td><td class="pipeFormRight"><input type="text" id="salePriceTextBox" name="sale_price" size="6" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Target Tobacco:</td><td class="pipeFormRight"><input type="text" id="dedicationTextBox" name="dedication" size="40" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Image:</td><td class="pipeFormRight"><input type="text" id="imgTextBox" name="image_file" value=""></td></tr>
+                <tr><td class="pipeFormLeft">Note:</td><td class="pipeFormRight"><textarea id=noteTextArea" name="note" cols=48 rows=4></textarea></td></tr>
                 <tr><td class="pipeFormLeft">Active:</td><td class="pipeFormRight"><input type="radio" name="active" value="true" checked="checked">Y<input type="radio" name="active" value="false" >N</td></tr>
                 <tr><td class="pipeFormLeft"></td><td class="pipeFormRight"><button type="button" onclick="postPipe()">Add Pipe</button></td></tr>
                 </table>

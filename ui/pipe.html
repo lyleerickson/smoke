@@ -97,6 +97,23 @@
                     form.elements['dedication'].value = pipeJSON.dedication;
                     form.elements['image_file'].value = pipeJSON.image_file;
                     form.elements['note'].value = pipeJSON.note;
+                    if (pipeJSON.days_rest) {
+                        form.elements['days_rest'].value = pipeJSON.days_rest;
+                    }
+                    form.elements['total_bowls'].value = pipeJSON.total_bowls;
+                    form.elements['total_bowls_since_cleaned'].value = pipeJSON.total_bowls_since_cleaned;
+                    if (pipeJSON.last_clean_date && pipeJSON.last_clean_date.substring(0,1)!="0") {
+                        form.elements['last_clean_date'].value = pipeJSON.last_clean_date.substring(0,10);
+                    } else {
+                        form.elements['last_clean_date'].value = "";
+                    }
+                    if (pipeJSON.last_smoke_date && pipeJSON.last_smoke_date.substring(0,1)!="0") {
+                        form.elements['last_smoke_date'].value = pipeJSON.last_smoke_date.substring(0,10);
+                    } else {
+                        form.elements['last_smoke_date'].value = "";
+                    }
+                    form.elements['acquire_cost_per_smoke'].value = pipeJSON.acquire_cost_per_smoke;
+
                     fillInSmokesTable(pipeJSON.id,null,null);
                 } else {
                     var form = document.forms['updatePipeForm'];
@@ -134,6 +151,12 @@
                 <tr><td class="pipeFormLeft">Image:</td><td class="pipeFormRight"><input type="text" name="image_file" value=""></td></tr>
                 <tr><td class="pipeFormLeft">Note:</td><td class="pipeFormRight"><textarea name="note" cols=48 rows=4></textarea></td></tr>
                 <tr><td class="pipeFormLeft">Active:</td><td class="pipeFormRight"><input type="radio" name="active" value="true" checked="checked">Y<input type="radio" name="active" value="false" >N</td></tr>
+                <tr><td class="pipeFormLeft" style="color: rgb(150,150,150);">Days Rest:</td><td class="pipeFormRight"><input type="text" name="days_rest" size="40" value="" disabled="disabled" style="background-color: rgb(0,0,0); color: rgb(150,150,150);"></td></tr>
+                <tr><td class="pipeFormLeft" style="color: rgb(150,150,150);">Total Bowls:</td><td class="pipeFormRight"><input type="text" name="total_bowls" size="40" value="" disabled="disabled" style="background-color: rgb(0,0,0); color: rgb(150,150,150);"></td></tr>
+                <tr><td class="pipeFormLeft" style="color: rgb(150,150,150);">Total Bowls Since Cleaned:</td><td class="pipeFormRight"><input type="text" name="total_bowls_since_cleaned" size="40" value="" disabled="disabled" style="background-color: rgb(0,0,0); color: rgb(150,150,150);"></td></tr>
+                <tr><td class="pipeFormLeft" style="color: rgb(150,150,150);">Last Clean Date:</td><td class="pipeFormRight"><input type="text" name="last_clean_date" size="40" value="" disabled="disabled" style="background-color: rgb(0,0,0); color: rgb(150,150,150);"></td></tr>
+                <tr><td class="pipeFormLeft" style="color: rgb(150,150,150);">Last Smoke Date:</td><td class="pipeFormRight"><input type="text" name="last_smoke_date" size="40" value="" disabled="disabled" style="background-color: rgb(0,0,0); color: rgb(150,150,150);"></td></tr>
+                <tr><td class="pipeFormLeft" style="color: rgb(150,150,150);">Cost / Smoke:</td><td class="pipeFormRight"><input type="text" name="acquire_cost_per_smoke" size="40" value="" disabled="disabled" style="background-color: rgb(0,0,0); color: rgb(150,150,150);"></td></tr>
                 <tr><td class="pipeFormLeft"></td><td class="pipeFormRight"><button type="button" onclick="putPipe()">Update Pipe</button></td></tr>
                 <tr><td class="pipeFormLeft"></td><td class="pipeFormRight"><button type="button" onclick="deletePipe()">Delete Pipe</button></td></tr>
             </table>
