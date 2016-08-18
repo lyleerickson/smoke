@@ -7,10 +7,13 @@
         @import url(_3columnlayout.css);
         @import url(_global.css);
         @import url(_cleanings.css);
+        @import url(_summary.css);
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="sorttable.js"></script>
     <script src="fillinpipeselector.js"></script>
+    <script src="fillinpipestable.js"></script>
+    <script src="formattextfortable.js"></script>
     <script type="text/javascript">
         $(function(){
             $("#rightcontent").load("_rightcontent.html");
@@ -29,7 +32,7 @@
             });
 
             XHR.addEventListener('load', function(event) {
-                fillInPipesTable();
+                fillInPipesTable(false,5);
                 fillInCleaningForm();
                 fillInCleaningTable();
             });
@@ -41,89 +44,6 @@
             XHR.open('POST', 'https://w7jf39egq0.execute-api.us-west-2.amazonaws.com/beta/cleanings');
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             XHR.send(JSON.stringify(jd));
-        }
-    </script>
-    <script  type="text/javascript">
-        "use strict"
-
-        function fillInPipesTable() {
-            var XHR = new XMLHttpRequest();
-
-            XHR.addEventListener('load', function(event) {
-                $("#pipesTable tbody tr").remove();
-
-                var pipesJSON = JSON.parse(XHR.responseText);
-
-                for(var i = 0; i < pipesJSON.length; i++) {
-                    var pipeJSON = pipesJSON[i];
-                    var table = document.getElementById('pipesTable').getElementsByTagName('tbody')[0];
-                    var row = table.insertRow();
-                    var cell = row.insertCell(0);
-                    var text;
-                    var link = document.createElement('a');
-                    if (pipeJSON.name) {
-                        text  = document.createTextNode(pipeJSON.name);
-                        link.appendChild(text);
-                        link.title = pipeJSON.name;
-                        link.href = "pipe.html?id="+pipeJSON.id;
-                    } else {
-                        text  = document.createTextNode(pipeJSON.id);
-                        link.appendChild(text);
-                        link.title = pipeJSON.id;
-                        link.href = "pipe.html?id="+pipeJSON.id;
-                    }
-                    cell.appendChild(link);
-                    cell  = row.insertCell(1);
-                    if (pipeJSON.days_rest) {
-                        text  = document.createTextNode(pipeJSON.days_rest);
-                    } else {
-                        text  = document.createTextNode("");
-                    }
-                    cell.appendChild(text);
-                    cell  = row.insertCell(2);
-                    text  = document.createTextNode(pipeJSON.total_bowls);
-                    cell.appendChild(text);
-                    cell  = row.insertCell(3);
-                    if (pipeJSON.last_smoke_date) {
-                        text  = document.createTextNode(pipeJSON.last_smoke_date.substring(0, 10));
-                    } else {
-                        text  = document.createTextNode("");
-                    }
-                    cell.appendChild(text);
-                    cell  = row.insertCell(4);
-                    if (pipeJSON.total_bowls_since_cleaned) {
-                        text  = document.createTextNode(pipeJSON.total_bowls_since_cleaned);
-                    } else {
-                        text  = document.createTextNode("");
-                    }
-                    cell.appendChild(text);
-                    cell  = row.insertCell(5);
-                    if (pipeJSON.dedication) {
-                        text  = document.createTextNode(pipeJSON.dedication);
-                    } else {
-                        text  = document.createTextNode("");
-                    }
-                    cell.appendChild(text);
-                    cell  = row.insertCell(6);
-                    text  = document.createTextNode("tbd");
-                    cell.appendChild(text);
-                    cell  = row.insertCell(7);
-                    text  = document.createTextNode("tbd");
-                    cell.appendChild(text);
-                }
-            });
-
-            XHR.addEventListener('error', function(event) {
-                var table = document.getElementById('pipesTable');
-                var row   = table.insertRow();
-                var cell  = row.insertCell(0);
-                var text  = document.createTextNode('error loading table');
-                cell.appendChild(text);
-            });
-
-            XHR.open('GET', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes?bowlsSinceCleaned=5', true);
-            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            XHR.send();
         }
     </script>
     <script  type="text/javascript">
@@ -196,7 +116,7 @@
         }
     </script>
 </head>
-<body onload="fillInPipesTable();fillInCleaningForm();fillInCleaningTable();">
+<body onload="fillInPipesTable(false,5);fillInCleaningForm();fillInCleaningTable();">
     <div id="content">
         <div id="banner"></div>
         <div id="leftcontent"></div>

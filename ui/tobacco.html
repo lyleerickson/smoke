@@ -165,7 +165,11 @@
 
                     cell = row.insertCell(3);
                     if (tinJSON.style) {
-                        text  = document.createTextNode(tinJSON.style);
+                        if (tinJSON.style.length > 55) {
+                            text  = document.createTextNode(tinJSON.style.substring(0,55)+"...");
+                        } else {
+                            text  = document.createTextNode(tinJSON.style);
+                        }
                     } else {
                         text  = document.createTextNode("");
                     }
@@ -175,8 +179,8 @@
                     if (isOpenTin) {
                         var openDate = new Date(tinJSON.open_date);
                         var today = new Date();
-                        var weeksOpen = Math.round(Math.round(today-openDate)/604800000);
-                        text  = document.createTextNode(weeksOpen);
+                        var weeksOpen = Math.round(today-openDate)/604800000;
+                        text  = document.createTextNode(weeksOpen.toFixed(2));
                     } else {
                         if (tinJSON.cut) {
                             text  = document.createTextNode(tinJSON.cut);
@@ -188,7 +192,7 @@
 
                     cell = row.insertCell(5);
                     if (isOpenTin || isFinishedTin) {
-                        text  = document.createTextNode("tbd");
+                        text  = document.createTextNode(tinJSON.total_smokes);
                     } else {
                         if (tinJSON.grams) {
                             text  = document.createTextNode(tinJSON.grams);
@@ -200,7 +204,11 @@
 
                     cell = row.insertCell(6);
                     if (isOpenTin) {
-                        text  = document.createTextNode("tbd");
+                        if (tinJSON.last_smoked) {
+                            text  = document.createTextNode(tinJSON.last_smoked.substring(0,10));
+                        } else {
+                            text  = document.createTextNode("");
+                        }
                     } else if (isFinishedTin) {
                         if (tinJSON.grams) {
                             text  = document.createTextNode(tinJSON.grams);
@@ -300,7 +308,11 @@
 
                     cell = row.insertCell(2);
                     if (blendJSON.style) {
-                        text  = document.createTextNode(blendJSON.style);
+                        if (blendJSON.style.length > 60) {
+                            text  = document.createTextNode(blendJSON.style.substring(0,60)+"...");
+                        } else {
+                            text  = document.createTextNode(blendJSON.style);
+                        }
                     } else {
                         text  = document.createTextNode("");
                     }
@@ -363,7 +375,6 @@
     <div id="banner"></div>
     <div id="leftcontent"></div>
     <div id="centercontent">
-        <h2>Open Tins</h2>
         <table id="openTinsTable" class="sortable">
             <thead>
             <tr>
@@ -413,7 +424,7 @@
            </table>
         </form>
         <p></p>
-        <h2>Cellared Tins</h2>
+        <h2>Cellar</h2>
         <table id="cellaredTinsTable" class="sortable">
             <thead>
             <tr>
@@ -467,7 +478,7 @@
             </tbody>
         </table>
         <p></p>
-        <h2>Finished Tins</h2>
+        <h2>Finished</h2>
         <table id="finishedTinsTable" class="sortable">
             <thead>
             <tr>

@@ -35,27 +35,6 @@ th.target {
 th.active {
 	width: 5%;
 }
-td.name {
-	width: 18%;
-}
-td.maker {
-	width: 23%;
-}
-td.country {
-	width: 5%;
-}
-td.purchased {
-	width: 9%;
-}
-td.persmoke {
-	width: 5%;
-}
-td.target {
-	width: 20%;
-}
-td.active {
-	width: 5%;
-}
 td.pipeFormLeft {
 	text-align: right;
 	width: 15%;

@@ -1,6 +1,6 @@
 "use strict"
 
-function fillInSmokesTable(pipefilter, blendfilter, tinfilter) {
+function fillInSmokesTable(pipefilter, blendfilter, tinfilter, limitResults) {
     var XHR = new XMLHttpRequest();
 
     XHR.addEventListener('load', function(event) {
@@ -99,6 +99,8 @@ function fillInSmokesTable(pipefilter, blendfilter, tinfilter) {
         XHR.open('GET', 'https://4yxq7qw9u0.execute-api.us-west-2.amazonaws.com/beta/smokes?blendID='+blendfilter, true);
     } else if (tinfilter) {
         XHR.open('GET', 'https://4yxq7qw9u0.execute-api.us-west-2.amazonaws.com/beta/smokes?tinID='+tinfilter, true);
+    } else if (limitResults) {
+        XHR.open('GET', 'https://4yxq7qw9u0.execute-api.us-west-2.amazonaws.com/beta/smokes?limitResults='+limitResults, true);
     } else {
         XHR.open('GET', 'https://4yxq7qw9u0.execute-api.us-west-2.amazonaws.com/beta/smokes', true);
     }

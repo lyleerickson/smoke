@@ -1,0 +1,32 @@
+pipes
+
+replace ,’N’, with ,0,
+replace ,’y’, with ,1,
+delete from pipe;
+insert into pipe (id, name, maker, country, acquire_date, acquire_cost, dedication, image_file, note, active, sale_date, sale_price) values …
+
+
+cleanings
+
+delete from cleaning;
+insert into cleaning (id, pipe, clean_date, note) values ...
+
+
+blends
+
+replace ,null) with ,0)
+replace ,'') with ,0)
+replace ,'y') with ,1)
+delete from blend;
+insert into blend (id, name, maker, country, cut, style, image_file, note, blending_component) values ...
+
+tins
+
+delete from tin;
+insert into tin (id, tin_number, blend, grams, package_date, acquire_date, open_date, finish_date, acquire_cost, note) values ...
+
+smokes
+
+break into smaller chunks (year by year)
+delete from smoke;
+insert into smoke (id, pipe, tin, smoke_date, location, tin_note, packing_note, smoking_note, finish_note) values ...

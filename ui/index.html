@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Catbitten Smoking</title>
+    <style type="text/css">
+        @import url(_3columnlayout.css);
+        @import url(_global.css);
+        @import url(_summary.css);
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="sorttable.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#rightcontent").load("_rightcontent.html");
+        });
+    </script>
+    <script src="fillinpipestable.js"></script>
+    <script src="formattextfortable.js"></script>
+    <script type="text/javascript">
+        'use strict';
+
+        function fillInCurrentOpenTins() {
+            var XHR = new XMLHttpRequest();
+
+            XHR.addEventListener('load', function(event) {
+                var historyJSON = JSON.parse(XHR.responseText);
+                var avgGPB = historyJSON.avg_grams_bowl;
+                var avgBPM = historyJSON.avg_bowls_week_last_six_months;
+                var XHR2 = new XMLHttpRequest();
+
+                XHR2.addEventListener('load', function(event) {
+                    $("#openTinsSpan").html("");
+                    $("#openTinsCostSpan").html("");
+                    $("#monthsRemainingSpan").html("");
+                    $("#gramsRemainingSpan").html("");
+                    $("#bowlsRemainingSpan").html("");
+
+                    var tinsJSON = JSON.parse(XHR2.responseText);
+                    var openTinsCost = 0;
+                    var monthsRemaining = 0;
+                    var gramsRemaining = 0;
+                    var bowlsRemaining = 0;
+
+                    tinsJSON.sort(function(a, b) {
+                        return (a.last_smoked > b.last_smoked);
+                    });
+
+                    for(var i = 0; i < tinsJSON.length; i++) {
+                        var tinJSON = tinsJSON[i];
+
+                        openTinsCost+=tinJSON.acquire_cost;
+
+                        var span = document.getElementById('openTinsSpan');
+                        var text = document.createTextNode(tinJSON.name);
+                        var br = document.createElement("br");
+                        span.appendChild(text);
+                        span.appendChild(br);
+                    }
+                    // need to know how many smokes on open tins to do calc
+
+                    $("#openTinsCostSpan").html("$"+openTinsCost.toFixed(2));
+                });
+
+                XHR2.addEventListener('error', function(event) {
+                    alert('error loading tins');
+                });
+
+                XHR2.open('GET', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/tins?onlyOpen=Y', true);
+                XHR2.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                XHR2.send();
+
+            });
+
+            XHR.addEventListener('error', function(event) {
+                alert('error loading history');
+            });
+
+            XHR.open('GET', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/history', true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send();
+
+        }
+    </script>
+    <script type="text/javascript">
+        'use strict';
+
+        function fillInHistory() {
+            var XHR = new XMLHttpRequest();
+
+            XHR.addEventListener('load', function(event) {
+                $("#finishedTinsSpan").html("");
+                $("#totalBowlsSpan").html("");
+                $("#avgGPBSpan").html("");
+                $("#avgBPWSpan").html("");
+                $("#avgCPSSpan").html("");
+
+                var historyJSON = JSON.parse(XHR.responseText);
+                $("#finishedTinsSpan").html(historyJSON.total_finished_tins);
+                $("#totalBowlsSpan").html(historyJSON.total_bowls);
+                $("#avgGPBSpan").html(historyJSON.avg_grams_bowl);
+                $("#avgBPWSpan").html(historyJSON.avg_bowls_week+" (last six mo: "+historyJSON.avg_bowls_week_last_six_months+")");
+                $("#avgCPSSpan").html("$"+historyJSON.avg_cost_smoke_with_cellar+" (minus cellar: $"+historyJSON.avg_cost_smoke_sans_cellar+")");
+            });
+
+            XHR.addEventListener('error', function(event) {
+                alert('error loading history');
+            });
+
+            XHR.open('GET', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/history', true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.send();
+        }
+    </script>
+</head>
+<body onload="fillInPipesTable('Y'); fillInCurrentOpenTins(); fillInHistory();">
+<div id="content">
+    <div id="banner"></div>
+    <div id="leftcontent"></div>
+    <div id="centercontent">
+        <table id="pipesTable" class="sortable">
+            <thead>
+            <tr>
+                <th class="name">Name</th>
+                <th class="rest">DR</th>
+                <th class="tbowls">TB</th>
+                <th class="lasts">Smoked</th>
+                <th class="bsc">BSC</th>
+                <th class="target">Target Tobacco</th>
+                <th class="lastt">Last Smoked</th>
+                <th class="mostt">Most Smoked Style / Blend</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>loading...</td></tr>
+            </tbody>
+        </table>
+        <p></p>
+        <table>
+            <thead>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="summaryLeft">
+                    <table>
+                        <tr><td>Open</td></tr>
+                        <tr><td class="summaryLeft">Tins:</td><td class="summaryRight"><span id="openTinsSpan">...</span></td></tr>
+                        <tr><td class="summaryLeft">Cost:</td><td class="summaryRight"><span id="openTinsCostSpan">...</span></td></tr>
+                        <tr><td class="summaryLeft">Months left:</td><td class="summaryRight"><span id="monthsRemainingSpan">...</span></td></tr>
+                        <tr><td class="summaryLeft">Bowls left:</td><td class="summaryRight"><span id="bowlsRemainingSpan">...</span></td></tr>
+                        <tr><td>Cellar</td></tr>
+                        <tr><td class="summaryLeft">Total tins:</td><td class="summaryRight"><span id="totalCellarSpan">...</span></td></tr>
+                        <tr><td class="summaryLeft">Endurance:</td><td class="summaryRight"><span id="cellarEnduranceSpan">...</span></td></tr>
+                        <tr><td class="summaryLeft">Investment:</td><td class="summaryRight"><span id="cellarInvestmentSpan">...</span></td></tr>
+                        <tr><td class="summaryLeft">Average Age:</td><td class="summaryRight"><span id="cellarAverageAgeSpan">...</span></td></tr>
+                        <tr><td>Finished</td></tr>
+                        <tr><td class="summaryLeft">Tins:</td><td class="summaryRight"><span id="finishedTinsSpan">...</span></td></tr>
+                        <tr><td class="summaryLeft">Bowls:</td><td class="summaryRight"><span id="totalBowlsSpan">...</span></td></tr>
+                        <tr><td class="summaryLeft">Avg Grams / Bowl:</td><td class="summaryRight"><span id="avgGPBSpan">...</span></td></tr>
+                        <tr><td class="summaryLeft">Avg Bowls / Week:</td><td class="summaryRight"><span id="avgBPWSpan">...</span></td></tr>
+                        <tr><td class="summaryLeft">Avg Cost / Smoke:</td><td class="summaryRight"><span id="avgCPSSpan">...</span></td></tr>
+                    </table>
+                </td>
+                <td class="summaryRight">
+                    <table>
+                        <tr><td>Best Next Smokes</td></tr>
+                        <tr><td class="guidance"><span id="bestNextSmokeSpan">...</span></td></tr>
+                    </table>
+                    <table>
+                        <tr><td>Cellar Graphs</td></tr>
+                        <tr><td class="guidance"><span id="cellarGraphsSpan">...</span></td></tr>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="rightcontent"></div>
+</div>
+</body>
+</html>

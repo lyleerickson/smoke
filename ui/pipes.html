@@ -10,6 +10,7 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="sorttable.js"></script>
+    <script src="padleft.js"></script>
     <script type="text/javascript">
         $(function(){
             $("#rightcontent").load("_rightcontent.html");
@@ -152,9 +153,10 @@
                         } else {
                             text  = document.createTextNode("$0.00");
                         }
+                        cell.style.textAlign = "right";
                     } else {
                         if (pipeJSON.days_rest) {
-                            text  = document.createTextNode(pipeJSON.days_rest);
+                            text  = document.createTextNode(pad(pipeJSON.days_rest,3));
                         } else {
                             text  = document.createTextNode("");
                         }
@@ -185,6 +187,7 @@
                         } else {
                             text  = document.createTextNode("$0.00");
                         }
+                        cell.style.textAlign = "right";
                     } else {
                         if (pipeJSON.acquire_date) {
                             text  = document.createTextNode(pipeJSON.acquire_date.substring(0, 10));
@@ -201,6 +204,7 @@
                         } else {
                             text  = document.createTextNode("$0.00");
                         }
+                        cell.style.textAlign = "right";
                         cell.appendChild(text);
                         cell  = row.insertCell(8);
 
@@ -209,11 +213,16 @@
                         } else {
                             text  = document.createTextNode("");
                         }
+                        cell.style.textAlign = "right";
                         cell.appendChild(text);
 
                         cell  = row.insertCell(9);
                         if (pipeJSON.dedication) {
-                            text  = document.createTextNode(pipeJSON.dedication);
+                            if (pipeJSON.dedication.length > 30) {
+                                text  = document.createTextNode(pipeJSON.dedication.substring(0,30)+"...");
+                            } else {
+                                text  = document.createTextNode(pipeJSON.dedication);
+                            }
                         } else {
                             text  = document.createTextNode("");
                         }
@@ -267,21 +276,20 @@
         <div id="banner"></div>
         <div id="leftcontent"></div>
         <div id="centercontent">
-        <h2>Pipes</h2>
             <table id="pipesTable" class="sortable">
                 <thead>
                     <tr>
                     <th class="name">Name</th>
                     <th class="maker">Maker</th>
-                    <th class="tb">Total Bowls</th>
-                    <th class="bsc">Bowls Since Cleaned</th>
-                    <th class="rest">Days Rest</th>
+                    <th class="tb">TB</th>
+                    <th class="bsc">BSC</th>
+                    <th class="rest">DR</th>
                     <th class="country">Country</th>
                     <th class="purchased">Acquired</th>
                     <th class="cost">Cost</th>
-                    <th class="persmoke">Per Smoke</th>
+                    <th class="persmoke">$/S</th>
                     <th class="target">Target Tobacco</th>
-                    <th class="active">In Rotation</th>
+                    <th class="active">Active</th>
                     </tr>
                 </thead>
                 <tbody>
