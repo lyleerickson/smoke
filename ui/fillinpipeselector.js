@@ -39,5 +39,6 @@ function fillInPipeSelector(pipeToSelect, includeOnlyInRotation) {
 
     XHR.open('GET', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes', true);
     XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
     XHR.send();
 }

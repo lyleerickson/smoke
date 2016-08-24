@@ -40,6 +40,7 @@
 
             XHR.open('PUT', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/blends/'+getURLParameter("id"), true);
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send(JSON.stringify(jd));
         }
     </script>
@@ -58,6 +59,7 @@
 
             XHR.open('DELETE', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/blends/'+getURLParameter("id"), true);
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send();
         }
     </script>
@@ -94,6 +96,7 @@
 
             XHR.open('GET', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/blends/'+getURLParameter("id"), true);
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send();
         }
     </script>
@@ -104,9 +107,6 @@
         <div id="leftcontent"></div>
         <div id="centercontent">
             <h2>Blend Details</h2>
-            <!--<table>-->
-                <!--<tr><td class="tinFormLeft"></td><td class="tinFormRight"><img class="tin" src="" alt="loading..."/></td></tr>-->
-            <!--</table>-->
             <form id="updateBlendForm">
             <table>
                 <tr><td class="tinFormLeft">Blend:</td><td class="tinFormRight"><input type="text" name="name" size="40" value="loading..."></td></tr>

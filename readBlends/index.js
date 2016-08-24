@@ -12,6 +12,8 @@ exports.handler = (event, context, callback) => {
         var queryString = 'SELECT * FROM blend ORDER by maker, name;';
         if (event.includeOnlyUnowned) {
             queryString = 'SELECT blend.* FROM blend LEFT JOIN tin ON (blend.id=tin.blend) WHERE tin.blend IS NULL;';
+        } else if (event.id) {
+            queryString = 'SELECT * FROM blend WHERE blend.id='+connection.escape(event.id)+';';
         }
 
         connection.query(queryString, function(err, rows) {

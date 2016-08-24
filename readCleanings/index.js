@@ -9,7 +9,14 @@ exports.handler = (event, context, callback) => {
     connection.connect(function(err) {
 
         dbf.handleDBError(err, callback);
-        connection.query('SELECT cleaning.*, pipe.name FROM cleaning, pipe WHERE pipe.id=cleaning.pipe ORDER by clean_date DESC;', function(err, rows) {
+        var sqlString = 'SELECT cleaning.*, pipe.name FROM cleaning, pipe ';
+
+        if (event.id) {
+            sqlString+='WHERE cleaning.id='+connection.escape(event.id)+' AND pipe.id=cleaning.pipe';
+        } else {
+            sqlString+='WHERE pipe.id=cleaning.pipe ORDER by clean_date DESC;';
+        }
+        connection.query(sqlString, function(err, rows) {
 
             dbf.handleDBError(err,callback);
             connection.end(dbf.handleDBErrorAndCallback(err,callback,rows));

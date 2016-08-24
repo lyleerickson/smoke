@@ -43,6 +43,7 @@
 
             XHR.open('POST', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes');
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send(JSON.stringify(jd));
         }
     </script>
@@ -126,7 +127,7 @@
                     cell.appendChild(text);
 
                     cell  = row.insertCell(2);
-                    text  = document.createTextNode(pipeJSON.total_bowls);
+                    text  = document.createTextNode(pad(pipeJSON.total_bowls,2));
                     cell.appendChild(text);
 
                     cell  = row.insertCell(3);
@@ -148,10 +149,10 @@
                     cell  = row.insertCell(4);
                     if (isSoldPipe) {
                         if (pipeJSON.acquire_cost) {
-                            text  = document.createTextNode("$"+pipeJSON.acquire_cost.toFixed(2));
+                            text  = document.createTextNode("$"+pad(pipeJSON.acquire_cost.toFixed(2),6));
                             totalPipeProfit-=pipeJSON.acquire_cost;
                         } else {
-                            text  = document.createTextNode("$0.00");
+                            text  = document.createTextNode("");
                         }
                         cell.style.textAlign = "right";
                     } else {
@@ -181,11 +182,11 @@
                     cell  = row.insertCell(6);
                     if (isSoldPipe) {
                         if (pipeJSON.sale_price) {
-                            text  = document.createTextNode("$"+pipeJSON.sale_price.toFixed(2));
+                            text  = document.createTextNode("$"+pad(pipeJSON.sale_price.toFixed(2),6));
                             totalPipeSales+=pipeJSON.sale_price;
                             totalPipeProfit+=pipeJSON.sale_price;
                         } else {
-                            text  = document.createTextNode("$0.00");
+                            text  = document.createTextNode("");
                         }
                         cell.style.textAlign = "right";
                     } else {
@@ -199,17 +200,17 @@
                     if (!isSoldPipe) {
                         cell  = row.insertCell(7);
                         if (pipeJSON.acquire_cost) {
-                            text  = document.createTextNode("$"+pipeJSON.acquire_cost.toFixed(2));
+                            text  = document.createTextNode("$"+pad(pipeJSON.acquire_cost.toFixed(2),6));
                             totalPipeInvestment+=pipeJSON.acquire_cost;
                         } else {
-                            text  = document.createTextNode("$0.00");
+                            text  = document.createTextNode("");
                         }
                         cell.style.textAlign = "right";
                         cell.appendChild(text);
                         cell  = row.insertCell(8);
 
                         if (pipeJSON.acquire_cost_per_smoke > 0) {
-                            text  = document.createTextNode("$"+pipeJSON.acquire_cost_per_smoke);
+                            text  = document.createTextNode("$"+pad(pipeJSON.acquire_cost_per_smoke,5));
                         } else {
                             text  = document.createTextNode("");
                         }
@@ -267,6 +268,7 @@
 
             XHR.open('GET', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes', true);
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send();
         }
     </script>

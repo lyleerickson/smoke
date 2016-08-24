@@ -2,6 +2,7 @@
 
 var mysql = require('mysql');
 var dbf = require('./db_fxns');
+var gst = require('./getstyletotals');
 
 exports.handler = (event, context, callback) => {
 
@@ -34,7 +35,7 @@ exports.handler = (event, context, callback) => {
             smoke_start_date = rows[0].smoke_start_date;
             total_tin_acquire_cost = rows[0].total_tin_acquire_cost;
             sqlString = 'SELECT count(tin.id) as total_finished_tins, sum(tin.acquire_cost) AS total_finished_tin_acquire_cost, sum(tin.grams) AS total_finished_grams '+
-                        'FROM tin WHERE tin.finish_date IS NOT NULL AND tin.finish_date NOT LIKE \'0%\';';
+                        'FROM tin WHERE tin.finish_date IS NOT NULL AND tin.finish_date > CAST(\'0001-01-01\' AS DATE);';
 
             connection.query(sqlString, function(err, rows) {
 
@@ -74,22 +75,29 @@ exports.handler = (event, context, callback) => {
                         connection.query(sqlString, function(err, rows) {
 
                             dbf.handleDBError(err,callback);
-
                             avg_bowls_week_last_six_months = rows[0].total_last_six_months / 26.0715;
 
-                            results.total_bowls = total_bowls;
-                            results.total_finished_tins = total_finished_tins;
-                            results.total_finished_grams = total_finished_grams;
-                            results.total_finished_tin_acquire_cost = total_finished_tin_acquire_cost.toFixed(2);
-                            results.avg_grams_bowl = avg_grams_bowl.toFixed(2);
-                            results.avg_bowls_week = avg_bowls_week.toFixed(2);
-                            results.avg_cost_smoke_sans_cellar = avg_cost_smoke_sans_cellar.toFixed(2);
-                            results.avg_cost_smoke_with_cellar = avg_cost_smoke_with_cellar.toFixed(2);
-                            results.smoke_start_date = smoke_start_date;
-                            results.avg_bowls_week_last_six_months = avg_bowls_week_last_six_months.toFixed(2);
+                            sqlString = 'SELECT tin.grams, blend.style FROM tin, blend '+
+                                        'WHERE tin.blend=blend.id AND tin.finish_date IS NOT NULL AND tin.finish_date > CAST(\'0001-01-01\' AS DATE);';
 
+                            connection.query(sqlString, function(err, rows) {
 
-                            connection.end(dbf.handleDBErrorAndCallback(err,callback,results));
+                                dbf.handleDBError(err,callback);
+                                var styleTotals = gst.getStyleTotals(rows);
+                                results.styleTotals = styleTotals;
+                                results.total_bowls = total_bowls;
+                                results.total_finished_tins = total_finished_tins;
+                                results.total_finished_grams = total_finished_grams;
+                                results.total_finished_tin_acquire_cost = total_finished_tin_acquire_cost.toFixed(2);
+                                results.avg_grams_bowl = avg_grams_bowl.toFixed(2);
+                                results.avg_bowls_week = avg_bowls_week.toFixed(2);
+                                results.avg_cost_smoke_sans_cellar = avg_cost_smoke_sans_cellar.toFixed(2);
+                                results.avg_cost_smoke_with_cellar = avg_cost_smoke_with_cellar.toFixed(2);
+                                results.smoke_start_date = smoke_start_date;
+                                results.avg_bowls_week_last_six_months = avg_bowls_week_last_six_months.toFixed(2);
+
+                                connection.end(dbf.handleDBErrorAndCallback(err,callback,results));
+                            });
                         });
                     });
                 });

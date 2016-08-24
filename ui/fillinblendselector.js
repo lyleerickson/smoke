@@ -34,5 +34,6 @@ function fillInBlendSelector(blendToSelect) {
 
     XHR.open('GET', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/blends', true);
     XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
     XHR.send();
 }

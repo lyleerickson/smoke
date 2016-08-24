@@ -105,5 +105,6 @@ function fillInSmokesTable(pipefilter, blendfilter, tinfilter, limitResults) {
         XHR.open('GET', 'https://4yxq7qw9u0.execute-api.us-west-2.amazonaws.com/beta/smokes', true);
     }
     XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
     XHR.send();
 }

@@ -50,6 +50,7 @@
 
             XHR.open('PUT', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/blends/'+blendID+'/tins/'+getURLParameter("id"), true);
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send(JSON.stringify(jd));
         }
     </script>
@@ -68,6 +69,7 @@
 
             XHR.open('DELETE', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/blends/'+this.name+'/tins/'+getURLParameter("id"), true);
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send();
         }
     </script>
@@ -119,6 +121,7 @@
 
             XHR.open('GET', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/tins/'+getURLParameter("id"), true);
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send();
         }
     </script>

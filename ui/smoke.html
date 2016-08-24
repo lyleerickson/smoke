@@ -48,6 +48,7 @@
 
             XHR.open('GET', 'https://4yxq7qw9u0.execute-api.us-west-2.amazonaws.com/beta/smokes/'+getURLParameter("id"), true);
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send();
         }
     </script>
@@ -73,6 +74,7 @@
 
             XHR.open('PUT', 'https://4yxq7qw9u0.execute-api.us-west-2.amazonaws.com/beta/smokes/'+getURLParameter("id"), true);
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send(JSON.stringify(jd));
         }
     </script>
@@ -91,6 +93,7 @@
 
             XHR.open('DELETE', 'https://4yxq7qw9u0.execute-api.us-west-2.amazonaws.com/beta/smokes/'+getURLParameter("id"), true);
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send();
         }
     </script>

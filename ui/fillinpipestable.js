@@ -1,12 +1,30 @@
 "use strict"
 
-function fillInPipesTable(includeOnlyActive, bowlsSinceCleaned) {
+function fillInPipesTable(includeOnlyActive, bowlsSinceCleaned, sortBreakInsToTop) {
     var XHR = new XMLHttpRequest();
 
     XHR.addEventListener('load', function(event) {
         $("#pipesTable tbody tr").remove();
 
         var pipesJSON = JSON.parse(XHR.responseText);
+
+        if (sortBreakInsToTop) {
+            var sortedPipesJSON = [];
+            var breakInIndices = [];
+            for(var i = 0; i < pipesJSON.length; i++) {
+                if (pipesJSON[i].days_rest+0 >= 7 && pipesJSON[i].total_bowls+0 < 12) {
+                    sortedPipesJSON.push(pipesJSON[i]);
+                    breakInIndices.push(i);
+                }
+            }
+            for(var i=0; i<breakInIndices.length;i++) {
+                pipesJSON.splice(breakInIndices[i],1);
+            }
+            for(var i = 0; i < pipesJSON.length; i++) {
+                sortedPipesJSON.push(pipesJSON[i]);
+            }
+            pipesJSON = sortedPipesJSON;
+        }
 
         for(var i = 0; i < pipesJSON.length; i++) {
             var pipeJSON = pipesJSON[i];
@@ -24,7 +42,7 @@ function fillInPipesTable(includeOnlyActive, bowlsSinceCleaned) {
             }
             link.appendChild(text);
             link.href = "pipe.html?id="+pipeJSON.id;
-            if (pipeJSON.days_rest && pipeJSON.days_rest < 7) {
+            if (pipeJSON.days_rest+0 < 7) {
                 link.setAttribute("STYLE","color:gray");
             }
             cell.appendChild(link);
@@ -68,5 +86,6 @@ function fillInPipesTable(includeOnlyActive, bowlsSinceCleaned) {
         XHR.open('GET', 'https://f5ssi7ej95.execute-api.us-west-2.amazonaws.com/beta/pipes', true);
     }
     XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
     XHR.send();
 }

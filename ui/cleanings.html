@@ -43,6 +43,7 @@
 
             XHR.open('POST', 'https://w7jf39egq0.execute-api.us-west-2.amazonaws.com/beta/cleanings');
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send(JSON.stringify(jd));
         }
     </script>
@@ -112,6 +113,7 @@
 
             XHR.open('GET', 'https://w7jf39egq0.execute-api.us-west-2.amazonaws.com/beta/cleanings', true);
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send();
         }
     </script>
@@ -121,7 +123,6 @@
         <div id="banner"></div>
         <div id="leftcontent"></div>
         <div id="centercontent">
-            <h2>Cleanings</h2>
             <table id="pipesTable" class="sortable">
                 <thead>
                     <tr>

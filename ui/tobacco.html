@@ -11,6 +11,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="sorttable.js"></script>
     <script src="fillinblendselector.js"></script>
+    <script src="formattextfortable.js"></script>
+    <script src="padleft.js"></script>
     <script type="text/javascript">
         $(function(){
             $("#rightcontent").load("_rightcontent.html");
@@ -49,6 +51,7 @@
 
             XHR.open('POST', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/blends/'+blendID+'/tins', true);
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send(JSON.stringify(jd));
         }
     </script>
@@ -78,6 +81,7 @@
 
             XHR.open('POST', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/blends/', true);
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send(JSON.stringify(jd));
         }
     </script>
@@ -143,7 +147,7 @@
                     cell = row.insertCell(1);
                     link = document.createElement('a');
                     if (tinJSON.name && tinJSON.name!='') {
-                        text  = document.createTextNode(tinJSON.name);
+                        text  = document.createTextNode(formatTextForTable(tinJSON.name,34,true));
                         link.appendChild(text);
                         link.title = tinJSON.name;
                         link.href = "blend.html?id="+tinJSON.blend;
@@ -165,11 +169,7 @@
 
                     cell = row.insertCell(3);
                     if (tinJSON.style) {
-                        if (tinJSON.style.length > 55) {
-                            text  = document.createTextNode(tinJSON.style.substring(0,55)+"...");
-                        } else {
-                            text  = document.createTextNode(tinJSON.style);
-                        }
+                        text  = document.createTextNode(formatTextForTable(tinJSON.style,55,true));
                     } else {
                         text  = document.createTextNode("");
                     }
@@ -226,7 +226,7 @@
 
                     cell = row.insertCell(7);
                     if (isOpenTin) {
-                        text  = document.createTextNode("tbd");
+                        text  = document.createTextNode(tinJSON.bowls_left.toFixed(2));
                     } else if (isFinishedTin) {
                         if (tinJSON.finish_date) {
                             text  = document.createTextNode(tinJSON.finish_date.substring(0, 10));
@@ -238,13 +238,19 @@
                         var today = new Date();
 
                         if (tinJSON.package_date && tinJSON.package_date!='' && tinJSON.package_date.substring(0, 4)!='0000') {
-                            ageStartDate = new Date(tinJSON.package_date);
+                            var package_date = new Date(tinJSON.package_date);
+                            var acquire_date = new Date(tinJSON.acquire_date);
+                            if (package_date < acquire_date) {
+                                ageStartDate = package_date;
+                            } else {
+                                ageStartDate = acquire_date;
+                            }
                         } else if (tinJSON.acquire_date && tinJSON.acquire_date!='' && tinJSON.acquire_date.substring(0, 4)!='0000') {
                             ageStartDate = new Date(tinJSON.acquire_date);
                         }
                         if (ageStartDate) {
                             var yearsAged = Math.round(today-ageStartDate)/3.1558E+10;
-                            text  = document.createTextNode(yearsAged.toFixed(2));
+                            text  = document.createTextNode(pad(yearsAged.toFixed(2),5));
                         } else {
                             text  = document.createTextNode("");
                         }
@@ -264,6 +270,7 @@
 
             XHR.open('GET', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/tins', true);
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send();
         }
     </script>
@@ -338,10 +345,11 @@
 
             XHR.open('GET', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/blends?includeOnlyUnowned=true', true);
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send();
         }
     </script>
-    <script  type="text/javascript">
+    <script type="text/javascript">
         "use strict"
 
         function fillInNewTinForm() {
@@ -356,7 +364,7 @@
             $("#noteTextBox").val("");
         }
     </script>
-    <script  type="text/javascript">
+    <script type="text/javascript">
         "use strict"
 
         function fillInNewBlendForm() {
@@ -367,6 +375,107 @@
             $("#styleTextBox").val("");
             $("#imgFileTextBox").val("");
             $("#blendNoteTextBox").val("");
+        }
+    </script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawCharts);
+
+        function drawCharts() {
+            var chartOptions = {
+                backgroundColor: 'black',
+                slices: {
+                     0: {color: '#905A00'},1: {color: '#905A00'},2: {color: '#905A00'},
+                     3: {color: '#611300'},
+                     4: {color: '#783400'},5: {color: '#783400'},6: {color: '#783400'},
+                     7: {color: '#552517'},8: {color: '#552517'},9: {color: '#552517'},
+                    10: {color: '#34142A'},
+                    11: {color: '#273141'},12: {color: '#273141'},
+                    13: {color: '#1B2311'},14: {color: '#1B2311'},15: {color: '#1B2311'},16: {color: '#1B2311'},
+                    17: {color: '#343E29'},18: {color: '#343E29'},19: {color: '#343E29'},20: {color: '#343E29'},
+                    21: {color: '#58321B'},22: {color: '#58321B'},
+                    23: {color: '#1C1C1C'},
+                    24: {color: 'white'}
+                    },
+                legend: {alignment: 'start',position: 'right',textStyle: {color: 'white', fontSize: 10}},
+                chartArea:{left:0,top:0,width:'100%',height:'100%'},
+                titleTextStyle :{color: 'white'},
+                pieSliceBorderColor: 'black'
+            };
+
+            var columnChartOptions = {
+                backgroundColor: 'black',
+                titleTextStyle :{color: 'white'},
+                width: "100%",
+                height: "100%",
+                chartArea:{top:5,width:'85%',height:'75%'},
+                hAxis: {
+                    textPosition:"out",
+                    slantedText: true,
+                    slantedTextAngle: 90,
+                    showTextEvery: 1,
+                    textStyle: {
+                        color: "white",
+                        bold: false,
+                        italic: false,
+                        fontSize: 10
+                    }
+                },
+                vAxis: {
+                    showTextEvery: 1,
+                    textStyle: {
+                        color: "white",
+                        bold: false,
+                        italic: false,
+                        fontSize: 10
+                    },
+                    format: "short",
+                    gridlines: {
+                        color: "#58321B",
+                        count: 10
+                    },
+                    viewWindowMode: "maximized"
+                },
+                bar: {groupWidth: "75%"},
+                legend: { position: "none" },
+            };
+            var barOptions = {};
+
+            var XHR = new XMLHttpRequest();
+
+            XHR.addEventListener('load', function(event) {
+                var cellarJSON = JSON.parse(XHR.responseText);
+
+                var cellarData = new google.visualization.DataTable();
+                cellarData.addColumn('string', 'style');
+                cellarData.addColumn('number', 'tins');
+                for (var i=0;i<cellarJSON.styleTotals.length;i++) {
+                    cellarData.addRow([cellarJSON.styleTotals[i].style+" ("+cellarJSON.styleTotals[i].tins+")", cellarJSON.styleTotals[i].grams]);
+                }
+
+                var cellarChart = new google.visualization.PieChart(document.getElementById('cellar_chart'));
+                cellarChart.draw(cellarData, chartOptions);
+
+                var ageDataArray = [
+                    ['Age', 'Grams', {role: 'style'}]
+                ];
+                for (var i=0;i<(cellarJSON.ageTotals.length);i++) {
+                    ageDataArray.push([cellarJSON.ageTotals[i].age, cellarJSON.ageTotals[i].grams, '#58321B']);
+                }
+                var ageData = new google.visualization.arrayToDataTable(ageDataArray);
+                var ageChart = new google.visualization.ColumnChart(document.getElementById('cellar_age'));
+                ageChart.draw(ageData, columnChartOptions);
+            });
+
+            XHR.addEventListener('error', function(event) {
+                alert('error loading tins');
+            });
+
+            XHR.open('GET', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/cellar', true);
+            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
+            XHR.send();
         }
     </script>
 </head>
@@ -393,37 +502,49 @@
             </tbody>
         </table>
         <p></p>
-        <h2>New Tin</h2>
-        <form id="newTinForm">
-            <table>
-                <tr><td class="tinFormLeft">Blend:</td><td class="tinFormRight"><select id="blendSelector" name="blend" tabindex=2><option value="loading">loading...</option></select></td></tr>
-                <tr><td class="tinFormLeft">Tin Number:</td><td class="tinFormRight"><input id="tinNumberTextBox" type="text" name="tin_number" size="3"></td></tr>
-                <tr><td class="tinFormLeft">Grams:</td><td class="tinFormRight"><input id="gramsTextBox" type="text" name="grams" size="3"></td></tr>
-                <tr><td class="tinFormLeft">Packaged Date:</td><td class="tinFormRight"><input id="packageDateTextBox" type="text" name="package_date" size="10"></td></tr>
-                <tr><td class="tinFormLeft">Acquired Date:</td><td class="tinFormRight"><input id="acquireDateTextBox" type="text" name="acquire_date" size="10"></td></tr>
-                <tr><td class="tinFormLeft">Opened Date:</td><td class="tinFormRight"><input id="openedDateTextBox" type="text" name="open_date" size="10"></td></tr>
-                <tr><td class="tinFormLeft">Finished Date:</td><td class="tinFormRight"><input id="finishedDateTextBox" type="text" name="finish_date" size="10"></td></tr>
-                <tr><td class="tinFormLeft">Cost:</td><td class="tinFormRight"><input id="costTextBox" type="text" name="acquire_cost" size="6"></td></tr>
-                <tr><td class="tinFormLeft">Note:</td><td class="tinFormRight"><input id="noteTextBox" type="text" name="note" size="50"></td></tr>
-                <tr><td class="tinFormLeft"></td><td class="tinFormRight"><button type="button" onclick="postTin()">Add Tin</button></td></tr>
-            </table>
-        </form>
-        <p></p>
-        <h2>New Blend</h2>
-        <form id="newBlendForm">
-            <table>
-                <tr><td class="tinFormLeft">Blend:</td><td class="tinFormRight"><input id="nameTextBox" type="text" name="name" size="40" value=""></td></tr>
-                <tr><td class="tinFormLeft">Maker:</td><td class="tinFormRight"><input id="makerTextBox" type="text" name="maker" size="30" value=""></td></tr>
-                <tr><td class="tinFormLeft">Country:</td><td class="tinFormRight"><input id="countryTextBox" type="text" name="country" size="2" value=""></td></tr>
-                <tr><td class="tinFormLeft">Cut:</td><td class="tinFormRight"><input id="cutTextBox" type="text" name="cut" size="20" value=""></td></tr>
-                <tr><td class="tinFormLeft">Style:</td><td class="tinFormRight"><input id="styleTextBox" type="text" name="style" size="50" value=""></td></tr>
-                <tr><td class="tinFormLeft">Image:</td><td class="tinFormRight"><input id="imgFileTextBox" type="text" name="image_file" size="20" value=""></td></tr>
-                <tr><td class="tinFormLeft">Note:</td><td class="tinFormRight"><input id="blendNoteTextBox" type="text" name="blendNote" size="50" value=""></td></tr>
-                <tr><td class="tinFormLeft">Blending Component:</td><td class="tinFormRight"><input type="radio" name="blending_component" value="true">Y<input type="radio" name="blending_component" value="false" checked="checked">N</td></tr>
-                <tr><td class="tinFormLeft"></td><td class="tinFormRight"><button type="button" onclick="postBlend()">Update Blend</button></td></tr>
-           </table>
-        </form>
-        <p></p>
+        <table>
+            <tr>
+                <td>
+                    <form id="newTinForm">
+                        <table>
+                            <tr><td class="tinFormLeft">Blend:</td><td class="tinFormRight"><select id="blendSelector" name="blend" tabindex=2><option value="loading">loading...</option></select></td></tr>
+                            <tr><td class="tinFormLeft">Tin Number:</td><td class="tinFormRight"><input id="tinNumberTextBox" type="text" name="tin_number" size="3"></td></tr>
+                            <tr><td class="tinFormLeft">Grams:</td><td class="tinFormRight"><input id="gramsTextBox" type="text" name="grams" size="3"></td></tr>
+                            <tr><td class="tinFormLeft">Packaged Date:</td><td class="tinFormRight"><input id="packageDateTextBox" type="text" name="package_date" size="10"></td></tr>
+                            <tr><td class="tinFormLeft">Acquired Date:</td><td class="tinFormRight"><input id="acquireDateTextBox" type="text" name="acquire_date" size="10"></td></tr>
+                            <tr><td class="tinFormLeft">Opened Date:</td><td class="tinFormRight"><input id="openedDateTextBox" type="text" name="open_date" size="10"></td></tr>
+                            <tr><td class="tinFormLeft">Finished Date:</td><td class="tinFormRight"><input id="finishedDateTextBox" type="text" name="finish_date" size="10"></td></tr>
+                            <tr><td class="tinFormLeft">Cost:</td><td class="tinFormRight"><input id="costTextBox" type="text" name="acquire_cost" size="6"></td></tr>
+                            <tr><td class="tinFormLeft">Note:</td><td class="tinFormRight"><input id="noteTextBox" type="text" name="note" size="50"></td></tr>
+                            <tr><td class="tinFormLeft"></td><td class="tinFormRight"><button type="button" onclick="postTin()">Add Tin</button></td></tr>
+                        </table>
+                    </form>
+                </td>
+                <td>
+                    <form id="newBlendForm">
+                        <table>
+                            <tr><td class="tinFormLeft">Blend:</td><td class="tinFormRight"><input id="nameTextBox" type="text" name="name" size="40" value=""></td></tr>
+                            <tr><td class="tinFormLeft">Maker:</td><td class="tinFormRight"><input id="makerTextBox" type="text" name="maker" size="30" value=""></td></tr>
+                            <tr><td class="tinFormLeft">Country:</td><td class="tinFormRight"><input id="countryTextBox" type="text" name="country" size="2" value=""></td></tr>
+                            <tr><td class="tinFormLeft">Cut:</td><td class="tinFormRight"><input id="cutTextBox" type="text" name="cut" size="20" value=""></td></tr>
+                            <tr><td class="tinFormLeft">Style:</td><td class="tinFormRight"><input id="styleTextBox" type="text" name="style" size="50" value=""></td></tr>
+                            <tr><td class="tinFormLeft">Image:</td><td class="tinFormRight"><input id="imgFileTextBox" type="text" name="image_file" size="20" value=""></td></tr>
+                            <tr><td class="tinFormLeft">Note:</td><td class="tinFormRight"><input id="blendNoteTextBox" type="text" name="blendNote" size="50" value=""></td></tr>
+                            <tr><td class="tinFormLeft">Blending Component:</td><td class="tinFormRight"><input type="radio" name="blending_component" value="true">Y<input type="radio" name="blending_component" value="false" checked="checked">N</td></tr>
+                            <tr><td class="tinFormLeft"></td><td class="tinFormRight"><button type="button" onclick="postBlend()">New Blend</button></td></tr>
+                        </table>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <p>
+        <table>
+            <tr>
+                <td class="charts"><div id="cellar_chart" style="height: 400px;">></div></td>
+                <td class="charts"><div id="cellar_age" style="height: 400px;">></div></td>
+            </tr>
+        </table>
+        </p>
         <h2>Cellar</h2>
         <table id="cellaredTinsTable" class="sortable">
             <thead>
