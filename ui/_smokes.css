@@ -33,7 +33,6 @@ td.smokeFormRight {
 }
 
 #smokeFormDiv {
-//    background-color: blue;
 }
 
 #mapDiv {
@@ -41,6 +40,5 @@ td.smokeFormRight {
     left: 650px;
     top: 40px;
     display:inline-block;
-    z-index:10
-    background-color: blue;
+    z-index:10;
 }
