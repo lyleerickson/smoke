@@ -36,6 +36,14 @@
                     form.elements['packing_note'].value = smokeJSON.packing_note;
                     form.elements['smoking_note'].value = smokeJSON.smoking_note;
                     form.elements['finish_note'].value = smokeJSON.finish_note;
+                    form.elements['latitude'].value = smokeJSON.loc_lat_long.x;
+                    form.elements['longitude'].value = smokeJSON.loc_lat_long.y;
+
+                    if (smokeJSON.loc_lat_long) {
+                        var latlon = smokeJSON.loc_lat_long.x + "," + smokeJSON.loc_lat_long.y;
+                        var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&markers=color:brown|size:small|"+latlon+"&size=450x300&maptype=terrain";
+                        document.getElementById("mapDiv").innerHTML = "<img src='"+img_url+"'>";
+                    }
                } else {
                     var form = document.forms['updateSmokeForm'];
                     form.elements['smoke_date'].value = "smoke not found";
@@ -112,7 +120,8 @@
     <div id="leftcontent"></div>
     <div id="centercontent">
         <h2>Smoke Details</h2>
-        <form id="updateSmokeForm" onsubmit="return false;">
+        <div id="smokeFormDiv">
+        <form id="updateSmokeForm" onsubmit="return false;" >
             <table>
                 <tr><td class="smokeFormLeft">Date:</td><td class="smokeFormRight"><input id="dateTextBox" type="text" name="smoke_date" size="10" value="" tabindex=1></td>
                 <tr><td class="smokeFormLeft">Pipe:</td><td class="smokeFormRight"><select id="pipeSelector" name="pipe" tabindex=2><option value="loading">loading...</option></select></td></tr>
@@ -122,10 +131,15 @@
                 <tr><td class="smokeFormLeft">Packing Note:</td><td class="smokeFormRight"><textarea id="packingNoteTextBox" name="packing_note" cols=68 rows=1 tabindex=6></textarea></td></tr>
                 <tr><td class="smokeFormLeft">Smoking Notes:</td><td class="smokeFormRight"><textarea id="smokingNoteTextBox" name="smoking_note" cols=68 rows=4 tabindex=7></textarea></td></tr>
                 <tr><td class="smokeFormLeft">Finish:</td><td class="smokeFormRight"><textarea id="finishNoteTextBox" name="finish_note" cols=68 rows=1 tabindex=8></textarea></td></tr>
+                <tr><td class="smokeFormLeft" style="color: rgb(150,150,150);">Latitude:</td><td class="smokeFormRight"><input id="latitudeTextBox" type="text" name="latitude" size="20" value="" style="background-color: rgb(0,0,0); color: rgb(150,150,150);"></td></tr>
+                <tr><td class="smokeFormLeft" style="color: rgb(150,150,150);">Longitude:</td><td class="smokeFormRight"><input id="longitudeTextBox" type="text" name="longitude" size="20" value="" style="background-color: rgb(0,0,0); color: rgb(150,150,150);"></td></tr>
                 <tr><td class="smokeFormLeft"></td><td class="smokeFormRight"><button type="button" onclick="putSmoke()">Update Smoke</button></td></tr>
                 <tr><td class="smokeFormLeft"></td><td class="smokeFormRight"><button type="button" onclick="deleteSmoke()">Delete Smoke</button></td></tr>
             </table>
         </form>
+        </div>
+        <div id="mapDiv">
+        </div>
     </div>
     <div id="rightcontent"></div>
 </div>

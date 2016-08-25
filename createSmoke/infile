@@ -1,10 +1,12 @@
 {
-  "smoke_date" : "2016-08-08",
-  "pipe" : "2016-08-08T18:00:04.853Z",
-  "tin" : "2016-08-11T21:00:26.688Z",
-  "location" : "Maddox Parkway",
+  "smoke_date" : "2016-08-24",
+  "pipe" : "2",
+  "tin" : "131", 
+  "location" : "Delete Me",
   "tin_note" : "Grassy",
   "packing_note" : "Loose",
   "smoking_note" : "Nice",
-  "finish_note" : "All ash"
+  "finish_note" : "All ash",
+  "latitude" : 41.63,
+  "longitude" : -93.77
 }

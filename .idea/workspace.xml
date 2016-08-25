@@ -2,42 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8a20510c-7a65-428a-9859-39ace61f8b5b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/getagetotals.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/getstyletotals.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/readCellar/deployReadCellar.sh" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/readCellar/runReadCellar.sh" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ui/catbitten.html" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/readBlend/deployReadBlend.sh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/readBlend/index.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/readBlend/runReadBlend.sh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/readCleaning/deployReadCleaning.sh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/readCleaning/index.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/readCleaning/runReadCleaning.sh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/ui/index.html" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/readBlends/index.js" afterPath="$PROJECT_DIR$/readBlends/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/readCleanings/index.js" afterPath="$PROJECT_DIR$/readCleanings/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/readSmokes/index.js" afterPath="$PROJECT_DIR$/readSmokes/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/readTins/index.js" afterPath="$PROJECT_DIR$/readTins/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/readTobaccoHistory/deployReadTobaccoHistory.sh" afterPath="$PROJECT_DIR$/readTobaccoHistory/deployReadTobaccoHistory.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/readTobaccoHistory/index.js" afterPath="$PROJECT_DIR$/readTobaccoHistory/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/_rightcontent.html" afterPath="$PROJECT_DIR$/ui/_rightcontent.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/_summary.css" afterPath="$PROJECT_DIR$/ui/_summary.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/_tins.css" afterPath="$PROJECT_DIR$/ui/_tins.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/blend.html" afterPath="$PROJECT_DIR$/ui/blend.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/cleaning.html" afterPath="$PROJECT_DIR$/ui/cleaning.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/cleanings.html" afterPath="$PROJECT_DIR$/ui/cleanings.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/fillinblendselector.js" afterPath="$PROJECT_DIR$/ui/fillinblendselector.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/fillinpipeselector.js" afterPath="$PROJECT_DIR$/ui/fillinpipeselector.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/fillinpipestable.js" afterPath="$PROJECT_DIR$/ui/fillinpipestable.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/fillinsmokestable.js" afterPath="$PROJECT_DIR$/ui/fillinsmokestable.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/createSmoke/index.js" afterPath="$PROJECT_DIR$/createSmoke/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/createSmoke/infile" afterPath="$PROJECT_DIR$/createSmoke/infile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/_smokes.css" afterPath="$PROJECT_DIR$/ui/_smokes.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/fillintinselector.js" afterPath="$PROJECT_DIR$/ui/fillintinselector.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/pipe.html" afterPath="$PROJECT_DIR$/ui/pipe.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/pipes.html" afterPath="$PROJECT_DIR$/ui/pipes.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/smoke.html" afterPath="$PROJECT_DIR$/ui/smoke.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/smokes.html" afterPath="$PROJECT_DIR$/ui/smokes.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/tin.html" afterPath="$PROJECT_DIR$/ui/tin.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/tobacco.html" afterPath="$PROJECT_DIR$/ui/tobacco.html" />
     </list>
     <ignored path="smoke.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -57,7 +28,41 @@
     <favorites_list name="smoke" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="smokes.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ui/smokes.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="234">
+              <caret line="57" column="21" selection-start-line="57" selection-start-column="12" selection-end-line="57" selection-end-column="21" />
+              <folding>
+                <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#script#4;n#head#0;n#html#0;n#!!top" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fillintinselector.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ui/fillintinselector.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="13" column="201" selection-start-line="13" selection-start-column="201" selection-end-line="13" selection-end-column="201" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tobacco.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ui/tobacco.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="234">
+              <caret line="481" column="22" selection-start-line="481" selection-start-column="14" selection-end-line="481" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -77,9 +82,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/deleteSmoke/deployDeleteSmoke.sh" />
-        <option value="$PROJECT_DIR$/deleteSmoke/runDeleteSmoke.sh" />
-        <option value="$PROJECT_DIR$/deleteSmoke/index.js" />
         <option value="$PROJECT_DIR$/readPipe/runReadPipe.sh" />
         <option value="$PROJECT_DIR$/readPipe/index.js" />
         <option value="$PROJECT_DIR$/loadFromBackup/pipes.json" />
@@ -107,15 +109,12 @@
         <option value="$PROJECT_DIR$/ui/fillinblendselector.js" />
         <option value="$PROJECT_DIR$/ui/fillinpipeselector.js" />
         <option value="$PROJECT_DIR$/ui/fillinsmokestable.js" />
-        <option value="$PROJECT_DIR$/ui/fillintinselector.js" />
         <option value="$PROJECT_DIR$/ui/pipe.html" />
         <option value="$PROJECT_DIR$/ui/pipes.html" />
-        <option value="$PROJECT_DIR$/ui/smoke.html" />
         <option value="$PROJECT_DIR$/ui/tin.html" />
         <option value="$PROJECT_DIR$/readTins/index.js" />
         <option value="$PROJECT_DIR$/readSmokes/index.js" />
         <option value="$PROJECT_DIR$/readTobaccoHistory/index.js" />
-        <option value="$PROJECT_DIR$/ui/smokes.html" />
         <option value="$PROJECT_DIR$/readTobaccoHistory/deployReadTobaccoHistory.sh" />
         <option value="$PROJECT_DIR$/readCellar/deployReadCellar.sh" />
         <option value="$PROJECT_DIR$/readCellar/index.js" />
@@ -128,6 +127,12 @@
         <option value="$PROJECT_DIR$/readPipes/index.js" />
         <option value="$PROJECT_DIR$/ui/catbitten.html" />
         <option value="$PROJECT_DIR$/ui/fillinpipestable.js" />
+        <option value="$PROJECT_DIR$/createSmoke/index.js" />
+        <option value="$PROJECT_DIR$/createSmoke/infile" />
+        <option value="$PROJECT_DIR$/ui/smokes.html" />
+        <option value="$PROJECT_DIR$/ui/_smokes.css" />
+        <option value="$PROJECT_DIR$/ui/smoke.html" />
+        <option value="$PROJECT_DIR$/ui/fillintinselector.js" />
       </list>
     </option>
   </component>
@@ -168,8 +173,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -188,9 +192,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="smoke" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="smoke" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ui" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -427,10 +446,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1440" height="874" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24964234" sideWeight="0.48465472" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24964234" sideWeight="0.48465472" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -470,15 +489,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/loadFromBackup/2016-08-17.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="73" column="48567" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="48567" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/readPipe/index.js" />
-    <entry file="file://$PROJECT_DIR$/readTin/index.js" />
     <entry file="file://$PROJECT_DIR$/ui/_cleanings.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -559,20 +569,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/smoke.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ui/pipe.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="141" column="0" selection-start-line="141" selection-start-column="0" selection-end-line="141" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ui/fillinsmokestable.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="634">
@@ -598,13 +594,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="454">
           <caret line="31" column="135" selection-start-line="31" selection-start-column="135" selection-end-line="31" selection-end-column="135" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ui/tin.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-256">
-          <caret line="92" column="39" selection-start-line="92" selection-start-column="39" selection-end-line="92" selection-end-column="39" />
         </state>
       </provider>
     </entry>
@@ -678,13 +667,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/tobacco.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="474">
-          <caret line="252" column="87" selection-start-line="252" selection-start-column="87" selection-end-line="252" selection-end-column="87" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/getagetotals.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="726">
@@ -720,13 +702,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/readTins/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="61" selection-start-line="35" selection-start-column="61" selection-end-line="35" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/readTobaccoHistory/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-219">
@@ -748,20 +723,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/smokes.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="501">
-          <caret line="92" column="17" selection-start-line="0" selection-start-column="0" selection-end-line="103" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ui/fillintinselector.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ui/_global.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -769,13 +730,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ui/m_add_smoke.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-15">
-          <caret line="22" column="31" selection-start-line="22" selection-start-column="30" selection-end-line="22" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/ui/m_add_smoke.html" />
     <entry file="file://$PROJECT_DIR$/readPipes/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-983">
@@ -790,10 +745,91 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ui/tin.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-485">
+          <caret line="92" column="39" selection-start-line="92" selection-start-column="39" selection-end-line="92" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ui/pipe.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="443">
+          <caret line="174" column="0" selection-start-line="173" selection-start-column="0" selection-end-line="174" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/readTins/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="35" column="61" selection-start-line="35" selection-start-column="61" selection-end-line="35" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/createSmoke/infile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/createSmoke/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="34" column="109" selection-start-line="34" selection-start-column="109" selection-end-line="34" selection-end-column="109" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ui/catbitten.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="251" column="43" selection-start-line="251" selection-start-column="43" selection-end-line="251" selection-end-column="43" />
+        <state relative-caret-position="430">
+          <caret line="300" column="1" selection-start-line="300" selection-start-column="1" selection-end-line="300" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ui/smoke.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="39" column="80" selection-start-line="39" selection-start-column="80" selection-end-line="39" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ui/_smokes.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="35" column="2" selection-start-line="35" selection-start-column="2" selection-end-line="35" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ui/smokes.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="57" column="21" selection-start-line="57" selection-start-column="12" selection-end-line="57" selection-end-column="21" />
+          <folding>
+            <element signature="n#style#0;n#head#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#script#4;n#head#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ui/tobacco.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="481" column="22" selection-start-line="481" selection-start-column="14" selection-end-line="481" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ui/fillintinselector.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="201" selection-start-line="13" selection-start-column="201" selection-end-line="13" selection-end-column="201" />
+          <folding />
         </state>
       </provider>
     </entry>

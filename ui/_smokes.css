@@ -31,3 +31,16 @@ td.smokeFormRight {
 	width: 85%;
 	border-bottom-width: 0px;
 }
+
+#smokeFormDiv {
+//    background-color: blue;
+}
+
+#mapDiv {
+    position:absolute;
+    left: 650px;
+    top: 40px;
+    display:inline-block;
+    z-index:10
+    background-color: blue;
+}

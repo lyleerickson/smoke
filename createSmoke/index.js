@@ -22,7 +22,7 @@ exports.handler = (event, context, callback) => {
                 var nextID = nextIDObj.id;
                 nextID.replace(/['"]+/g, '');
                 var queryString = 'INSERT INTO smoke (id, smoke_date, pipe, tin, location, tin_note, packing_note, smoking_note, '+
-                    'finish_note, last_update) VALUES ('+
+                    'finish_note, loc_lat_long, last_update) VALUES ('+
                     connection.escape(nextID)+', '+
                     connection.escape(event.smoke_date)+', '+
                     connection.escape(event.pipe)+', '+
@@ -32,8 +32,10 @@ exports.handler = (event, context, callback) => {
                     connection.escape(event.packing_note)+', '+
                     connection.escape(event.smoking_note)+', '+
                     connection.escape(event.finish_note)+', '+
+                    'ST_GeomFromText(\'POINT('+connection.escape(event.latitude)+' '+connection.escape(event.longitude)+')\'), '+
                     "'"+(new Date()).toISOString().substring(0, 10)+"'"+');';
 
+                console.log(queryString);
                 connection.query(queryString, function(err,rows,fields) {
                     dbf.handleDBError(err, callback);
                     connection.end(dbf.handleDBErrorAndCallback(err,callback,nextID));

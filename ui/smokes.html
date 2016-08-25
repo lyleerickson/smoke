@@ -26,6 +26,11 @@
 
             var fd = $("#newSmokeForm").serializeArray();
             $.each(fd, function() {
+                if (this.name=="latitude" && !this.value) {
+                    this.value="0";
+                } else if (this.name=="latitude" && !this.value) {
+                    this.value="0";
+                }
                 jd[this.name] = this.value || '';
             });
 
@@ -35,7 +40,7 @@
             });
 
             XHR.addEventListener('error', function(event) {
-                alert('error adding cleaning');
+                alert('error adding smoke');
             });
 
             XHR.open('POST', 'https://4yxq7qw9u0.execute-api.us-west-2.amazonaws.com/beta/smokes');
@@ -56,6 +61,13 @@
             $("#packingNoteTextBox").val("");
             $("#smokingNoteTextBox").val("");
             $("#finishNoteTextBox").val("");
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    $("#latitudeTextBox").val(position.coords.latitude);
+                    $("#longitudeTextBox").val(position.coords.longitude);
+                });
+
+            }
         }
     </script>
     <script src="fillinsmokestable.js"></script>
@@ -75,6 +87,8 @@
                 <tr><td class="smokeFormLeft">Packing Note:</td><td class="smokeFormRight"><textarea id="packingNoteTextBox" name="packing_note" cols=68 rows=1 tabindex=6></textarea></td></tr>
                 <tr><td class="smokeFormLeft">Smoking Notes:</td><td class="smokeFormRight"><textarea id="smokingNoteTextBox" name="smoking_note" cols=68 rows=4 tabindex=7></textarea></td></tr>
                 <tr><td class="smokeFormLeft">Finish:</td><td class="smokeFormRight"><textarea id="finishNoteTextBox" name="finish_note" cols=68 rows=1 tabindex=8></textarea></td></tr>
+                <tr><td class="smokeFormLeft" style="color: rgb(150,150,150);">Latitude:</td><td class="smokeFormRight"><input id="latitudeTextBox" type="text" name="latitude" size="20" value="" style="background-color: rgb(0,0,0); color: rgb(150,150,150);"></td></tr>
+                <tr><td class="smokeFormLeft" style="color: rgb(150,150,150);">Longitude:</td><td class="smokeFormRight"><input id="longitudeTextBox" type="text" name="longitude" size="20" value="" style="background-color: rgb(0,0,0); color: rgb(150,150,150);"></td></tr>
                 <tr><td class="smokeFormLeft"></td><td class="smokeFormRight"><button type="button" onclick="postSmoke()">Add Smoke</button></td></tr>
             </table>
         </form>
