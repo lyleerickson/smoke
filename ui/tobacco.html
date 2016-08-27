@@ -507,31 +507,31 @@
                 <td>
                     <form id="newTinForm">
                         <table>
-                            <tr><td class="tinFormLeft">Blend:</td><td class="tinFormRight"><select id="blendSelector" name="blend" tabindex=2><option value="loading">loading...</option></select></td></tr>
-                            <tr><td class="tinFormLeft">Tin Number:</td><td class="tinFormRight"><input id="tinNumberTextBox" type="text" name="tin_number" size="3"></td></tr>
-                            <tr><td class="tinFormLeft">Grams:</td><td class="tinFormRight"><input id="gramsTextBox" type="text" name="grams" size="3"></td></tr>
-                            <tr><td class="tinFormLeft">Packaged Date:</td><td class="tinFormRight"><input id="packageDateTextBox" type="text" name="package_date" size="10"></td></tr>
-                            <tr><td class="tinFormLeft">Acquired Date:</td><td class="tinFormRight"><input id="acquireDateTextBox" type="text" name="acquire_date" size="10"></td></tr>
-                            <tr><td class="tinFormLeft">Opened Date:</td><td class="tinFormRight"><input id="openedDateTextBox" type="text" name="open_date" size="10"></td></tr>
-                            <tr><td class="tinFormLeft">Finished Date:</td><td class="tinFormRight"><input id="finishedDateTextBox" type="text" name="finish_date" size="10"></td></tr>
-                            <tr><td class="tinFormLeft">Cost:</td><td class="tinFormRight"><input id="costTextBox" type="text" name="acquire_cost" size="6"></td></tr>
-                            <tr><td class="tinFormLeft">Note:</td><td class="tinFormRight"><input id="noteTextBox" type="text" name="note" size="50"></td></tr>
-                            <tr><td class="tinFormLeft"></td><td class="tinFormRight"><button type="button" onclick="postTin()">Add Tin</button></td></tr>
+                            <tr><td class="tinFormLeft">Blend:</td><td class="tinFormRight"><select id="blendSelector" name="blend" tabindex=1><option value="loading">loading...</option></select></td></tr>
+                            <tr><td class="tinFormLeft">Tin Number:</td><td class="tinFormRight"><input id="tinNumberTextBox" type="text" name="tin_number" size="3" tabindex=2></td></tr>
+                            <tr><td class="tinFormLeft">Grams:</td><td class="tinFormRight"><input id="gramsTextBox" type="text" name="grams" size="3" tabindex=3></td></tr>
+                            <tr><td class="tinFormLeft">Packaged Date:</td><td class="tinFormRight"><input id="packageDateTextBox" type="text" name="package_date" size="10" tabindex=4></td></tr>
+                            <tr><td class="tinFormLeft">Acquired Date:</td><td class="tinFormRight"><input id="acquireDateTextBox" type="text" name="acquire_date" size="10" tabindex=5></td></tr>
+                            <tr><td class="tinFormLeft">Opened Date:</td><td class="tinFormRight"><input id="openedDateTextBox" type="text" name="open_date" size="10" tabindex=6></td></tr>
+                            <tr><td class="tinFormLeft">Finished Date:</td><td class="tinFormRight"><input id="finishedDateTextBox" type="text" name="finish_date" size="10" tabindex=7></td></tr>
+                            <tr><td class="tinFormLeft">Cost:</td><td class="tinFormRight"><input id="costTextBox" type="text" name="acquire_cost" size="6" tabindex=8></td></tr>
+                            <tr><td class="tinFormLeft">Note:</td><td class="tinFormRight"><input id="noteTextBox" type="text" name="note" size="50" tabindex=9></td></tr>
+                            <tr><td class="tinFormLeft"></td><td class="tinFormRight"><button type="button" onclick="postTin()" tabindex=10>Add Tin</button></td></tr>
                         </table>
                     </form>
                 </td>
                 <td>
                     <form id="newBlendForm">
                         <table>
-                            <tr><td class="tinFormLeft">Blend:</td><td class="tinFormRight"><input id="nameTextBox" type="text" name="name" size="40" value=""></td></tr>
-                            <tr><td class="tinFormLeft">Maker:</td><td class="tinFormRight"><input id="makerTextBox" type="text" name="maker" size="30" value=""></td></tr>
-                            <tr><td class="tinFormLeft">Country:</td><td class="tinFormRight"><input id="countryTextBox" type="text" name="country" size="2" value=""></td></tr>
-                            <tr><td class="tinFormLeft">Cut:</td><td class="tinFormRight"><input id="cutTextBox" type="text" name="cut" size="20" value=""></td></tr>
-                            <tr><td class="tinFormLeft">Style:</td><td class="tinFormRight"><input id="styleTextBox" type="text" name="style" size="50" value=""></td></tr>
-                            <tr><td class="tinFormLeft">Image:</td><td class="tinFormRight"><input id="imgFileTextBox" type="text" name="image_file" size="20" value=""></td></tr>
-                            <tr><td class="tinFormLeft">Note:</td><td class="tinFormRight"><input id="blendNoteTextBox" type="text" name="blendNote" size="50" value=""></td></tr>
-                            <tr><td class="tinFormLeft">Blending Component:</td><td class="tinFormRight"><input type="radio" name="blending_component" value="true">Y<input type="radio" name="blending_component" value="false" checked="checked">N</td></tr>
-                            <tr><td class="tinFormLeft"></td><td class="tinFormRight"><button type="button" onclick="postBlend()">New Blend</button></td></tr>
+                            <tr><td class="tinFormLeft">Blend:</td><td class="tinFormRight"><input id="nameTextBox" type="text" name="name" size="40" value="" tabindex=11></td></tr>
+                            <tr><td class="tinFormLeft">Maker:</td><td class="tinFormRight"><input id="makerTextBox" type="text" name="maker" size="30" value="" tabindex=12></td></tr>
+                            <tr><td class="tinFormLeft">Country:</td><td class="tinFormRight"><input id="countryTextBox" type="text" name="country" size="2" value="" tabindex=13></td></tr>
+                            <tr><td class="tinFormLeft">Cut:</td><td class="tinFormRight"><input id="cutTextBox" type="text" name="cut" size="20" value="" tabindex=14></td></tr>
+                            <tr><td class="tinFormLeft">Style:</td><td class="tinFormRight"><input id="styleTextBox" type="text" name="style" size="50" value="" tabindex=15></td></tr>
+                            <tr><td class="tinFormLeft">Image:</td><td class="tinFormRight"><input id="imgFileTextBox" type="text" name="image_file" size="20" value="" tabindex=16></td></tr>
+                            <tr><td class="tinFormLeft">Note:</td><td class="tinFormRight"><input id="blendNoteTextBox" type="text" name="blendNote" size="50" value="" tabindex=17></td></tr>
+                            <tr><td class="tinFormLeft">Blending Component:</td><td class="tinFormRight"><input type="radio" name="blending_component" value="true" tabindex=18>Y<input type="radio" name="blending_component" value="false" checked="checked" tabindex=19>N</td></tr>
+                            <tr><td class="tinFormLeft"></td><td class="tinFormRight"><button type="button" onclick="postBlend()" tabindex=20>New Blend</button></td></tr>
                         </table>
                     </form>
                 </td>

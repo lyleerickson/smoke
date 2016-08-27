@@ -48,7 +48,6 @@
 
                     for(var i = 0; i < tinsJSON.length; i++) {
                         var tinJSON = tinsJSON[i];
-
                         openTinsCost+=tinJSON.acquire_cost;
                         totalOpenTinSmokes+=tinJSON.total_smokes;
                         totalOpenTinGrams+=tinJSON.grams;
@@ -59,7 +58,6 @@
                         span.appendChild(text);
                         span.appendChild(br);
                     }
-
                     $("#monthsRemainingSpan").html((((totalOpenTinGrams-(totalOpenTinSmokes*avgGPB))/avgGPB)/avgBPW/4).toFixed(2));
                     $("#bowlsRemainingSpan").html(((totalOpenTinGrams-(totalOpenTinSmokes*avgGPB))/avgGPB).toFixed(2));
                     $("#openTinsCostSpan").html("$"+openTinsCost.toFixed(2));

@@ -41,7 +41,7 @@
 
                     if (smokeJSON.loc_lat_long) {
                         var latlon = smokeJSON.loc_lat_long.x + "," + smokeJSON.loc_lat_long.y;
-                        var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&markers=color:brown|size:small|"+latlon+"&size=450x300&maptype=terrain";
+                        var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&markers=color:brown|size:small|"+latlon+"&size=450x300&maptype=terrain&key=AIzaSyDg1bAfu5ozb9_BMIRV9l4WtGHQPhnU-n0";
                         document.getElementById("mapDiv").innerHTML = "<img src='"+img_url+"'>";
                     }
                } else {

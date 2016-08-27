@@ -26,9 +26,9 @@
 
             var fd = $("#newSmokeForm").serializeArray();
             $.each(fd, function() {
-                if (this.name=="latitude" && !this.value) {
+                if (this.name=="latitude" && (this.value=="" || !this.value)) {
                     this.value="0";
-                } else if (this.name=="latitude" && !this.value) {
+                } else if (this.name=="longitude" && (this.value=="" || !this.value)) {
                     this.value="0";
                 }
                 jd[this.name] = this.value || '';
@@ -43,10 +43,14 @@
                 alert('error adding smoke');
             });
 
-            XHR.open('POST', 'https://4yxq7qw9u0.execute-api.us-west-2.amazonaws.com/beta/smokes');
-            XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
-            XHR.send(JSON.stringify(jd));
+            if (jd['smoke_date']=='' || jd['pipe']=='' || jd['tin']=='' || jd['pipe']=='blank' || jd['tin']=='blank') {
+                alert('smoke date, pipe, and tin are required');
+            } else {
+                XHR.open('POST', 'https://4yxq7qw9u0.execute-api.us-west-2.amazonaws.com/beta/smokes');
+                XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
+                XHR.send(JSON.stringify(jd));
+            }
         }
     </script>
     <script type="text/javascript">
@@ -61,6 +65,8 @@
             $("#packingNoteTextBox").val("");
             $("#smokingNoteTextBox").val("");
             $("#finishNoteTextBox").val("");
+            $("#latitudeTextBox").val("");
+            $("#longitudeTextBox").val("");
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
                     $("#latitudeTextBox").val(position.coords.latitude);

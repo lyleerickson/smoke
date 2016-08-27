@@ -82,7 +82,8 @@ function getStyleTotals(rows) {
             styleTotals[12].tins++;
         } else if (rows[i].style=="Black Cavendish with Burley, Cavendish, Latakia" || rows[i].style=="Burley with Cavendish, Latakia" ||
                    rows[i].style=="Burley with Latakia" || rows[i].style=="Virginia with Burley, Latakia" ||
-                   rows[i].style=="Virginia with Latakia" || rows[i].style=="Virginia with Latakia, whiskey") {
+                   rows[i].style=="Virginia with Latakia" || rows[i].style=="Virginia with Latakia, whiskey" ||
+                   rows[i].style=="Latakia with Kentucky, Cavendish") {
             styleTotals[13].grams+=rows[i].grams;
             styleTotals[13].tins++;
         } else if (rows[i].style=="Burley with Latakia, Perique" || rows[i].style=="Virginia with Burley, Latakia, Kentucky, Perique" ||

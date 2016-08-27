@@ -59,6 +59,17 @@
         function deleteTin() {
             var XHR = new XMLHttpRequest();
 
+            var jd = {};
+            var blendID;
+
+            var fd = $("#updateTinForm").serializeArray();
+            $.each(fd, function() {
+                if (this.name=="blend") {
+                    blendID=this.value;
+                }
+
+            });
+
             XHR.addEventListener('load', function(event) {
                 window.location.href = "tobacco.html";
             });
@@ -67,7 +78,7 @@
                 alert("error deleting blend");
             });
 
-            XHR.open('DELETE', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/blends/'+this.name+'/tins/'+getURLParameter("id"), true);
+            XHR.open('DELETE', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/blends/'+blendID+'/tins/'+getURLParameter("id"), true);
             XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
             XHR.send();

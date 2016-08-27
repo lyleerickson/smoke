@@ -2,22 +2,20 @@
 function fillInTinSelector(tinToSelect, includeOnlyOpenTins) {
 
     var XHR = new XMLHttpRequest();
+    var urlString = "https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/tins";
+    if (includeOnlyOpenTins) {
+        urlString = "https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/tins?onlyOpen=true"
+    }
+
     XHR.addEventListener('load', function(event) {
-        $("#tinSelector").empty();
 
         var tinsJSON = JSON.parse(XHR.responseText);
-
+        $("#tinSelector").empty();
         $("#tinSelector").append('<option value="blank"> </option>');
-
         for(var i = 0; i < tinsJSON.length; i++) {
             var tinJSON = tinsJSON[i];
-            if (includeOnlyOpenTins && tinJSON.open_date && tinJSON.open_date!='' && tinJSON.open_date.substring(0, 4)!='0000' && (!tinJSON.finish_date || tinJSON.finish_date=='' || tinJSON.finish_date.substring(0, 4)=='0000')) {
-                $("#tinSelector").append('<option value="'+tinJSON.id+'">'+tinJSON.maker+': '+tinJSON.name+'</option>');
-            } else if (!includeOnlyOpenTins) {
-                $("#tinSelector").append('<option value="'+tinJSON.id+'">'+tinJSON.maker+': '+tinJSON.name+'</option>');
-            }
+            $("#tinSelector").append('<option value="'+tinJSON.id+'">'+tinJSON.maker+': '+tinJSON.name+'</option>');
         }
-
         var optionsArray = $("#tinSelector option");
 
         optionsArray.sort(function(a,b) {
@@ -25,7 +23,6 @@ function fillInTinSelector(tinToSelect, includeOnlyOpenTins) {
             if (a.text < b.text) return -1;
             return 0
         })
-
         $("#tinSelector").empty().append( optionsArray );
         $("#tinSelector").val(tinToSelect);
     });
@@ -35,7 +32,8 @@ function fillInTinSelector(tinToSelect, includeOnlyOpenTins) {
         $("#blend").append('<option value="">error loading tins...</option>');
     });
 
-    XHR.open('GET', 'https://vyvrxxzwi9.execute-api.us-west-2.amazonaws.com/beta/tins', true);
+
+    XHR.open('GET', urlString, true);
     XHR.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     XHR.setRequestHeader("x-api-key", "T7rjybCXgkaRhDky3Stks7YjelXvwOamYkEUgWN5");
     XHR.send();
