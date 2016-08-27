@@ -43,7 +43,7 @@
                     var totalOpenTinGrams = 0;
 
                     tinsJSON.sort(function(a, b) {
-                        return (a.last_smoked_id > b.last_smoked_id);
+                        return (a.last_smoked_id > b.last_smoked_id) ? 1 : (a.last_smoked_id < b.last_smoked_id) ? -1 : 0;
                     });
 
                     for(var i = 0; i < tinsJSON.length; i++) {
