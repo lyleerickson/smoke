@@ -72,7 +72,7 @@ function getStyleTotals(rows) {
             styleTotals[10].grams+=rows[i].grams;
             styleTotals[10].tins++;
         } else if (rows[i].style=="Burley with Virginia, Kentucky, Oriental" || rows[i].style=="Virginia with Oriental" ||
-                   rows[i].style=="Oriental") {
+                   rows[i].style=="Oriental" || rows[i].style=="Burley with Virginia, Oriental") {
             styleTotals[11].grams+=rows[i].grams;
             styleTotals[11].tins++;
         } else if (rows[i].style=="Burley with Oriental, Perique" || rows[i].style=="Burley with Virginia, Oriental, Perique" ||
