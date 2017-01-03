@@ -17,10 +17,10 @@ function getDBConnection() {
     var mysql = require('mysql');
 
     var connection = mysql.createConnection({
-        host     : 'smokedb.cbdgympjbxbz.us-west-2.rds.amazonaws.com',
-        user     : 'smokedbmaster',
-        password : 'smokedbttforme3',
-        database : 'smoke',
+        host     : process.env.smoked_host,
+        user     : process.env.smoked_user,
+        password : process.env.smoked_pwd,
+        database : process.env.smoked_db,
     });
 
     return connection;
