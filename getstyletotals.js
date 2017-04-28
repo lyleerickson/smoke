@@ -105,7 +105,7 @@ function getStyleTotals(rows) {
         } else if (rows[i].style=="Virginia with Syrian Latakia, Perique") {
             styleTotals[18].grams+=rows[i].grams;
             styleTotals[18].tins++;
-        } else if (rows[i].style=="Virginia with Syrian Latakia, Oriental" || rows[i].style=="Virginia with Syrian Latakia, Oriental, Burley") {
+        } else if (rows[i].style=="Virginia with Syrian Latakia, Oriental" || rows[i].style=="Virginia with Syrian Latakia, Oriental, Burley" || rows[i].style=="Virginia with Syrian Latakia, Oriental, Kentucky") {
             styleTotals[19].grams+=rows[i].grams;
             styleTotals[19].tins++;
         } else if (rows[i].style=="Burley with Syrian Latakia, Oriental, Kentucky, Perique" || rows[i].style=="Virginia with Syrian Latakia, Oriental, Perique") {

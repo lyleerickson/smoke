@@ -100,11 +100,11 @@ exports.handler = (event, context, callback) => {
                                 }
                             }
                             sqlString = 'SELECT pipe, name AS last_smoked_blend '+
-                                        'FROM (SELECT smoke.pipe, max(smoke.smoke_date), blend.name '+
+                                        'FROM (SELECT smoke.pipe, max(smoke.smoke_date) as lsd, blend.name '+
                                         '      FROM smoke, blend, tin '+
                                         '      WHERE smoke.tin=tin.id AND tin.blend=blend.id '+
                                         '      GROUP BY smoke.pipe, blend.name '+
-                                        '      ORDER BY smoke.smoke_date DESC) sub '+
+                                        '      ORDER BY lsd DESC) sub '+
                                         'GROUP BY pipe;';
 
                             connection.query(sqlString, function(err, rows) {
