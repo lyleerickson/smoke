@@ -67,8 +67,9 @@ function getStyleTotals(rows) {
         } else if (rows[i].style=="Burley with Kentucky, Virginia, Perique" || rows[i].style=="Virginia with Burley, Kentucky, Perique") {
             styleTotals[9].grams+=rows[i].grams;
             styleTotals[9].tins++;
-        } else if (rows[i].style=="Virginia with Perique" || rows[i].style=="Perique") {
+        } else if (rows[i].style=="Virginia with Perique" || rows[i].style=="Virginia with Perique, Cavendish" || rows[i].style=="Perique") {
             // not sure straight perique belongs here
+            // "Virginia with Perique, Cavendish" is for Luxury Bullseye Flake
             styleTotals[10].grams+=rows[i].grams;
             styleTotals[10].tins++;
         } else if (rows[i].style=="Burley with Virginia, Kentucky, Oriental" || rows[i].style=="Virginia with Oriental" ||
