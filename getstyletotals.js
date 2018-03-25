@@ -53,6 +53,7 @@ function getStyleTotals(rows) {
             styleTotals[5].grams+=rows[i].grams;
             styleTotals[5].tins++;
         } else if (rows[i].style=="Burley with Kentucky, Virginia" || rows[i].style=="Virginia with Burley, Kentucky" ||
+                   rows[i].style=="Virginia with Cavendish, Kentucky" || rows[i].style=="Virginia with Kentucky, Cavendish" ||
                    rows[i].style=="Virginia with Burley, Kentucky, whisky") {
             styleTotals[6].grams+=rows[i].grams;
             styleTotals[6].tins++;
